@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latest Articles</title>
+    <style>
+        .article {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Latest Articles</h1>
+    <div id="articles-container"></div>
+    <div class="pagination">
+        <button id="prev-btn">Previous</button>
+        <span id="page-info">Page 1</span>
+        <button id="next-btn">Next</button>
+    </div>
+
+    <script>
+        // Configuration
+        const articlesPerPage = 20;
+        let currentPage = 1;
+        let allArticles = [];
+
+        // DOM elements
+        const articlesContainer = document.getElementById('articles-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageInfo = document.getElementById('page-info');
+
+        // Fetch articles from JSON file
+        async function loadArticles() {
+            try {
+                const response = await fetch('articles.json');
+                allArticles = await response.json();
+                // Sort by date (newest first)
+                allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                displayArticles();
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                articlesContainer.innerHTML = '<p>Error loading articles. Please try again later.</p>';
+            }
+        }
+
+        // Display articles for current page
+        function displayArticles() {
+            const startIndex = (currentPage - 1) * articlesPerPage;
+            const endIndex = startIndex + articlesPerPage;
+            const articlesToShow = allArticles.slice(startIndex, endIndex);
+
+            articlesContainer.innerHTML = '';
+
+            if (articlesToShow.length === 0) {
+                articlesContainer.innerHTML = '<p>No articles found.</p>';
+                return;
+            }
+
+            articlesToShow.forEach(article => {
+                const articleElement = document.createElement('div');
+                articleElement.className = 'article';
+                articleElement.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.content}</p>
+                    <small>Published on: ${article.date}</small>
+                `;
+                articlesContainer.appendChild(articleElement);
+            });
+
+            // Update pagination controls
+            pageInfo.textContent = `Page ${currentPage}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = endIndex >= allArticles.length;
+        }
+
+        // Event listeners for pagination
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayArticles();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const nextPageStart = currentPage * articlesPerPage;
+            if (nextPageStart < allArticles.length) {
+                currentPage++;
+                displayArticles();
+            }
+        });
+
+        // Initial load
+        loadArticles();
+    </script>
+</body>
+</html>
