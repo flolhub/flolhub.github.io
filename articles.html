@@ -97,13 +97,13 @@
             const articlesList = document.getElementById('articles-list');
             
             articlesList.innerHTML = allArticles.slice(start, end).map(article => `
-                <a href="${article.externalUrl}"><div class="article-card">
+                <div class="article-card" href="${article.externalUrl}">
                     <a class="article-link" target="_blank">
                         ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
                         <h2>${article.title}</h2>
                         <div class="article-date">${article.date}</div>
                     </a>
-                </div></a>
+                </div>
             `).join('');
 
             // Update pagination
