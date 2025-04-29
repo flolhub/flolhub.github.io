@@ -4,27 +4,50 @@
     <title>Latest Articles</title>
     <style>
         .article {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .article-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
             border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .article-title {
+            color: #333;
+            text-decoration: none;
+        }
+        .article-title:hover {
+            color: #0066cc;
         }
         .pagination {
-            margin-top: 20px;
+            margin: 30px 0;
+            text-align: center;
         }
         .pagination button {
             margin: 0 5px;
-            padding: 5px 10px;
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <h1>Latest Articles</h1>
     <div id="articles-container"></div>
     <div class="pagination">
-        <button id="prev-btn">Previous</button>
+        <button id="prev-btn">← Previous</button>
         <span id="page-info">Page 1</span>
-        <button id="next-btn">Next</button>
+        <button id="next-btn">Next →</button>
     </div>
 
     <script>
@@ -47,6 +70,7 @@
                 // Sort by date (newest first)
                 allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
                 displayArticles();
+                setupRouting();
             } catch (error) {
                 console.error('Error loading articles:', error);
                 articlesContainer.innerHTML = '<p>Error loading articles. Please try again later.</p>';
@@ -70,9 +94,13 @@
                 const articleElement = document.createElement('div');
                 articleElement.className = 'article';
                 articleElement.innerHTML = `
-                    <h2>${article.title}</h2>
+                    <a href="#${article.url}" class="article-title">
+                        <h2>${article.title}</h2>
+                    </a>
+                    ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
                     <p>${article.content}</p>
                     <small>Published on: ${article.date}</small>
+                    <a href="#${article.url}" class="read-more">Read more</a>
                 `;
                 articlesContainer.appendChild(articleElement);
             });
@@ -83,11 +111,52 @@
             nextBtn.disabled = endIndex >= allArticles.length;
         }
 
+        // Simple client-side routing
+        function setupRouting() {
+            // Handle initial URL hash
+            if (window.location.hash) {
+                showSingleArticle(window.location.hash.substring(1));
+            }
+
+            // Handle back/forward button navigation
+            window.addEventListener('popstate', () => {
+                if (window.location.hash) {
+                    showSingleArticle(window.location.hash.substring(1));
+                } else {
+                    displayArticles();
+                }
+            });
+        }
+
+        // Show single article view
+        function showSingleArticle(url) {
+            const article = allArticles.find(a => a.url === url);
+            if (article) {
+                articlesContainer.innerHTML = `
+                    <div class="article">
+                        <a href="#" class="back-link">← Back to all articles</a>
+                        <h1>${article.title}</h1>
+                        ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
+                        <div>${article.content}</div>
+                        <small>Published on: ${article.date}</small>
+                    </div>
+                `;
+                
+                // Add back link event listener
+                document.querySelector('.back-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.history.pushState({}, '', window.location.pathname);
+                    displayArticles();
+                });
+            }
+        }
+
         // Event listeners for pagination
         prevBtn.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 displayArticles();
+                window.scrollTo(0, 0);
             }
         });
 
@@ -96,6 +165,7 @@
             if (nextPageStart < allArticles.length) {
                 currentPage++;
                 displayArticles();
+                window.scrollTo(0, 0);
             }
         });
 
