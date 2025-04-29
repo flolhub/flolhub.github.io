@@ -1,25 +1,22 @@
 [
   {
     "title": "Rođen u burnim godinama",
-    "content": "<p>FELJTON (1): Uticaj KPJ na formiranje, rad i ravoj RSD »Velež«</p>",
     "date": "1979-05-14",
-    "url": "how-to-build-website",
+    "externalUrl": "https://example.com/articles/how-to-build-website",
     "image": "images/web-design.jpg",
     "imageAlt": "Web design illustration"
   },
   {
     "title": "Crvena - boja opredjeljenja",
-    "content": "<p>FELJTON (2): Uticaj KPJ na formiranje, rad i ravoj RSD »Velež«",
     "date": "1979-05-21",
-    "url": "javascript-tips",
+    "externalUrl": "https://example.com/articles/javascript-tips",
     "image": "images/js-logo.jpg",
     "imageAlt": "JavaScript logo"
   },
   {
     "title": "I u teškim danima - nepokolebljivo",
-    "content": "<p>FELJTON (3): Uticaj KPJ na formiranje, rad i ravoj RSD »Velež«",
     "date": "1979-05-28",
-    "url": "javascript-tips",
+    "externalUrl": "https://example.com/articles/javascript-tips",
     "image": "images/js-logo.jpg",
     "imageAlt": "JavaScript logo"
   }
