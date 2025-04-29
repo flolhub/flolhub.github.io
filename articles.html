@@ -5,23 +5,17 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-        h2 {
-            margin: 0%;
-            padding-left: 1%;
-            display: flex;
-        }
         .article-card {
-            margin-bottom: 25px;
-            height: 165px;
+            margin-bottom: 40px; /* Extra space for URL preview */
             padding: 20px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             transition: all 0.2s ease;
+            position: relative;
         }
         .article-card:hover {
             background-color: #f9f9f9;
@@ -33,17 +27,15 @@
             display: block;
         }
         .article-image {
-            width: 33%;
-            max-height: 100%;
+            width: 100%;
+            max-height: 300px;
             object-fit: cover;
+            border-radius: 5px;
             margin-bottom: 15px;
-            float: left;
         }
         .article-date {
             color: #666;
             font-size: 0.9em;
-            padding-left: 1%;
-            display: flex;
         }
         .pagination {
             margin: 30px 0;
@@ -60,6 +52,20 @@
         .pagination button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+        /* URL Preview Tooltip */
+        .article-card:hover::after {
+            content: attr(data-url);
+            position: absolute;
+            bottom: -25px;
+            left: 20px;
+            background: #333;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
         }
     </style>
 </head>
@@ -78,42 +84,74 @@
         let currentPage = 1;
         let allArticles = [];
 
-        // Load articles from JSON
+        // DOM elements
+        const articlesList = document.getElementById('articles-list');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageInfo = document.getElementById('page-info');
+
+        // Fetch articles from JSON
         async function loadArticles() {
             try {
                 const response = await fetch('articles.json');
                 allArticles = await response.json();
+                
+                // Sort by date (newest first)
                 allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Display first page
                 displayArticles();
             } catch (error) {
-                document.getElementById('articles-list').innerHTML = '<p>Error loading articles.</p>';
+                articlesList.innerHTML = '<p>Error loading articles. Please try again later.</p>';
+                console.error('Error:', error);
             }
         }
 
-        // Display articles
+        // Display articles for current page
         function displayArticles() {
-            const start = (currentPage - 1) * articlesPerPage;
-            const end = start + articlesPerPage;
-            const articlesList = document.getElementById('articles-list');
-            
-            articlesList.innerHTML = allArticles.slice(start, end).map(article => `
-                <div class="article-card" href="${article.externalUrl}">
-                    <a class="article-link" target="_blank">
+            const startIndex = (currentPage - 1) * articlesPerPage;
+            const endIndex = startIndex + articlesPerPage;
+            const articlesToShow = allArticles.slice(startIndex, endIndex);
+
+            // Clear previous articles
+            articlesList.innerHTML = '';
+
+            // Display current articles
+            articlesToShow.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'article-card';
+                card.setAttribute('data-url', article.externalUrl);
+                
+                card.innerHTML = `
+                    <a href="${article.externalUrl}" class="article-link" target="_blank">
                         ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
                         <h2>${article.title}</h2>
-                        <div class="article-date">${article.date}</div>
+                        <div class="article-date">${formatDate(article.date)}</div>
                     </a>
-                </div>
-            `).join('');
+                `;
+                
+                articlesList.appendChild(card);
+            });
 
             // Update pagination
-            document.getElementById('page-info').textContent = `Page ${currentPage}`;
-            document.getElementById('prev-btn').disabled = currentPage === 1;
-            document.getElementById('next-btn').disabled = end >= allArticles.length;
+            updatePagination();
         }
 
-        // Pagination handlers
-        document.getElementById('prev-btn').addEventListener('click', () => {
+        // Format date for display
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Update pagination controls
+        function updatePagination() {
+            pageInfo.textContent = `Page ${currentPage}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = (currentPage * articlesPerPage) >= allArticles.length;
+        }
+
+        // Event listeners for pagination
+        prevBtn.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 displayArticles();
@@ -121,8 +159,8 @@
             }
         });
 
-        document.getElementById('next-btn').addEventListener('click', () => {
-            if (currentPage * articlesPerPage < allArticles.length) {
+        nextBtn.addEventListener('click', () => {
+            if ((currentPage * articlesPerPage) < allArticles.length) {
                 currentPage++;
                 displayArticles();
                 window.scrollTo(0, 0);
