@@ -3,12 +3,24 @@
 <head>
     <title>Latest Articles</title>
     <style>
-        .article {
-            margin-bottom: 30px;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            border: 1px solid #eee;
+        }
+        .article-card {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .article-card:hover {
+            background-color: #f9f9f9;
+            border-color: #ccc;
         }
         .article-image {
             width: 100%;
@@ -17,12 +29,10 @@
             border-radius: 5px;
             margin-bottom: 15px;
         }
-        .article-title {
-            color: #333;
-            text-decoration: none;
-        }
-        .article-title:hover {
-            color: #0066cc;
+        .article-date {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
         }
         .pagination {
             margin: 30px 0;
@@ -36,18 +46,29 @@
             border-radius: 4px;
             cursor: pointer;
         }
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .article-detail {
+            margin-top: 20px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div id="articles-container"></div>
-    <div class="pagination">
-        <button id="prev-btn">← Previous</button>
-        <span id="page-info">Page 1</span>
-        <button id="next-btn">Next →</button>
+    <div id="app">
+        <h1>Latest Articles</h1>
+        <div id="articles-list"></div>
+        <div class="pagination">
+            <button id="prev-btn">← Previous</button>
+            <span id="page-info">Page 1</span>
+            <button id="next-btn">Next →</button>
+        </div>
     </div>
 
     <script>
@@ -57,120 +78,97 @@
         let allArticles = [];
 
         // DOM elements
-        const articlesContainer = document.getElementById('articles-container');
+        const appContainer = document.getElementById('app');
+        const articlesList = document.getElementById('articles-list');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const pageInfo = document.getElementById('page-info');
 
-        // Fetch articles from JSON file
+        // Fetch articles
         async function loadArticles() {
             try {
                 const response = await fetch('articles.json');
                 allArticles = await response.json();
-                // Sort by date (newest first)
                 allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
-                displayArticles();
-                setupRouting();
+                displayArticleList();
             } catch (error) {
-                console.error('Error loading articles:', error);
-                articlesContainer.innerHTML = '<p>Error loading articles. Please try again later.</p>';
+                articlesList.innerHTML = '<p>Error loading articles.</p>';
             }
         }
 
-        // Display articles for current page
-        function displayArticles() {
-            const startIndex = (currentPage - 1) * articlesPerPage;
-            const endIndex = startIndex + articlesPerPage;
-            const articlesToShow = allArticles.slice(startIndex, endIndex);
-
-            articlesContainer.innerHTML = '';
-
-            if (articlesToShow.length === 0) {
-                articlesContainer.innerHTML = '<p>No articles found.</p>';
-                return;
-            }
-
-            articlesToShow.forEach(article => {
-                const articleElement = document.createElement('div');
-                articleElement.className = 'article';
-                articleElement.innerHTML = `
-                    <a href="#${article.url}" class="article-title">
-                        <h2>${article.title}</h2>
-                    </a>
+        // Display article list
+        function displayArticleList() {
+            const start = (currentPage - 1) * articlesPerPage;
+            const end = start + articlesPerPage;
+            articlesList.innerHTML = allArticles.slice(start, end).map(article => `
+                <div class="article-card" data-url="${article.url}">
                     ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
-                    <p>${article.content}</p>
-                    <small>Published on: ${article.date}</small>
-                    <a href="#${article.url}" class="read-more">Read more</a>
-                `;
-                articlesContainer.appendChild(articleElement);
+                    <h2>${article.title}</h2>
+                    <div class="article-date">${article.date}</div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('click', () => showArticle(card.dataset.url));
             });
 
-            // Update pagination controls
+            // Update pagination
             pageInfo.textContent = `Page ${currentPage}`;
             prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = endIndex >= allArticles.length;
+            nextBtn.disabled = end >= allArticles.length;
         }
 
-        // Simple client-side routing
-        function setupRouting() {
-            // Handle initial URL hash
-            if (window.location.hash) {
-                showSingleArticle(window.location.hash.substring(1));
-            }
-
-            // Handle back/forward button navigation
-            window.addEventListener('popstate', () => {
-                if (window.location.hash) {
-                    showSingleArticle(window.location.hash.substring(1));
-                } else {
-                    displayArticles();
-                }
-            });
-        }
-
-        // Show single article view
-        function showSingleArticle(url) {
+        // Show single article
+        function showArticle(url) {
             const article = allArticles.find(a => a.url === url);
-            if (article) {
-                articlesContainer.innerHTML = `
-                    <div class="article">
-                        <a href="#" class="back-link">← Back to all articles</a>
-                        <h1>${article.title}</h1>
-                        ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
-                        <div>${article.content}</div>
-                        <small>Published on: ${article.date}</small>
-                    </div>
-                `;
-                
-                // Add back link event listener
-                document.querySelector('.back-link').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.history.pushState({}, '', window.location.pathname);
-                    displayArticles();
-                });
-            }
+            if (!article) return;
+            
+            appContainer.innerHTML = `
+                <div class="back-button" id="back-btn">← Back to all articles</div>
+                <div class="article-detail">
+                    <h1>${article.title}</h1>
+                    ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
+                    <div class="article-content">${article.content}</div>
+                    <div class="article-date">Published on: ${article.date}</div>
+                </div>
+            `;
+            
+            document.getElementById('back-btn').addEventListener('click', displayArticleList);
+            history.pushState({}, '', `#${url}`);
         }
 
-        // Event listeners for pagination
+        // Handle navigation
+        window.addEventListener('popstate', () => {
+            if (window.location.hash) {
+                showArticle(window.location.hash.substring(1));
+            } else {
+                displayArticleList();
+            }
+        });
+
+        // Pagination handlers
         prevBtn.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
-                displayArticles();
+                displayArticleList();
                 window.scrollTo(0, 0);
             }
         });
 
         nextBtn.addEventListener('click', () => {
-            const nextPageStart = currentPage * articlesPerPage;
-            if (nextPageStart < allArticles.length) {
+            if (currentPage * articlesPerPage < allArticles.length) {
                 currentPage++;
-                displayArticles();
+                displayArticleList();
                 window.scrollTo(0, 0);
             }
         });
 
         // Initial load
         loadArticles();
+        if (window.location.hash) {
+            showArticle(window.location.hash.substring(1));
+        }
     </script>
 </body>
 </html>
