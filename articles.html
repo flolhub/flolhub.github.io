@@ -139,7 +139,7 @@
 
         // Update pagination controls
         function updatePagination() {
-            pageInfo.textContent = `Page ${currentPage}`;
+            pageInfo.textContent = `${currentPage}`;
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = (currentPage * articlesPerPage) >= allArticles.length;
         }
