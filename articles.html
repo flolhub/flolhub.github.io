@@ -9,14 +9,8 @@
             margin: 0 auto;
             padding: 20px;
         }
-        h2 {
-            margin: 0;
-            display: flex;
-            padding-left: 1%;
-        }
         .article-card {
-            margin-bottom: 25px;
-            height: 165px;
+            margin-bottom: 40px; /* Extra space for URL preview */
             padding: 20px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
@@ -33,17 +27,15 @@
             display: block;
         }
         .article-image {
-            width: 33%;
-            max-height: 165px;
+            width: 100%;
+            max-height: 300px;
             object-fit: cover;
-            float: left;
+            border-radius: 5px;
             margin-bottom: 15px;
         }
         .article-date {
             color: #666;
             font-size: 0.9em;
-            display: flex;
-            padding-left: 1%;
         }
         .pagination {
             margin: 30px 0;
@@ -60,6 +52,20 @@
         .pagination button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+        /* URL Preview Tooltip */
+        .article-card:hover::after {
+            content: attr(data-url);
+            position: absolute;
+            bottom: -25px;
+            left: 20px;
+            background: #333;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
         }
     </style>
 </head>
@@ -139,7 +145,7 @@
 
         // Update pagination controls
         function updatePagination() {
-            pageInfo.textContent = `${currentPage}`;
+            pageInfo.textContent = `Page ${currentPage}`;
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = (currentPage * articlesPerPage) >= allArticles.length;
         }
