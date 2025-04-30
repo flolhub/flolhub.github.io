@@ -9,22 +9,22 @@
             margin: 0 auto;
             padding: 20px;
         }
+        .article-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 40px; /* Space for URL preview */
+        }
         .article-card {
-            margin-bottom: 40px; /* Extra space for URL preview */
             padding: 20px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             transition: all 0.2s ease;
             position: relative;
         }
-        .article-card:hover {
+        .article-link:hover .article-card {
             background-color: #f9f9f9;
             border-color: #ccc;
-        }
-        .article-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
         }
         .article-image {
             width: 100%;
@@ -53,11 +53,11 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
-        /* URL Preview Tooltip */
-        .article-card:hover::after {
-            content: attr(data-url);
+        /* URL Preview Tooltip - now on the link */
+        .article-link:hover::after {
+            content: attr(href);
             position: absolute;
-            bottom: -25px;
+            bottom: 0;
             left: 20px;
             background: #333;
             color: white;
@@ -118,19 +118,20 @@
 
             // Display current articles
             articlesToShow.forEach(article => {
-                const card = document.createElement('div');
-                card.className = 'article-card';
-                card.setAttribute('data-url', article.externalUrl);
+                const link = document.createElement('a');
+                link.className = 'article-link';
+                link.href = article.externalUrl;
+                link.target = '_blank';
                 
-                card.innerHTML = `
-                    <a href="${article.externalUrl}" class="article-link" target="_blank">
+                link.innerHTML = `
+                    <div class="article-card">
                         ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
                         <h2>${article.title}</h2>
                         <div class="article-date">${formatDate(article.date)}</div>
-                    </a>
+                    </div>
                 `;
                 
-                articlesList.appendChild(card);
+                articlesList.appendChild(link);
             });
 
             // Update pagination
@@ -145,7 +146,7 @@
 
         // Update pagination controls
         function updatePagination() {
-            pageInfo.textContent = `Page ${currentPage}`;
+            pageInfo.textContent = `${currentPage}`;
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = (currentPage * articlesPerPage) >= allArticles.length;
         }
