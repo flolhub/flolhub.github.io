@@ -3,6 +3,7 @@
 <head>
     <title>Latest Articles</title>
     <style>
+        /* Previous CSS remains the same */
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
@@ -184,6 +185,11 @@
                 btn.addEventListener('click', () => filterByCategory(category));
                 categoryFilters.appendChild(btn);
             });
+
+            // Add click handler for "All Categories" button
+            document.querySelector('[data-category="all"]').addEventListener('click', () => {
+                resetFilters();
+            });
         }
 
         // Filter articles by category
@@ -192,14 +198,31 @@
             currentPage = 1;
             
             // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', 
-                    btn.dataset.category === currentCategory || 
-                    (currentCategory === 'all' && btn.dataset.category === 'all')
-                );
-            });
+            updateActiveFilterButton();
             
             displayArticles();
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            currentCategory = 'all';
+            currentPage = 1;
+            
+            // Update active button
+            updateActiveFilterButton();
+            
+            displayArticles();
+        }
+
+        // Update the active filter button
+        function updateActiveFilterButton() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if ((currentCategory === 'all' && btn.dataset.category === 'all') ||
+                    (btn.dataset.category === currentCategory)) {
+                    btn.classList.add('active');
+                }
+            });
         }
 
         // Display articles for current page and category
