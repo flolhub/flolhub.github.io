@@ -9,19 +9,14 @@
             margin: 0 auto;
             padding: 20px;
         }
-        h2 {
-            display: flex;
-            padding-left: 1%;
-        }
         .article-link {
             display: block;
             text-decoration: none;
             color: inherit;
-            margin-bottom: 25px;
+            margin-bottom: 40px;
         }
         .article-card {
             padding: 20px;
-            height: 150px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             transition: all 0.2s ease;
@@ -32,16 +27,36 @@
             border-color: #ccc;
         }
         .article-image {
-            width: 33%;
-            max-height: 150px;
+            width: 100%;
+            max-height: 300px;
             object-fit: cover;
-            float: left;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .article-category {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            font-size: 0.8em;
+            cursor: pointer;
+        }
+        .article-category:hover {
+            background: #d0d0d0;
         }
         .article-date {
             color: #666;
             font-size: 0.9em;
-            display: flex;
-            padding-left: 1%;
+        }
+        .article-description {
+            color: #444;
+            margin: 10px 0;
+            line-height: 1.4;
         }
         .pagination {
             margin: 30px 0;
@@ -59,11 +74,47 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+        .article-link:hover::after {
+            content: attr(href);
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            background: #333;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .filter-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .filter-btn {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: #333;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <h1>Latest Articles</h1>
+    
+    <div class="filter-controls" id="category-filters">
+        <button class="filter-btn active" data-category="all">All Categories</button>
+        <!-- Categories will be added dynamically -->
+    </div>
+    
     <div id="articles-list"></div>
+    
     <div class="pagination">
         <button id="prev-btn">← Previous</button>
         <span id="page-info">Page 1</span>
@@ -74,13 +125,16 @@
         // Configuration
         const articlesPerPage = 20;
         let currentPage = 1;
+        let currentCategory = 'all';
         let allArticles = [];
+        let uniqueCategories = [];
 
         // DOM elements
         const articlesList = document.getElementById('articles-list');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const pageInfo = document.getElementById('page-info');
+        const categoryFilters = document.getElementById('category-filters');
 
         // Fetch articles from JSON
         async function loadArticles() {
@@ -88,59 +142,133 @@
                 const response = await fetch('articles.json');
                 allArticles = await response.json();
                 
+                // Process articles
+                allArticles.forEach(article => {
+                    // Convert date to DD.MM.YYYY format
+                    article.formattedDate = formatDate(article.date);
+                });
+                
                 // Sort by date (newest first)
                 allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
+                // Extract unique categories
+                extractCategories();
+                
                 // Display first page
                 displayArticles();
+                setupCategoryFilters();
             } catch (error) {
                 articlesList.innerHTML = '<p>Error loading articles. Please try again later.</p>';
                 console.error('Error:', error);
             }
         }
 
-        // Display articles for current page
+        // Extract unique categories from articles
+        function extractCategories() {
+            const categories = new Set();
+            allArticles.forEach(article => {
+                if (article.category) {
+                    categories.add(article.category);
+                }
+            });
+            uniqueCategories = Array.from(categories).sort();
+        }
+
+        // Setup category filter buttons
+        function setupCategoryFilters() {
+            uniqueCategories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = category;
+                btn.dataset.category = category.toLowerCase();
+                btn.addEventListener('click', () => filterByCategory(category));
+                categoryFilters.appendChild(btn);
+            });
+        }
+
+        // Filter articles by category
+        function filterByCategory(category) {
+            currentCategory = category.toLowerCase();
+            currentPage = 1;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', 
+                    btn.dataset.category === currentCategory || 
+                    (currentCategory === 'all' && btn.dataset.category === 'all')
+                );
+            });
+            
+            displayArticles();
+        }
+
+        // Display articles for current page and category
         function displayArticles() {
+            const filteredArticles = currentCategory === 'all' 
+                ? allArticles 
+                : allArticles.filter(a => a.category && a.category.toLowerCase() === currentCategory);
+            
             const startIndex = (currentPage - 1) * articlesPerPage;
             const endIndex = startIndex + articlesPerPage;
-            const articlesToShow = allArticles.slice(startIndex, endIndex);
+            const articlesToShow = filteredArticles.slice(startIndex, endIndex);
 
             // Clear previous articles
             articlesList.innerHTML = '';
 
             // Display current articles
-            articlesToShow.forEach(article => {
-                const link = document.createElement('a');
-                link.className = 'article-link';
-                link.href = article.externalUrl;
-                link.target = '_blank';
-                
-                link.innerHTML = `
-                    <div class="article-card">
-                        ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
-                        <h2>${article.title}</h2>
-                        <div class="article-date">${formatDate(article.date)}</div>
-                    </div>
-                `;
-                
-                articlesList.appendChild(link);
-            });
+            if (articlesToShow.length === 0) {
+                articlesList.innerHTML = '<p>No articles found in this category.</p>';
+            } else {
+                articlesToShow.forEach(article => {
+                    const link = document.createElement('a');
+                    link.className = 'article-link';
+                    link.href = article.externalUrl;
+                    link.target = '_blank';
+                    
+                    link.innerHTML = `
+                        <div class="article-card">
+                            ${article.image ? `<img src="${article.image}" alt="${article.imageAlt || ''}" class="article-image">` : ''}
+                            <div class="article-meta">
+                                <span class="article-category" data-category="${article.category.toLowerCase()}">${article.category}</span>
+                                <span class="article-date">${article.formattedDate}</span>
+                            </div>
+                            <h2>${article.title}</h2>
+                            ${article.description ? `<div class="article-description">${article.description}</div>` : ''}
+                        </div>
+                    `;
+                    
+                    // Add click handler for category
+                    const categoryEl = link.querySelector('.article-category');
+                    if (categoryEl) {
+                        categoryEl.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            filterByCategory(article.category);
+                        });
+                    }
+                    
+                    articlesList.appendChild(link);
+                });
+            }
 
             // Update pagination
-            updatePagination();
+            updatePagination(filteredArticles.length);
         }
 
-        // Format date for display
+        // Format date as DD.MM.YYYY
         function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString(undefined, options);
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}.${month}.${year}`;
         }
 
         // Update pagination controls
-        function updatePagination() {
-            pageInfo.textContent = `${currentPage}`;
+        function updatePagination(totalArticles) {
+            pageInfo.textContent = `Page ${currentPage}`;
             prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = (currentPage * articlesPerPage) >= allArticles.length;
+            nextBtn.disabled = (currentPage * articlesPerPage) >= totalArticles;
         }
 
         // Event listeners for pagination
@@ -153,7 +281,11 @@
         });
 
         nextBtn.addEventListener('click', () => {
-            if ((currentPage * articlesPerPage) < allArticles.length) {
+            const totalArticles = currentCategory === 'all' 
+                ? allArticles.length 
+                : allArticles.filter(a => a.category && a.category.toLowerCase() === currentCategory).length;
+            
+            if ((currentPage * articlesPerPage) < totalArticles) {
                 currentPage++;
                 displayArticles();
                 window.scrollTo(0, 0);
