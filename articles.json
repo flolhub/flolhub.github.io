@@ -1,30 +1,26 @@
 [
-  {
-    "title": "Rođen u burnim godinama",
-    "date": "1979-05-14",
-    "externalUrl": "https://example.com/articles/how-to-build-website",
-    "image": "images/web-design.jpg",
-    "imageAlt": "Web design illustration"
-  },
-  {
-    "title": "Crvena - boja opredjeljenja",
-    "date": "1979-05-21",
-    "externalUrl": "https://example.com/articles/javascript-tips",
-    "image": "images/js-logo.jpg",
-    "imageAlt": "JavaScript logo"
-  },
-  {
-    "title": "I u teškim danima - nepokolebljivo",
-    "date": "1979-05-28",
-    "externalUrl": "https://example.com/articles/javascript-tips",
-    "image": "images/js-logo.jpg",
-    "imageAlt": "JavaScript logo"
-  },
-  {
-    "title": "Zar se i dresova plašite",
-    "date": "04.06.1979. FELJTON (4): Uticaj KPJ na formiranje, rad i razvoj RSD »Velež«",
-    "externalUrl": "https://example.com/articles/javascript-tips",
-    "image": "https://media.discordapp.net/attachments/1238476141543821312/1238477554231545876/IMG_7214.jpeg?ex=6813721a&is=6812209a&hm=30e805f3af81096705d15db005f6423056c436513f62457fb09d005fdbddc511&=&format=webp",
-    "imageAlt": "JavaScript logo"
-  }
+    {
+        "title": "Rođen u burnim godinama",
+        "date": "1979-05-14",
+        "externalUrl": "https://example.com/article1",
+        "image": "https://media.discordapp.net/attachments/1238476141543821312/1238477554231545876/IMG_7214.jpeg?ex=6813721a&is=6812209a&hm=30e805f3af81096705d15db005f6423056c436513f62457fb09d005fdbddc511&=&format=webp",
+        "category": "FELJTON",
+        "description": "(1) Uticaj KPJ na formiranje, rad i razvoj RSD »Velež«"
+    },
+    {
+        "title": "Crvena - boja opredjeljenja",
+        "date": "1979-05-21",
+        "externalUrl": "https://example.com/article2",
+        "image": "https://media.discordapp.net/attachments/1238476141543821312/1238477554231545876/IMG_7214.jpeg?ex=6813721a&is=6812209a&hm=30e805f3af81096705d15db005f6423056c436513f62457fb09d005fdbddc511&=&format=webp",
+        "category": "NAJAVA",
+        "description": "(2) Uticaj KPJ na formiranje, rad i razvoj RSD »Velež«"
+    },
+    {
+        "title": "I u teškim danima - nepokolebljivo",
+        "date": "1979-05-28",
+        "externalUrl": "https://example.com/article2",
+        "image": "https://media.discordapp.net/attachments/1238476141543821312/1238477554231545876/IMG_7214.jpeg?ex=6813721a&is=6812209a&hm=30e805f3af81096705d15db005f6423056c436513f62457fb09d005fdbddc511&=&format=webp",
+        "category": "FELJTON",
+        "description": "(3) Uticaj KPJ na formiranje, rad i razvoj RSD »Velež«"
+    }
 ]
