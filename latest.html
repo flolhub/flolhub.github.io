@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Article Boxes Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 500px;
+            height: 450px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-box {
+            width: 490px;
+            height: 250px;
+            background-color: #e9e9e9;
+            margin: 5px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .main-box:hover {
+            transform: scale(1.01);
+        }
+        
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px;
+            height: 150px;
+        }
+        
+        .side-box {
+            width: 240px;
+            height: 150px;
+            background-color: #e9e9e9;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .side-box:hover {
+            transform: scale(1.02);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 10px;
+        }
+        
+        .article-title {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        
+        .article-date {
+            margin: 5px 0 0;
+            font-size: 0.8em;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="article-container">
+        <div class="main-box" id="main-article">
+            <!-- Will be filled by JavaScript -->
+        </div>
+        <div class="bottom-row">
+            <div class="side-box" id="side-article-1">
+                <!-- Will be filled by JavaScript -->
+            </div>
+            <div class="side-box" id="side-article-2">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch articles and populate boxes
+        async function loadArticles() {
+            try {
+                const response = await fetch('articles.json');
+                const articles = await response.json();
+                
+                // Sort by date (newest first)
+                articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Format date as DD.MM.YYYY
+                const formatDate = (dateString) => {
+                    const date = new Date(dateString);
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    return `${day}.${month}.${year}`;
+                };
+                
+                // Get the 3 latest articles
+                const latestArticles = articles.slice(0, 3);
+                
+                // Populate main box (first article)
+                if (latestArticles[0]) {
+                    const mainBox = document.getElementById('main-article');
+                    mainBox.innerHTML = `
+                        ${latestArticles[0].image ? `<img src="${latestArticles[0].image}" alt="${latestArticles[0].imageAlt || ''}" class="article-image">` : ''}
+                        <div class="article-overlay">
+                            <h3 class="article-title">${latestArticles[0].title}</h3>
+                            <p class="article-date">${formatDate(latestArticles[0].date)}</p>
+                        </div>
+                    `;
+                    mainBox.addEventListener('click', () => {
+                        window.open(latestArticles[0].externalUrl, '_blank');
+                    });
+                }
+                
+                // Populate side boxes (second and third articles)
+                if (latestArticles[1]) {
+                    const sideBox1 = document.getElementById('side-article-1');
+                    sideBox1.innerHTML = `
+                        ${latestArticles[1].image ? `<img src="${latestArticles[1].image}" alt="${latestArticles[1].imageAlt || ''}" class="article-image">` : ''}
+                        <div class="article-overlay">
+                            <h3 class="article-title">${latestArticles[1].title}</h3>
+                            <p class="article-date">${formatDate(latestArticles[1].date)}</p>
+                        </div>
+                    `;
+                    sideBox1.addEventListener('click', () => {
+                        window.open(latestArticles[1].externalUrl, '_blank');
+                    });
+                }
+                
+                if (latestArticles[2]) {
+                    const sideBox2 = document.getElementById('side-article-2');
+                    sideBox2.innerHTML = `
+                        ${latestArticles[2].image ? `<img src="${latestArticles[2].image}" alt="${latestArticles[2].imageAlt || ''}" class="article-image">` : ''}
+                        <div class="article-overlay">
+                            <h3 class="article-title">${latestArticles[2].title}</h3>
+                            <p class="article-date">${formatDate(latestArticles[2].date)}</p>
+                        </div>
+                    `;
+                    sideBox2.addEventListener('click', () => {
+                        window.open(latestArticles[2].externalUrl, '_blank');
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error loading articles:', error);
+            }
+        }
+
+        // Load articles when page loads
+        document.addEventListener('DOMContentLoaded', loadArticles);
+    </script>
+</body>
+</html>
