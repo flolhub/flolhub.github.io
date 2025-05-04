@@ -14,19 +14,17 @@
         }
         
         .container {
-            width: 500px;
-            background-color: white;
-            border-radius: 8px;
+            width: auto;
+            background-color: #D1D1D1;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             padding: 10px;
         }
         
         .article-box {
-            width: 500px;
-            height: 150px;
-            background-color: #e9e9e9;
+            width: auto;
+            height: auto;
+            background-color: white;
             margin-bottom: 10px;
-            border-radius: 6px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
@@ -39,8 +37,10 @@
         }
         
         .article-image {
-            width: 200px;
+            width: 33%;
             height: 100%;
+            margin-top: auto;
+            margin-bottom: auto;
             object-fit: cover;
             flex-shrink: 0;
         }
@@ -55,7 +55,7 @@
         
         .article-title {
             margin: 0;
-            font-size: 1.1em;
+            font-size: 1.2em;
             color: #333;
         }
         
@@ -65,7 +65,11 @@
             color: #555;
             line-height: 1.4;
         }
-        
+        @media screen and (max-width: 690px) {
+            .article-description {
+                display: none;
+            }
+        }
         .article-meta {
             display: flex;
             justify-content: space-between;
@@ -82,12 +86,15 @@
         }
         
         .archive-text {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1.2em;
-            color: #666;
-            font-weight: bold;
+            text-align: right;
+            margin-top: 0px;
+            margin-right: 6px;
+            font-size: 1.0em;
         }
+        a {
+    		color: #337ab7;
+    		text-decoration: none;
+	}
     </style>
 </head>
 <body>
@@ -101,7 +108,7 @@
         <div class="article-box" id="article-3">
             <!-- Will be filled by JavaScript -->
         </div>
-        <div class="archive-text">Arhiva</div>
+        <div class="archive-text"><a href="../arhiva">Arhiva vijesti</a></div>
     </div>
 
     <script>
@@ -120,7 +127,7 @@
                     const day = String(date.getDate()).padStart(2, '0');
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const year = date.getFullYear();
-                    return `${day}.${month}.${year}`;
+                    return `${day}.${month}.${year}.`;
                 };
                 
                 // Get the 3 latest articles
