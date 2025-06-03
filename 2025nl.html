@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parliament Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .parliament {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin: 30px 0;
+            border: 1px solid #ddd;
+            padding: 5px;
+            min-height: 100px;
+        }
+        .seat {
+            width: 20px;
+            height: 20px;
+            background-color: #eee;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .party-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .party-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            min-width: 150px;
+            cursor: pointer;
+        }
+        .party-card.selected {
+            background-color: #e6f7ff;
+            border-color: #1890ff;
+        }
+        .party-color {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+        }
+        .majority {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+        }
+        .no-majority {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>Parliament Simulator (150 Seats)</h1>
+    <button id="generateBtn">Generate New Parliament</button>
+    <div class="summary" id="summary">
+        Click "Generate New Parliament" to start
+    </div>
+    <div class="parliament" id="parliament"></div>
+    <div class="party-info" id="partyInfo"></div>
+
+    <script>
+        // Party configuration
+        const parties = [
+            {
+                "name": "SP",
+                "color": "#F60000",
+                "minSeats": 3,
+                "defaultSeats": 6,
+                "maxSeats": 11
+            },
+            {
+                "name": "GL/PvdA",
+                "color": "#DF111A",
+                "minSeats": 16,
+                "defaultSeats": 28,
+                "maxSeats": 30
+            },
+            {
+                "name": "PvdD",
+                "color": "#006B2D",
+                "minSeats": 3,
+                "defaultSeats": 6,
+                "maxSeats": 12
+            },
+            {
+                "name": "NSC",
+                "color": "#F0C400",
+                "minSeats": 1,
+                "defaultSeats": 2,
+                "maxSeats": 31
+            },
+            {
+                "name": "CU",
+                "color": "#00A7EB",
+                "minSeats": 2,
+                "defaultSeats": 3,
+                "maxSeats": 8
+            },
+            {
+                "name": "Volt",
+                "color": "#582C83",
+                "minSeats": 1,
+                "defaultSeats": 3,
+                "maxSeats": 10
+            },
+            {
+                "name": "D66",
+                "color": "#00AE41",
+                "minSeats": 5,
+                "defaultSeats": 12,
+                "maxSeats": 26
+            },
+            {
+                "name": "DENK",
+                "color": "#00B7B2",
+                "minSeats": 2,
+                "defaultSeats": 4,
+                "maxSeats": 5
+            },
+            {
+                "name": "CDA",
+                "color": "#2CC84D",
+                "minSeats": 4,
+                "defaultSeats": 17,
+                "maxSeats": 19
+            },
+            {
+                "name": "VVD",
+                "color": "#0A2CCA",
+                "minSeats": 12,
+                "defaultSeats": 26,
+                "maxSeats": 39
+            },
+            {
+                "name": "BBB",
+                "color": "#94C11F",
+                "minSeats": 2,
+                "defaultSeats": 4,
+                "maxSeats": 36
+            },
+            {
+                "name": "SGP",
+                "color": "#EA5B0B",
+                "minSeats": 2,
+                "defaultSeats": 3,
+                "maxSeats": 4
+            },
+            {
+                "name": "PVV",
+                "color": "#012758",
+                "minSeats": 9,
+                "defaultSeats": 29,
+                "maxSeats": 52
+            },
+            {
+                "name": "FvD",
+                "color": "#841818",
+                "minSeats": 3,
+                "defaultSeats": 5,
+                "maxSeats": 9
+            },
+            {
+                "name": "JA21",
+                "color": "#242B57",
+                "minSeats": 1,
+                "defaultSeats": 4,
+                "maxSeats": 15
+            }
+        ];
+
+        let currentSeatCounts = [];
+        let selectedParties = new Set();
+
+        document.getElementById('generateBtn').addEventListener('click', generateParliament);
+
+        function generateParliament() {
+            // Reset selections
+            selectedParties = new Set();
+            
+            // First pass - generate initial seat counts weighted toward defaults
+            currentSeatCounts = [];
+            let totalSeats = 0;
+            
+            // Generate initial seat counts within min/max, weighted toward default
+            parties.forEach(party => {
+                // Create a distribution that favors values near the default
+                const range = party.maxSeats - party.minSeats;
+                let seats;
+                
+                // Try to get values near the default (normal distribution)
+                do {
+                    // Standard deviation is 1/4 of the range to keep it somewhat centered
+                    const stdDev = range / 4;
+                    seats = Math.round(randomNormal(party.defaultSeats, stdDev));
+                    seats = Math.max(party.minSeats, Math.min(party.maxSeats, seats));
+                } while (isNaN(seats));
+                
+                currentSeatCounts.push({
+                    party: party,
+                    seats: seats
+                });
+                totalSeats += seats;
+            });
+
+            // Adjust to exactly 150 seats
+            while (totalSeats !== 150) {
+                const difference = 150 - totalSeats;
+                const adjustment = Math.sign(difference); // +1 or -1
+
+                // Find parties that can be adjusted without violating their constraints
+                const adjustableParties = currentSeatCounts.filter(sc => {
+                    if (adjustment > 0) return sc.seats < sc.party.maxSeats;
+                    else return sc.seats > sc.party.minSeats;
+                });
+
+                if (adjustableParties.length === 0) break; // Shouldn't happen with reasonable configs
+
+                // Distribute the adjustment randomly among adjustable parties
+                const randomParty = adjustableParties[Math.floor(Math.random() * adjustableParties.length)];
+                randomParty.seats += adjustment;
+                totalSeats += adjustment;
+            }
+
+            // Sort by seat count (descending)
+            currentSeatCounts.sort((a, b) => b.seats - a.seats);
+
+            // Render parliament visualization
+            renderParliament();
+
+            // Update summary
+            updateSummary();
+        }
+
+        function renderParliament() {
+            const parliamentEl = document.getElementById('parliament');
+            const partyInfoEl = document.getElementById('partyInfo');
+            
+            // Clear previous render
+            parliamentEl.innerHTML = '';
+            partyInfoEl.innerHTML = '';
+
+            // Render seats
+            currentSeatCounts.forEach(sc => {
+                for (let i = 0; i < sc.seats; i++) {
+                    const seat = document.createElement('div');
+                    seat.className = 'seat';
+                    seat.style.backgroundColor = sc.party.color;
+                    seat.title = `${sc.party.name} (${sc.seats} seats)`;
+                    seat.dataset.party = sc.party.name;
+                    seat.addEventListener('click', () => togglePartySelection(sc.party.name));
+                    parliamentEl.appendChild(seat);
+                }
+            });
+
+            // Render party info cards
+            currentSeatCounts.forEach(sc => {
+                const card = document.createElement('div');
+                card.className = `party-card ${selectedParties.has(sc.party.name) ? 'selected' : ''}`;
+                card.innerHTML = `
+                    <div><span class="party-color" style="background-color: ${sc.party.color}"></span> <strong>${sc.party.name}</strong></div>
+                    <div>Seats: ${sc.seats}</div>
+                `;
+                card.addEventListener('click', () => togglePartySelection(sc.party.name));
+                partyInfoEl.appendChild(card);
+            });
+        }
+
+        function togglePartySelection(partyName) {
+            if (selectedParties.has(partyName)) {
+                selectedParties.delete(partyName);
+            } else {
+                selectedParties.add(partyName);
+            }
+            renderParliament(); // Update visuals to show selection
+            updateSummary(); // Update the majority calculation
+        }
+
+        function updateSummary() {
+            const majorityThreshold = Math.floor(150 / 2) + 1;
+            let totalSelectedSeats = 0;
+            let selectedPartyList = [];
+
+            // Calculate total seats for selected parties
+            currentSeatCounts.forEach(sc => {
+                if (selectedParties.has(sc.party.name)) {
+                    totalSelectedSeats += sc.seats;
+                    selectedPartyList.push(sc.party.name);
+                }
+            });
+
+            const summary = document.getElementById('summary');
+            
+            if (selectedParties.size === 0) {
+                summary.className = "summary";
+                summary.innerHTML = `
+                    Parliament generated. Select parties to see if they form a majority.
+                    <br><strong>Total seats allocated:</strong> ${currentSeatCounts.reduce((sum, sc) => sum + sc.seats, 0)}/150
+                `;
+            } else {
+                if (totalSelectedSeats >= majorityThreshold) {
+                    summary.className = "summary majority";
+                    summary.innerHTML = `
+                        <strong>MAJORITY COALITION (${totalSelectedSeats} seats)</strong><br>
+                        Selected parties: ${selectedPartyList.join(", ")}<br>
+                        These parties have enough seats to form a majority government.
+                        <br><strong>Total selected seats:</strong> ${totalSelectedSeats}/150 (need ${majorityThreshold}+)
+                    `;
+                } else {
+                    summary.className = "summary no-majority";
+                    summary.innerHTML = `
+                        <strong>NO MAJORITY (${totalSelectedSeats} seats)</strong><br>
+                        Selected parties: ${selectedPartyList.join(", ")}<br>
+                        These parties do not have enough seats to form a majority.
+                        <br><strong>Total selected seats:</strong> ${totalSelectedSeats}/150 (need ${majorityThreshold}+)
+                    `;
+                }
+            }
+        }
+
+        // Helper function to generate normally distributed random numbers
+        function randomNormal(mean, stdDev) {
+            let u = 0, v = 0;
+            while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+            while (v === 0) v = Math.random();
+            const normal = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+            return mean + stdDev * normal;
+        }
+    </script>
+</body>
+</html>
