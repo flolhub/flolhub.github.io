@@ -408,5 +408,14 @@
             const normal = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
             return mean + stdDev * normal;
         }
+	    fetch('stats-api.php')
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('daily-visits').textContent = data.daily;
+    document.getElementById('weekly-visits').textContent = data.weekly;
+    document.getElementById('monthly-visits').textContent = data.monthly;
+    document.getElementById('yearly-visits').textContent = data.yearly;
+    document.getElementById('total-visits').textContent = data.total;
+  });
     </script>
 </body></html>
