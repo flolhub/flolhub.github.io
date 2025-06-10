@@ -1,63 +1,75 @@
 [
     {
         "name": "Enver Marić",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/28003-1671435885.jpg",
+        "image": "../images/game1/enver%20marić.png",
         "appearances": 441,
         "goals": 0
     },
     {
         "name": "Vlado Zelenika",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/8198-1671435887.jpg",
+        "image": "../images/game1/vlado%20zelenika.png",
         "appearances": 165,
         "goals": 106
     },
     {
         "name": "Dušan Bajević",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/38253-1671435888.jpg",
+        "image": "../images/game1/dušan%20bajević.png",
         "appearances": 320,
         "goals": 170
     },
     {
         "name": "Vahid Halilhodžić",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/68290-1671435889.jpg",
+        "image": "../images/game1/vahid%20halilhodžić.png",
         "appearances": 208,
         "goals": 103
     },
     {
         "name": "Muhamed Mujić",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/342229-1671435890.jpg",
+        "image": "../images/game1/muhamed%20mujić.png",
         "appearances": 252,
         "goals": 90
     },
     {
         "name": "Franjo Vladić",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/148455-1671435891.jpg",
+        "image": "../images/game1/franjo%20vladić.png",
         "appearances": 360,
         "goals": 81
     },
     {
         "name": "Adis Obad",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/18922-1671435892.jpg",
+        "image": "../images/game1/adis%20obad.png",
         "appearances": 241,
         "goals": 79
     },
     {
         "name": "Salem Halilhodžić",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/371998-1671435893.jpg",
+        "image": "../images/game1/salem%20halilhodžić.png",
         "appearances": 196,
         "goals": 66
     },
     {
         "name": "Admir Velagić",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/418560-1671435894.jpg",
+        "image": "../images/game1/admir%20velagić.png",
         "appearances": 336,
         "goals": 62
     },
     {
         "name": "Vladimir Gudelj",
-        "image": "https://img.a.transfermarkt.technology/portrait/big/88755-1671435895.jpg",
+        "image": "../images/game1/vladimir%20gudelj.png",
         "appearances": 144,
         "goals": 56
+    },
+    {
+        "name": "Blaž Slišković",
+        "image": "../images/game1/blaž%20slišković.png",
+        "appearances": 121,
+        "goals": 25
+    },
+    {
+        "name": "Dragan Okuka",
+        "image": "../images/game1/dragan%20okuka.png",
+        "appearances": 224,
+        "goals": 34
     },
     {
         "name": "Anton Bolfek",
