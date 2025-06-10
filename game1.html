@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,6 +132,7 @@
         let gameOver = false;
         let maxPlayer = null;
         let bannedPlayer = null;
+        let lastSelectedSide = null; // Track which side was selected
 
         // DOM elements
         const setupScreen = document.getElementById('setup-screen');
@@ -180,6 +181,7 @@
             score = 0;
             gameOver = false;
             bannedPlayer = null;
+            lastSelectedSide = null;
             
             setupScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
@@ -222,6 +224,7 @@
         function choosePlayer(choice) {
             if (gameOver) return;
             
+            lastSelectedSide = choice; // Remember which side was chosen
             const selectedPlayer = currentPlayers[choice - 1];
             const otherPlayer = currentPlayers[2 - choice];
             
@@ -245,11 +248,16 @@
                 if (selectedValue === maxValue) {
                     // Ban this player for next round only
                     bannedPlayer = selectedPlayer;
+                    // Get two new random players for next round
+                    currentPlayers = getTwoRandomPlayers();
+                } else {
+                    // Keep the selected player on their original side and get a new opponent
+                    const newOpponent = getNewOpponent(selectedPlayer);
+                    currentPlayers = lastSelectedSide === 1 ? 
+                        [selectedPlayer, newOpponent] : 
+                        [newOpponent, selectedPlayer];
                 }
                 
-                // Keep the selected player and get a new random opponent
-                const newOpponent = getNewOpponent(selectedPlayer);
-                currentPlayers = [selectedPlayer, newOpponent];
                 displayPlayers();
             } else {
                 // Wrong choice - game over
