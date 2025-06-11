@@ -72,6 +72,60 @@
         "goals": 34
     },
     {
+        "name": "Dženan Zaimović",
+        "image": "../images/game1/dženan%20zaimović.png",
+        "appearances": 353,
+        "goals": 56
+    },
+    {
+        "name": "Semir Tuce",
+        "image": "../images/game1/semir%20tuce.png",
+        "appearances": 187,
+        "goals": 54
+    },
+    {
+        "name": "Asmir Džafić",
+        "image": "../images/game1/asmir%20džafić.png",
+        "appearances": 116,
+        "goals": 53
+    },
+    {
+        "name": "Vladimir Skočajić",
+        "image": "../images/game1/vladimir%20skočajić.png",
+        "appearances": 153,
+        "goals": 48
+    },
+    {
+        "name": "Meho Kodro",
+        "image": "../images/game1/meho%20kodro.png",
+        "appearances": 135,
+        "goals": 48
+    },
+    {
+        "name": "Adnan Međedović",
+        "image": "../images/game1/adnan%20međedović.png",
+        "appearances": 177,
+        "goals": 47
+    },
+    {
+        "name": "Brandao de Souza",
+        "image": "../images/game1/brandao%20de%20souza.png",
+        "appearances": 140,
+        "goals": 45
+    },
+    {
+        "name": "Haldun Hrvić",
+        "image": "../images/game1/haldun%20hrvić.png",
+        "appearances": 124,
+        "goals": 43
+    },
+    {
+        "name": "Sulejman Rebac",
+        "image": "../images/game1/sulejman%20rebac.png",
+        "appearances": 119,
+        "goals": 43
+    },
+    {
         "name": "Anton Bolfek",
         "image": "https://krajneretve-rodjeni.com/images/players/anton%20bolfek.png",
         "appearances": 206,
