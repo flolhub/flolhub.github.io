@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,6 +84,12 @@
         .hidden {
             display: none;
         }
+        .mode-indicator {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #2E7D32;
+        }
     </style>
 </head>
 <body>
@@ -96,12 +102,18 @@
                 <button id="appearances-btn">Higher Appearances</button>
                 <button id="goals-btn">Higher Goals</button>
             </div>
+            <div class="high-scores">
+                <h3>High Scores:</h3>
+                <p>Appearances: <span id="appearances-high-score">0</span></p>
+                <p>Goals: <span id="goals-high-score">0</span></p>
+            </div>
         </div>
         
         <div id="game-screen" class="hidden">
+            <div class="mode-indicator" id="mode-indicator"></div>
             <div class="score-container">
                 <div>Score: <span id="score">0</span></div>
-                <div>High Score: <span id="high-score">0</span></div>
+                <div>High Score: <span id="current-high-score">0</span></div>
             </div>
             
             <div class="message" id="message"></div>
@@ -127,19 +139,25 @@
         let players = [];
         let currentPlayers = [];
         let score = 0;
-        let highScore = 0;
+        let highScores = {
+            appearances: 0,
+            goals: 0
+        };
         let gameMode = '';
         let gameOver = false;
         let maxPlayer = null;
         let bannedPlayer = null;
-        let lastSelectedSide = null; // Track which side was selected
+        let lastSelectedSide = null;
 
         // DOM elements
         const setupScreen = document.getElementById('setup-screen');
         const gameScreen = document.getElementById('game-screen');
         const scoreDisplay = document.getElementById('score');
-        const highScoreDisplay = document.getElementById('high-score');
+        const currentHighScoreDisplay = document.getElementById('current-high-score');
+        const appearancesHighScoreDisplay = document.getElementById('appearances-high-score');
+        const goalsHighScoreDisplay = document.getElementById('goals-high-score');
         const messageDisplay = document.getElementById('message');
+        const modeIndicator = document.getElementById('mode-indicator');
         const restartBtn = document.getElementById('restart-btn');
         const appearancesBtn = document.getElementById('appearances-btn');
         const goalsBtn = document.getElementById('goals-btn');
@@ -161,13 +179,25 @@
             }
         }
 
+        // Load high scores from localStorage
+        function loadHighScores() {
+            const savedScores = localStorage.getItem('highScores');
+            if (savedScores) {
+                highScores = JSON.parse(savedScores);
+            }
+            appearancesHighScoreDisplay.textContent = highScores.appearances;
+            goalsHighScoreDisplay.textContent = highScores.goals;
+        }
+
+        // Save high scores to localStorage
+        function saveHighScores() {
+            localStorage.setItem('highScores', JSON.stringify(highScores));
+        }
+
         // Initialize the game
         async function initGame() {
             await loadPlayerData();
-            
-            // Load high score from localStorage
-            highScore = localStorage.getItem('highScore') || 0;
-            highScoreDisplay.textContent = highScore;
+            loadHighScores();
             
             // Set up event listeners
             appearancesBtn.addEventListener('click', () => startGame('appearances'));
@@ -189,6 +219,8 @@
             
             scoreDisplay.textContent = score;
             messageDisplay.textContent = '';
+            modeIndicator.textContent = `Mode: Higher ${mode}`;
+            currentHighScoreDisplay.textContent = highScores[mode];
             
             // Select two random players to start
             currentPlayers = getTwoRandomPlayers();
@@ -208,7 +240,7 @@
             return shuffled.slice(0, 2);
         }
 
-        // Display the current players (shows only name and image)
+        // Display the current players
         function displayPlayers() {
             const player1 = currentPlayers[0];
             const player2 = currentPlayers[1];
@@ -224,7 +256,7 @@
         function choosePlayer(choice) {
             if (gameOver) return;
             
-            lastSelectedSide = choice; // Remember which side was chosen
+            lastSelectedSide = choice;
             const selectedPlayer = currentPlayers[choice - 1];
             const otherPlayer = currentPlayers[2 - choice];
             
@@ -265,10 +297,15 @@
                 messageDisplay.textContent = `Game Over! ${selectedPlayer.name} has fewer ${gameMode} than ${otherPlayer.name}.`;
                 
                 // Update high score if needed
-                if (score > highScore) {
-                    highScore = score;
-                    localStorage.setItem('highScore', highScore);
-                    highScoreDisplay.textContent = highScore;
+                if (score > highScores[gameMode]) {
+                    highScores[gameMode] = score;
+                    currentHighScoreDisplay.textContent = highScores[gameMode];
+                    if (gameMode === 'appearances') {
+                        appearancesHighScoreDisplay.textContent = highScores.appearances;
+                    } else {
+                        goalsHighScoreDisplay.textContent = highScores.goals;
+                    }
+                    saveHighScores();
                 }
                 
                 restartBtn.classList.remove('hidden');
@@ -295,6 +332,7 @@
         function resetGame() {
             setupScreen.classList.remove('hidden');
             gameScreen.classList.add('hidden');
+            loadHighScores(); // Refresh high scores display
         }
 
         // Initialize the game when the page loads
