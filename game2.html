@@ -37,36 +37,6 @@
             margin: 10px 0;
             font-size: 18px;
         }
-        .player-stats {
-            margin: 10px 0;
-        }
-        .multiplier-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .multiplier-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            min-width: 60px;
-        }
-        .multiplier-btn:hover {
-            background-color: #45a049;
-        }
-        .multiplier-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
         .board {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -79,14 +49,12 @@
             padding: 10px;
             min-height: 100px;
             position: relative;
+            cursor: pointer;
         }
-        .board-slot.multiplier-1 { background-color: #f0f0f0; }
-        .board-slot.multiplier-2 { background-color: #e3f2fd; }
-        .board-slot.multiplier-3 { background-color: #bbdefb; }
-        .board-slot.multiplier-4 { background-color: #90caf9; }
-        .board-slot.multiplier-5 { background-color: #64b5f6; }
-        .board-slot.multiplier-10 { background-color: #42a5f5; }
-        .slot-multiplier {
+        .board-slot.filled {
+            cursor: default;
+        }
+        .multiplier-label {
             position: absolute;
             top: 5px;
             right: 5px;
@@ -117,7 +85,7 @@
 <body>
     <div class="game-container">
         <h1>Football Multiplier Challenge</h1>
-        <p>Multiply player goals to reach 3000+ total goals!</p>
+        <p>Place players to reach 3000+ total goals!</p>
         
         <div id="setup-screen">
             <button id="start-btn">Start Game</button>
@@ -127,18 +95,6 @@
             <div class="player-card" id="current-player">
                 <img id="player-img" src="" alt="Current Player">
                 <div class="player-name" id="player-name">Player Name</div>
-                <div class="player-stats">
-                    Goals: <span id="player-goals">0</span>
-                </div>
-            </div>
-            
-            <div class="multiplier-options">
-                <button class="multiplier-btn" data-multiplier="1">Career (3 slots)</button>
-                <button class="multiplier-btn" data-multiplier="2">×2 (3 slots)</button>
-                <button class="multiplier-btn" data-multiplier="3">×3</button>
-                <button class="multiplier-btn" data-multiplier="4">×4</button>
-                <button class="multiplier-btn" data-multiplier="5">×5</button>
-                <button class="multiplier-btn" data-multiplier="10">×10</button>
             </div>
             
             <h3>Your Team:</h3>
@@ -163,22 +119,7 @@
         let totalGoals = 0;
         let placedPlayers = 0;
         const maxSlots = 10;
-        const multiplierLimits = {
-            1: 3,  // Career has 3 slots
-            2: 3,  // ×2 has 3 slots
-            3: 1,  // ×3 has 1 slot
-            4: 1,  // ×4 has 1 slot
-            5: 1,  // ×5 has 1 slot
-            10: 1  // ×10 has 1 slot
-        };
-        const usedMultipliers = {
-            1: 0,
-            2: 0,
-            3: 0,
-            4: 0,
-            5: 0,
-            10: 0
-        };
+        const slotMultipliers = [1, 1, 1, 2, 2, 2, 3, 4, 5, 10]; // Multipliers for each slot
 
         // DOM elements
         const setupScreen = document.getElementById('setup-screen');
@@ -187,11 +128,9 @@
         const restartBtn = document.getElementById('restart-btn');
         const playerImg = document.getElementById('player-img');
         const playerName = document.getElementById('player-name');
-        const playerGoals = document.getElementById('player-goals');
         const totalGoalsDisplay = document.getElementById('total-goals');
         const messageDisplay = document.getElementById('message');
         const board = document.getElementById('board');
-        const multiplierBtns = document.querySelectorAll('.multiplier-btn');
 
         // Load player data from JSON
         async function loadPlayerData() {
@@ -205,72 +144,51 @@
             }
         }
 
-        // Initialize the game board
+        // Initialize the game board with multipliers
         function initializeBoard() {
             board.innerHTML = '';
-            for (let i = 0; i < maxSlots; i++) {
+            slotMultipliers.forEach((multiplier, index) => {
                 const slot = document.createElement('div');
                 slot.className = 'board-slot';
-                slot.dataset.index = i;
-                slot.innerHTML = '<div class="slot-multiplier">Empty</div>';
+                slot.dataset.index = index;
+                slot.dataset.multiplier = multiplier;
+                slot.innerHTML = `
+                    <div class="multiplier-label">×${multiplier}</div>
+                    <div class="slot-content">Empty</div>
+                `;
                 board.appendChild(slot);
-            }
+            });
         }
 
-        // Get a random player
+        // Get a random player (now allows duplicates)
         function getRandomPlayer() {
-            const availablePlayers = players.filter(player => !player.used);
-            if (availablePlayers.length === 0) return null;
-            
-            const randomIndex = Math.floor(Math.random() * availablePlayers.length);
-            const player = availablePlayers[randomIndex];
-            player.used = true;
-            return player;
+            const randomIndex = Math.floor(Math.random() * players.length);
+            return players[randomIndex];
         }
 
         // Display current player
         function displayPlayer(player) {
             playerImg.src = player.image;
             playerName.textContent = player.name;
-            playerGoals.textContent = player.goals;
             currentPlayer = player;
         }
 
-        // Update multiplier button states
-        function updateMultiplierButtons() {
-            multiplierBtns.forEach(btn => {
-                const multiplier = parseInt(btn.dataset.multiplier);
-                btn.disabled = usedMultipliers[multiplier] >= multiplierLimits[multiplier];
-            });
-        }
-
-        // Place player on board with selected multiplier
-        function placePlayer(multiplier) {
+        // Place player on selected board slot
+        function placePlayer(slot) {
+            const multiplier = parseInt(slot.dataset.multiplier);
             const goals = currentPlayer.goals * multiplier;
             totalGoals += goals;
             placedPlayers++;
             
-            // Find first empty slot
-            const slots = Array.from(board.children);
-            const emptySlot = slots.find(slot => !slot.dataset.filled);
+            slot.classList.add('filled');
+            slot.innerHTML = `
+                <div class="multiplier-label">×${multiplier}</div>
+                <img src="${currentPlayer.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                <div>${currentPlayer.name}</div>
+                <div>${goals} goals</div>
+            `;
             
-            if (emptySlot) {
-                emptySlot.dataset.filled = true;
-                emptySlot.classList.add(`multiplier-${multiplier}`);
-                emptySlot.innerHTML = `
-                    <img src="${currentPlayer.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
-                    <div>${currentPlayer.name}</div>
-                    <div>${currentPlayer.goals} × ${multiplier} = ${goals}</div>
-                    <div class="slot-multiplier">×${multiplier}</div>
-                `;
-            }
-            
-            // Update used multipliers count
-            usedMultipliers[multiplier]++;
-            
-            // Update UI
             totalGoalsDisplay.textContent = totalGoals;
-            updateMultiplierButtons();
             
             // Check if game is over
             if (placedPlayers >= maxSlots) {
@@ -279,12 +197,7 @@
             }
             
             // Get next player
-            const nextPlayer = getRandomPlayer();
-            if (nextPlayer) {
-                displayPlayer(nextPlayer);
-            } else {
-                endGame();
-            }
+            displayPlayer(getRandomPlayer());
         }
 
         // End the game
@@ -295,9 +208,6 @@
                 `Game Over! You scored ${totalGoals} goals (needed 3000).`;
             messageDisplay.className = success ? 'message success' : 'message failure';
             restartBtn.classList.remove('hidden');
-            
-            // Disable all multiplier buttons
-            multiplierBtns.forEach(btn => btn.disabled = true);
         }
 
         // Reset the game
@@ -306,28 +216,13 @@
             placedPlayers = 0;
             currentPlayer = null;
             
-            // Reset multiplier usage
-            for (const multiplier in usedMultipliers) {
-                usedMultipliers[multiplier] = 0;
-            }
-            
-            // Mark all players as unused
-            players.forEach(player => player.used = false);
-            
-            // Reset UI
             totalGoalsDisplay.textContent = '0';
             messageDisplay.textContent = '';
             messageDisplay.className = 'message';
             restartBtn.classList.add('hidden');
             
             initializeBoard();
-            updateMultiplierButtons();
-            
-            // Get first player
-            const firstPlayer = getRandomPlayer();
-            if (firstPlayer) {
-                displayPlayer(firstPlayer);
-            }
+            displayPlayer(getRandomPlayer());
         }
 
         // Start the game
@@ -340,17 +235,17 @@
         // Initialize the game
         async function initGame() {
             await loadPlayerData();
-            initializeBoard();
             
             // Set up event listeners
             startBtn.addEventListener('click', startGame);
             restartBtn.addEventListener('click', resetGame);
             
-            multiplierBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const multiplier = parseInt(btn.dataset.multiplier);
-                    placePlayer(multiplier);
-                });
+            // Board slot click handler
+            board.addEventListener('click', (e) => {
+                const slot = e.target.closest('.board-slot');
+                if (slot && !slot.classList.contains('filled')) {
+                    placePlayer(slot);
+                }
             });
         }
 
