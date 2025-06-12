@@ -126,6 +126,42 @@
         "goals": 43
     },
     {
+        "name": "Milorad Lazović",
+        "image": "../images/game1/milorad%20lazović.png",
+        "appearances": 128,
+        "goals": 43
+    },
+    {
+        "name": "Predrag Jurić",
+        "image": "../images/game1/predrag%20jurić.png",
+        "appearances": 91,
+        "goals": 42
+    },
+    {
+        "name": "Momčilo Vukoje",
+        "image": "../images/game1/momčilo%20vukoje.png",
+        "appearances": 268,
+        "goals": 40
+    },
+    {
+        "name": "Zejnil Selimotić",
+        "image": "../images/game1/zejnil%20selimotić.png",
+        "appearances": 278,
+        "goals": 37
+    },
+    {
+        "name": "Samir Ćemalović",
+        "image": "../images/game1/samir%20sćemalović.png",
+        "appearances": 182,
+        "goals": 36
+    },
+    {
+        "name": "Ševko Okić",
+        "image": "../images/game1/ševko%20okić.png",
+        "appearances": 109,
+        "goals": 34
+    },
+    {
         "name": "Anton Bolfek",
         "image": "https://krajneretve-rodjeni.com/images/players/anton%20bolfek.png",
         "appearances": 206,
