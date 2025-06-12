@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Higher or Lower: Football Players</title>
+    <title>Više ili manje</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -94,16 +94,16 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>Više ili Manje</h1>
+        <h1>Više/Manje</h1>
         
         <div id="setup-screen">
             <div class="game-mode">
-                <h2>Izaberi opciju:</h2>
+                <h2>Izaberi:</h2>
                 <button id="appearances-btn">Nastupi</button>
                 <button id="goals-btn">Golovi</button>
             </div>
             <div class="high-scores">
-                <h3>Rekord:</h3>
+                <h3>Rekordi:</h3>
                 <p>Nastupi: <span id="appearances-high-score">0</span></p>
                 <p>Golovi: <span id="goals-high-score">0</span></p>
             </div>
@@ -112,7 +112,7 @@
         <div id="game-screen" class="hidden">
             <div class="mode-indicator" id="mode-indicator"></div>
             <div class="score-container">
-                <div>Reuzltat: <span id="score">0</span></div>
+                <div>Rezultat: <span id="score">0</span></div>
                 <div>Rekord: <span id="current-high-score">0</span></div>
             </div>
             
@@ -130,7 +130,7 @@
                 </div>
             </div>
             
-            <button id="restart-btn" class="hidden">Igraj ponovo</button>
+            <button id="restart-btn" class="hidden">Play Again</button>
         </div>
     </div>
 
@@ -261,13 +261,16 @@
             const otherPlayer = currentPlayers[2 - choice];
             
             let selectedValue, otherValue;
+            let bosnianMode;
             
             if (gameMode === 'appearances') {
                 selectedValue = selectedPlayer.appearances;
                 otherValue = otherPlayer.appearances;
+                bosnianMode = 'nastupa';
             } else {
                 selectedValue = selectedPlayer.goals;
                 otherValue = otherPlayer.goals;
+                bosnianMode = 'golova';
             }
             
             if (selectedValue >= otherValue) {
@@ -295,7 +298,7 @@
                 // Wrong choice - game over
                 gameOver = true;
                 messageDisplay.textContent = 
-                    `Netačno! ${selectedPlayer.name} (${selectedValue}) ima manje ${gameMode} nego ${otherPlayer.name} (${otherValue}).`;
+                    `Netačno! ${selectedPlayer.name} (${selectedValue}) ima manje ${bosnianMode} nego ${otherPlayer.name} (${otherValue}).`;
                 
                 // Update high score if needed
                 if (score > highScores[gameMode]) {
