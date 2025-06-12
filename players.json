@@ -162,6 +162,36 @@
         "goals": 34
     },
     {
+        "name": "Nusmir Fajić",
+        "image": "../images/game1/nusmir%20fajić.png",
+        "appearances": 47,
+        "goals": 32
+    },
+    {
+        "name": "Nedim Jusufbegović",
+        "image": "../images/game1/nedim%20jusufbegović.png",
+        "appearances": 61,
+        "goals": 31
+    },
+    {
+        "name": "Elvis Ćorić",
+        "image": "../images/game1/elvis%20ćorić.png",
+        "appearances": 118,
+        "goals": 31
+    },
+    {
+        "name": "Nusret Čerkić",
+        "image": "../images/game1/nusret%20čerkić.png",
+        "appearances": 114,
+        "goals": 29
+    },
+    {
+        "name": "Vladimir Matijević",
+        "image": "../images/game1/vladimir%20matijević.png",
+        "appearances": 267,
+        "goals": 29
+    },
+    {
         "name": "Anton Bolfek",
         "image": "https://krajneretve-rodjeni.com/images/players/anton%20bolfek.png",
         "appearances": 206,
