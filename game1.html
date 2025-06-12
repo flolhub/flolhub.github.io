@@ -94,26 +94,26 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>Higher or Lower: Football Players</h1>
+        <h1>Više ili Manje</h1>
         
         <div id="setup-screen">
             <div class="game-mode">
-                <h2>Choose Game Mode:</h2>
-                <button id="appearances-btn">Higher Appearances</button>
-                <button id="goals-btn">Higher Goals</button>
+                <h2>Izaberi opciju:</h2>
+                <button id="appearances-btn">Nastupi</button>
+                <button id="goals-btn">Golovi</button>
             </div>
             <div class="high-scores">
-                <h3>High Scores:</h3>
-                <p>Appearances: <span id="appearances-high-score">0</span></p>
-                <p>Goals: <span id="goals-high-score">0</span></p>
+                <h3>Rekord:</h3>
+                <p>Nastupi: <span id="appearances-high-score">0</span></p>
+                <p>Golovi: <span id="goals-high-score">0</span></p>
             </div>
         </div>
         
         <div id="game-screen" class="hidden">
             <div class="mode-indicator" id="mode-indicator"></div>
             <div class="score-container">
-                <div>Score: <span id="score">0</span></div>
-                <div>High Score: <span id="current-high-score">0</span></div>
+                <div>Reuzltat: <span id="score">0</span></div>
+                <div>Rekord: <span id="current-high-score">0</span></div>
             </div>
             
             <div class="message" id="message"></div>
@@ -130,7 +130,7 @@
                 </div>
             </div>
             
-            <button id="restart-btn" class="hidden">Play Again</button>
+            <button id="restart-btn" class="hidden">Igraj ponovo</button>
         </div>
     </div>
 
@@ -294,7 +294,8 @@
             } else {
                 // Wrong choice - game over
                 gameOver = true;
-                messageDisplay.textContent = `Game Over! ${selectedPlayer.name} has fewer ${gameMode} than ${otherPlayer.name}.`;
+                messageDisplay.textContent = 
+                    `Netačno! ${selectedPlayer.name} (${selectedValue}) ima manje ${gameMode} nego ${otherPlayer.name} (${otherValue}).`;
                 
                 // Update high score if needed
                 if (score > highScores[gameMode]) {
