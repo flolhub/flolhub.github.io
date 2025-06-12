@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Više ili manje</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .options-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0px 0px;
+            flex-wrap: wrap;
+        }
+        .player-card {
+            width: 45%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        .player-card:hover {
+            transform: scale(1.05);
+            border-color: #4CAF50;
+        }
+        .player-card img {
+            width: 50%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .player-name {
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .score-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .message {
+            margin: 20px 0;
+            font-size: 20px;
+            min-height: 30px;
+            color: #d32f2f;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 0px 2px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .game-mode {
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .mode-indicator {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #2E7D32;
+        }
+        @media (max-width: 660px) {
+            .player-card {
+                width: 100%;
+            }
+        }
+      .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .modal-input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            box-sizing: border-box;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        .modal-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Više/Manje</h1>
+        
+        <div id="setup-screen">
+            <div class="game-mode">
+                <h2>Izaberi:</h2>
+                <button id="appearances-btn">Nastupi</button>
+                <button id="goals-btn">Golovi</button>
+            </div>
+            <div class="high-scores">
+                <h3>Rekordi:</h3>
+                <p>Nastupi: <span id="appearances-high-score">0</span></p>
+                <p>Golovi: <span id="goals-high-score">0</span></p>
+            </div>
+        </div>
+        
+        <div id="game-screen" class="hidden">
+            <div class="mode-indicator" id="mode-indicator"></div>
+            <div class="score-container">
+                <div>Rezultat: <span id="score">0</span></div>
+                <div>Rekord: <span id="current-high-score">0</span></div>
+            </div>
+            
+            <div class="message" id="message"></div>
+            
+            <div class="options-container">
+                <div class="player-card" id="player1" onclick="choosePlayer(1)">
+                    <img id="img1" src="" alt="Player 1">
+                    <div class="player-name" id="name1">Player 1</div>
+                </div>
+                
+                <div class="player-card" id="player2" onclick="choosePlayer(2)">
+                    <img id="img2" src="" alt="Player 2">
+                    <div class="player-name" id="name2">Player 2</div>
+                </div>
+            </div>
+            
+            <button id="restart-btn" class="hidden">Nova igra</button>
+        </div>
+        <i>Napomena: Dok ne završimo projekat Abecedarnik, ova igrica trenutno koristi spisak nastupa i golova iz knjige "Velež: Priča o 100 godina mostarskih rođenih" od Saše Ibrulja.</i>
+    </div>
+  <div id="highScoreModal" class="modal">
+            <div class="modal-content">
+                <h2>Novi rekord!</h2>
+                <p>Postigli ste <span id="modal-score">0</span> bodova za<span id="modal-mode">nastupe</span>!</p>
+                <input type="text" id="playerName" class="modal-input" placeholder="Upišite vaše ime" maxlength="20">
+                <button id="saveScoreBtn" class="modal-btn">Spasi</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Game variables
+    let players = [];
+    let currentPlayers = [];
+    let score = 0;
+    let highScores = {
+        appearances: 0,
+        goals: 0
+    };
+    let gameMode = '';
+    let gameOver = false;
+    let maxPlayer = null;
+    let bannedPlayer = null;
+    let lastSelectedSide = null;
+    let roundsWithCurrentPlayer = 0;
+    let currentMainPlayer = null;
+
+    // DOM elements
+    const setupScreen = document.getElementById('setup-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const scoreDisplay = document.getElementById('score');
+    const currentHighScoreDisplay = document.getElementById('current-high-score');
+    const appearancesHighScoreDisplay = document.getElementById('appearances-high-score');
+    const goalsHighScoreDisplay = document.getElementById('goals-high-score');
+    const messageDisplay = document.getElementById('message');
+    const restartBtn = document.getElementById('restart-btn');
+    const appearancesBtn = document.getElementById('appearances-btn');
+    const goalsBtn = document.getElementById('goals-btn');
+    
+    // Modal elements
+    const highScoreModal = document.getElementById('highScoreModal');
+    const modalScoreDisplay = document.getElementById('modal-score');
+    const modalModeDisplay = document.getElementById('modal-mode');
+    const playerNameInput = document.getElementById('playerName');
+    const saveScoreBtn = document.getElementById('saveScoreBtn');
+
+    // Load player data from JSON
+    async function loadPlayerData() {
+        try {
+            const response = await fetch('players.json');
+            players = await response.json();
+            
+            // Find max values
+            maxPlayer = {
+                appearances: Math.max(...players.map(p => p.appearances)),
+                goals: Math.max(...players.map(p => p.goals))
+            };
+        } catch (error) {
+            console.error("Error loading player data:", error);
+            messageDisplay.textContent = "Error loading player data. Please try again.";
+            messageDisplay.classList.add('failure');
+        }
+    }
+
+    // Save score data to server
+    async function saveHighScoreData(scoreData) {
+        try {
+            const response = await fetch('save-score.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(scoreData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to save score');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error("Error saving score:", error);
+            return false;
+        }
+    }
+
+    // Save high score with name
+    async function saveHighScore() {
+        const name = playerNameInput.value.trim();
+        if (!name) {
+            alert('Please enter your name');
+            return;
+        }
+
+        const scoreData = {
+            name: name,
+            score: score,
+            date: new Date().toISOString(),
+            mode: gameMode
+        };
+
+        const saved = await saveHighScoreData(scoreData);
+        if (saved) {
+            highScoreModal.style.display = 'none';
+            playerNameInput.value = '';
+            messageDisplay.textContent = `Game Over! ${name} scored ${score} ${gameMode === 'appearances' ? 'nastupa' : 'golova'}!`;
+            restartBtn.classList.remove('hidden');
+        } else {
+            alert('Failed to save score. Please try again.');
+        }
+    }
+
+    // Initialize the game
+    async function initGame() {
+        await loadPlayerData();
+        
+        // Load high scores from localStorage
+        const savedScores = localStorage.getItem('highScores');
+        if (savedScores) {
+            highScores = JSON.parse(savedScores);
+        }
+        appearancesHighScoreDisplay.textContent = highScores.appearances;
+        goalsHighScoreDisplay.textContent = highScores.goals;
+        
+        // Set up event listeners
+        appearancesBtn.addEventListener('click', () => startGame('appearances'));
+        goalsBtn.addEventListener('click', () => startGame('goals'));
+        restartBtn.addEventListener('click', resetGame);
+        saveScoreBtn.addEventListener('click', saveHighScore);
+        
+        // Close modal if clicked outside
+        window.addEventListener('click', (e) => {
+            if (e.target === highScoreModal) {
+                highScoreModal.style.display = 'none';
+            }
+        });
+    }
+
+    // Start the game with selected mode
+    function startGame(mode) {
+        gameMode = mode;
+        score = 0;
+        gameOver = false;
+        bannedPlayer = null;
+        lastSelectedSide = null;
+        roundsWithCurrentPlayer = 0;
+        currentMainPlayer = null;
+        
+        setupScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        restartBtn.classList.add('hidden');
+        
+        scoreDisplay.textContent = score;
+        messageDisplay.textContent = '';
+        currentHighScoreDisplay.textContent = highScores[mode];
+        
+        // Select two random players to start
+        currentPlayers = getTwoRandomPlayers();
+        displayPlayers();
+    }
+
+    // Get two random players (excluding banned player if exists)
+    function getTwoRandomPlayers() {
+        let availablePlayers = [...players];
+        
+        if (bannedPlayer) {
+            availablePlayers = availablePlayers.filter(p => p.name !== bannedPlayer.name);
+            bannedPlayer = null; // Only ban for one round
+        }
+        
+        const shuffled = [...availablePlayers].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 2);
+    }
+
+    // Display the current players
+    function displayPlayers() {
+        const player1 = currentPlayers[0];
+        const player2 = currentPlayers[1];
+        
+        document.getElementById('img1').src = player1.image;
+        document.getElementById('name1').textContent = player1.name;
+        document.getElementById('appearances1').textContent = player1.appearances;
+        document.getElementById('goals1').textContent = player1.goals;
+        
+        document.getElementById('img2').src = player2.image;
+        document.getElementById('name2').textContent = player2.name;
+        document.getElementById('appearances2').textContent = player2.appearances;
+        document.getElementById('goals2').textContent = player2.goals;
+    }
+
+    // Player makes a choice
+    function choosePlayer(choice) {
+        if (gameOver) return;
+        
+        lastSelectedSide = choice;
+        const selectedPlayer = currentPlayers[choice - 1];
+        const otherPlayer = currentPlayers[2 - choice];
+        
+        let selectedValue, otherValue;
+        let bosnianMode;
+        
+        if (gameMode === 'appearances') {
+            selectedValue = selectedPlayer.appearances;
+            otherValue = otherPlayer.appearances;
+            bosnianMode = 'nastupa';
+        } else {
+            selectedValue = selectedPlayer.goals;
+            otherValue = otherPlayer.goals;
+            bosnianMode = 'golova';
+        }
+        
+        if (selectedValue >= otherValue) {
+            // Correct choice
+            score++;
+            scoreDisplay.textContent = score;
+            
+            // Check if selected player has max value
+            const maxValue = gameMode === 'appearances' ? maxPlayer.appearances : maxPlayer.goals;
+            if (selectedValue === maxValue) {
+                // Ban this player for next round only
+                bannedPlayer = selectedPlayer;
+                // Get two new random players for next round
+                currentPlayers = getTwoRandomPlayers();
+            } else {
+                // Keep the selected player and get a new opponent
+                const newOpponent = getNewOpponent(selectedPlayer);
+                currentPlayers = lastSelectedSide === 1 ? 
+                    [selectedPlayer, newOpponent] : 
+                    [newOpponent, selectedPlayer];
+            }
+            
+            displayPlayers();
+        } else {
+            // Wrong choice - game over
+            gameOver = true;
+            messageDisplay.textContent = 
+                `Game Over! ${selectedPlayer.name} (${selectedValue}) ima manje ${bosnianMode} nego ${otherPlayer.name} (${otherValue}).`;
+            
+            // Update high score if needed
+            if (score > highScores[gameMode]) {
+                highScores[gameMode] = score;
+                currentHighScoreDisplay.textContent = highScores[gameMode];
+                
+                // Show high score modal
+                modalScoreDisplay.textContent = score;
+                modalModeDisplay.textContent = bosnianMode;
+                highScoreModal.style.display = 'block';
+                
+                // Update the specific high score display
+                if (gameMode === 'appearances') {
+                    appearancesHighScoreDisplay.textContent = highScores.appearances;
+                } else {
+                    goalsHighScoreDisplay.textContent = highScores.goals;
+                }
+                localStorage.setItem('highScores', JSON.stringify(highScores));
+            } else {
+                restartBtn.classList.remove('hidden');
+            }
+        }
+    }
+
+    // Get a new opponent for the selected player
+    function getNewOpponent(selectedPlayer) {
+        let availablePlayers = players.filter(player => 
+            player.name !== selectedPlayer.name && 
+            (!bannedPlayer || player.name !== bannedPlayer.name)
+        );
+        
+        // If no available players, return a random one
+        if (availablePlayers.length === 0) {
+            availablePlayers = players.filter(player => player.name !== selectedPlayer.name);
+        }
+        
+        const randomIndex = Math.floor(Math.random() * availablePlayers.length);
+        return availablePlayers[randomIndex];
+    }
+
+    // Reset the game
+    function resetGame() {
+        setupScreen.classList.remove('hidden');
+        gameScreen.classList.add('hidden');
+        
+        // Reload high scores to ensure they're current
+        const savedScores = localStorage.getItem('highScores');
+        if (savedScores) {
+            highScores = JSON.parse(savedScores);
+            appearancesHighScoreDisplay.textContent = highScores.appearances;
+            goalsHighScoreDisplay.textContent = highScores.goals;
+        }
+    }
+
+    // Start the game when page loads
+    window.onload = initGame;
+</script>
+</body>
+</html>
