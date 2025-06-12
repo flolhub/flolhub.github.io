@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,6 @@
         }
         .player-card {
             width: 45%;
-            min-width: 250px;
             border: 2px solid #ddd;
             border-radius: 8px;
             padding: 15px;
@@ -89,6 +88,11 @@
             margin-bottom: 10px;
             font-size: 18px;
             color: #2E7D32;
+        }
+        @media (max-width: 660px) {
+            .player-card {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -224,7 +228,7 @@
         
         scoreDisplay.textContent = score;
         messageDisplay.textContent = '';
-        modeIndicator.textContent = `Mode: Higher ${mode}`;
+        modeIndicator.textContent = `Pravila: Izaberite ko ima više nastupa/golova između ova dva igrača.`;
         currentHighScoreDisplay.textContent = highScores[mode];
         
         // Select two random players to start
