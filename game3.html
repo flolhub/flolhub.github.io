@@ -89,31 +89,28 @@
             font-size: 18px;
             color: #2E7D32;
         }
+        .username-section {
+            margin: 20px 0;
+        }
+        #username {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            width: 200px;
+        }
+        #save-btn[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #save-btn[disabled]:hover {
+            background-color: #cccccc;
+        }
         @media (max-width: 660px) {
             .player-card {
                 width: 100%;
             }
         }
-        .username-section {
-    margin: 20px 0;
-}
-
-#username {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-    width: 200px;
-}
-
-#save-btn[disabled] {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-#save-btn[disabled]:hover {
-    background-color: #cccccc;
-}
     </style>
 </head>
 <body>
@@ -134,7 +131,7 @@
             <div class="username-section">
                 <input type="text" id="username" placeholder="Unesi svoje ime" maxlength="20">
                 <button id="save-btn" disabled>Sačuvaj rezultat</button>
-</div>
+            </div>
         </div>
         
         <div id="game-screen" class="hidden">
@@ -163,7 +160,25 @@
         <i>Napomena: Dok ne završimo projekat Abecedarnik, ova igrica trenutno koristi spisak nastupa i golova iz knjige "Velež: Priča o 100 godina mostarskih rođenih" od Saše Ibrulja.</i>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script>
+    // Firebase configuration - REPLACE WITH YOUR CONFIG
+    const firebaseConfig = {
+      apiKey: "AIzaSyDjxTYiGjicfv8gVfeUV27eSXEeToxzHmI",
+      authDomain: "velez-highscores.firebaseapp.com",
+      projectId: "velez-highscores",
+      storageBucket: "velez-highscores.firebasestorage.app",
+      messagingSenderId: "185579966696",
+      appId: "1:185579966696:web:2785e72ea8efdbc318f95d"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     // Game variables
     let players = [];
     let currentPlayers = [];
@@ -177,8 +192,8 @@
     let maxPlayer = null;
     let bannedPlayer = null;
     let lastSelectedSide = null;
-    let roundsWithCurrentPlayer = 0; // Track how many rounds the current player has stayed
-    let currentMainPlayer = null; // Track the main player being compared against
+    let roundsWithCurrentPlayer = 0;
+    let currentMainPlayer = null;
     let username = '';
 
     // DOM elements
@@ -202,7 +217,6 @@
             const response = await fetch('players.json');
             players = await response.json();
             
-            // Find max values
             maxPlayer = {
                 appearances: Math.max(...players.map(p => p.appearances)),
                 goals: Math.max(...players.map(p => p.goals))
@@ -237,10 +251,9 @@
         appearancesBtn.addEventListener('click', () => startGame('appearances'));
         goalsBtn.addEventListener('click', () => startGame('goals'));
         restartBtn.addEventListener('click', resetGame);
-        saveBtn.addEventListener('click', saveScoreToJSON);
+        saveBtn.addEventListener('click', saveScoreToFirebase);
         usernameInput.addEventListener('input', updateUsername);
         
-        // Initialize save button state
         saveBtn.disabled = true;
     }
 
@@ -250,60 +263,23 @@
         saveBtn.disabled = username.length === 0 || !gameOver;
     }
 
-    async function saveScoreToJSON() {
-    if (!username || !gameOver) return;
+    // Save score to Firebase
+    async function saveScoreToFirebase() {
+        if (!username || !gameOver) return;
 
-    const scoreData = {
-        username: username,
-        score: score,
-        mode: gameMode,
-        date: new Date().toISOString().split('T')[0] // YYYY-MM-DD
-    };
-
-    try {
-        // Fetch existing highscores
-        const repo = "flolhub/flolhub.github.io"; // Replace with your repo
-        const filePath = "highscores.json"; // Path in your repo
-        const apiUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
-        
-        // Use GitHub API with PAT (SECURE - DON'T HARDCODE IN PRODUCTION)
-        const response = await fetch(apiUrl, {
-            headers: {
-                "Authorization": "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", // 🔴 Replace with PAT
-                "Accept": "application/vnd.github.v3+json"
-            }
-        });
-        
-        const fileData = await response.json();
-        const existingContent = JSON.parse(atob(fileData.content));
-        
-        // Add new score
-        existingContent.push(scoreData);
-        
-        // Update file on GitHub
-        const updateResponse = await fetch(apiUrl, {
-            method: "PUT",
-            headers: {
-                "Authorization": "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", // 🔴 Replace with PAT
-                "Accept": "application/vnd.github.v3+json"
-            },
-            body: JSON.stringify({
-                message: "Update highscores via game",
-                content: btoa(JSON.stringify(existingContent, null, 2)),
-                sha: fileData.sha // Required to update existing file
-            })
-        });
-        
-        if (updateResponse.ok) {
-            messageDisplay.textContent = `Rezultat za ${username} je sačuvan na GitHub-u!`;
-        } else {
-            throw new Error("Failed to update GitHub");
+        try {
+            await db.collection("scores").add({
+                username: username,
+                score: score,
+                mode: gameMode,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            messageDisplay.textContent = `Rezultat za ${username} je sačuvan!`;
+        } catch (error) {
+            console.error("Greška pri čuvanju:", error);
+            messageDisplay.textContent = "Greška pri čuvanju rezultata.";
         }
-    } catch (error) {
-        console.error("Error saving score:", error);
-        messageDisplay.textContent = "Greška pri čuvanju rezultata.";
     }
-}
 
     // Start the game with selected mode
     function startGame(mode) {
@@ -325,18 +301,17 @@
         modeIndicator.textContent = `Pravila: Izaberite ko ima više nastupa/golova između ova dva igrača.`;
         currentHighScoreDisplay.textContent = highScores[mode];
         
-        // Select two random players to start
         currentPlayers = getTwoRandomPlayers();
         displayPlayers();
     }
 
-    // Get two random players (excluding banned player if exists)
+    // Get two random players
     function getTwoRandomPlayers() {
         let availablePlayers = [...players];
         
         if (bannedPlayer) {
             availablePlayers = availablePlayers.filter(p => p.name !== bannedPlayer.name);
-            bannedPlayer = null; // Only ban for one round
+            bannedPlayer = null;
         }
         
         const shuffled = [...availablePlayers].sort(() => 0.5 - Math.random());
@@ -377,14 +352,11 @@
         }
         
         if (selectedValue >= otherValue) {
-            // Correct choice
             score++;
             scoreDisplay.textContent = score;
             roundsWithCurrentPlayer++;
             
-            // Check if we've had 5 rounds with the same main player
             if (currentMainPlayer && currentMainPlayer.name === selectedPlayer.name && roundsWithCurrentPlayer >= 5) {
-                // Reset with two new random players
                 currentPlayers = getTwoRandomPlayers();
                 roundsWithCurrentPlayer = 0;
                 currentMainPlayer = null;
@@ -392,23 +364,18 @@
                 return;
             }
             
-            // Check if selected player has max value
             const maxValue = gameMode === 'appearances' ? maxPlayer.appearances : maxPlayer.goals;
             if (selectedValue === maxValue) {
-                // Ban this player for next round only
                 bannedPlayer = selectedPlayer;
-                // Get two new random players for next round
                 currentPlayers = getTwoRandomPlayers();
                 roundsWithCurrentPlayer = 0;
                 currentMainPlayer = null;
             } else {
-                // Set or update the main player
                 if (!currentMainPlayer || currentMainPlayer.name !== selectedPlayer.name) {
                     currentMainPlayer = selectedPlayer;
                     roundsWithCurrentPlayer = 1;
                 }
                 
-                // Keep the selected player on their original side and get a new opponent
                 const newOpponent = getNewOpponent(selectedPlayer);
                 currentPlayers = lastSelectedSide === 1 ? 
                     [selectedPlayer, newOpponent] : 
@@ -417,12 +384,10 @@
             
             displayPlayers();
         } else {
-            // Wrong choice - game over
             gameOver = true;
             messageDisplay.textContent = 
                 `Netačno! ${selectedPlayer.name} (${selectedValue}) ima manje ${bosnianMode} nego ${otherPlayer.name} (${otherValue}).`;
             
-            // Update high score if needed
             if (score > highScores[gameMode]) {
                 highScores[gameMode] = score;
                 currentHighScoreDisplay.textContent = highScores[gameMode];
@@ -439,14 +404,13 @@
         }
     }
 
-    // Get a new opponent for the selected player
+    // Get a new opponent
     function getNewOpponent(selectedPlayer) {
         let availablePlayers = players.filter(player => 
             player.name !== selectedPlayer.name && 
             (!bannedPlayer || player.name !== bannedPlayer.name)
         );
         
-        // If no available players (unlikely with reasonable dataset), return a random one
         if (availablePlayers.length === 0) {
             availablePlayers = players.filter(player => player.name !== selectedPlayer.name);
         }
@@ -459,12 +423,12 @@
     function resetGame() {
         setupScreen.classList.remove('hidden');
         gameScreen.classList.add('hidden');
-        loadHighScores(); // Refresh high scores display
+        loadHighScores();
         saveBtn.disabled = true;
     }
 
     // Initialize the game when the page loads
     window.onload = initGame;
-</script>
+    </script>
 </body>
 </html>
