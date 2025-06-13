@@ -167,14 +167,14 @@
     <script>
     // Firebase configuration - REPLACE WITH YOUR CONFIG
     const firebaseConfig = {
-      apiKey: "AIzaSyDjxTYiGjicfv8gVfeUV27eSXEeToxzHmI",
-      authDomain: "velez-highscores.firebaseapp.com",
-      projectId: "velez-highscores",
-      storageBucket: "velez-highscores.firebasestorage.app",
-      messagingSenderId: "185579966696",
-      appId: "1:185579966696:web:2785e72ea8efdbc318f95d"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
     };
-
+    
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
@@ -195,6 +195,7 @@
     let roundsWithCurrentPlayer = 0;
     let currentMainPlayer = null;
     let username = '';
+    let scoreSaved = false;
 
     // DOM elements
     const setupScreen = document.getElementById('setup-screen');
@@ -260,13 +261,15 @@
     // Update username and save button state
     function updateUsername() {
         username = this.value.trim();
-        saveBtn.disabled = username.length === 0 || !gameOver;
+        saveBtn.disabled = username.length === 0 || !gameOver || scoreSaved;
     }
 
     // Save score to Firebase
     async function saveScoreToFirebase() {
-        if (!username || !gameOver) return;
+        if (!username || !gameOver || scoreSaved) return;
 
+        saveBtn.disabled = true;
+        
         try {
             await db.collection("scores").add({
                 username: username,
@@ -275,9 +278,11 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             messageDisplay.textContent = `Rezultat za ${username} je sačuvan!`;
+            scoreSaved = true;
         } catch (error) {
             console.error("Greška pri čuvanju:", error);
             messageDisplay.textContent = "Greška pri čuvanju rezultata.";
+            saveBtn.disabled = false;
         }
     }
 
@@ -290,6 +295,7 @@
         lastSelectedSide = null;
         roundsWithCurrentPlayer = 0;
         currentMainPlayer = null;
+        scoreSaved = false;
         
         setupScreen.classList.add('hidden');
         gameScreen.classList.remove('hidden');
@@ -400,7 +406,7 @@
             }
             
             restartBtn.classList.remove('hidden');
-            saveBtn.disabled = username.length === 0;
+            saveBtn.disabled = username.length === 0 || scoreSaved;
         }
     }
 
