@@ -250,35 +250,60 @@
         saveBtn.disabled = username.length === 0 || !gameOver;
     }
 
-    // Save score to JSON file
     async function saveScoreToJSON() {
-        if (!username || !gameOver) return;
+    if (!username || !gameOver) return;
+
+    const scoreData = {
+        username: username,
+        score: score,
+        mode: gameMode,
+        date: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+    };
+
+    try {
+        // Fetch existing highscores
+        const repo = "flolhub/flolhub.github.io"; // Replace with your repo
+        const filePath = "highscores.json"; // Path in your repo
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
         
-        const scoreData = {
-            username: username,
-            score: score,
-            mode: gameMode,
-            date: new Date().toISOString().split('T')[0] // YYYY-MM-DD format
-        };
+        // Use GitHub API with PAT (SECURE - DON'T HARDCODE IN PRODUCTION)
+        const response = await fetch(apiUrl, {
+            headers: {
+                "Authorization": "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", // 🔴 Replace with PAT
+                "Accept": "application/vnd.github.v3+json"
+            }
+        });
         
-        try {
-            // Create and download JSON file
-            const dataStr = JSON.stringify(scoreData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportName = `highscore_${username}_${new Date().toISOString().slice(0,10)}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportName);
-            linkElement.click();
-            
-            messageDisplay.textContent = `Rezultat za ${username} je sačuvan!`;
-        } catch (error) {
-            console.error("Error saving score:", error);
-            messageDisplay.textContent = "Greška pri čuvanju rezultata.";
+        const fileData = await response.json();
+        const existingContent = JSON.parse(atob(fileData.content));
+        
+        // Add new score
+        existingContent.push(scoreData);
+        
+        // Update file on GitHub
+        const updateResponse = await fetch(apiUrl, {
+            method: "PUT",
+            headers: {
+                "Authorization": "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", // 🔴 Replace with PAT
+                "Accept": "application/vnd.github.v3+json"
+            },
+            body: JSON.stringify({
+                message: "Update highscores via game",
+                content: btoa(JSON.stringify(existingContent, null, 2)),
+                sha: fileData.sha // Required to update existing file
+            })
+        });
+        
+        if (updateResponse.ok) {
+            messageDisplay.textContent = `Rezultat za ${username} je sačuvan na GitHub-u!`;
+        } else {
+            throw new Error("Failed to update GitHub");
         }
+    } catch (error) {
+        console.error("Error saving score:", error);
+        messageDisplay.textContent = "Greška pri čuvanju rezultata.";
     }
+}
 
     // Start the game with selected mode
     function startGame(mode) {
