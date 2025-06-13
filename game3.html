@@ -94,47 +94,26 @@
                 width: 100%;
             }
         }
-      .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .modal-input {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            box-sizing: border-box;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-        }
-        .modal-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 5px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+        .username-section {
+    margin: 20px 0;
+}
+
+#username {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+#save-btn[disabled] {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#save-btn[disabled]:hover {
+    background-color: #cccccc;
+}
     </style>
 </head>
 <body>
@@ -152,6 +131,10 @@
                 <p>Nastupi: <span id="appearances-high-score">0</span></p>
                 <p>Golovi: <span id="goals-high-score">0</span></p>
             </div>
+            <div class="username-section">
+                <input type="text" id="username" placeholder="Unesi svoje ime" maxlength="20">
+                <button id="save-btn" disabled>Sačuvaj rezultat</button>
+</div>
         </div>
         
         <div id="game-screen" class="hidden">
@@ -179,6 +162,7 @@
         </div>
         <i>Napomena: Dok ne završimo projekat Abecedarnik, ova igrica trenutno koristi spisak nastupa i golova iz knjige "Velež: Priča o 100 godina mostarskih rođenih" od Saše Ibrulja.</i>
     </div>
+
     <script>
     // Game variables
     let players = [];
@@ -193,6 +177,9 @@
     let maxPlayer = null;
     let bannedPlayer = null;
     let lastSelectedSide = null;
+    let roundsWithCurrentPlayer = 0; // Track how many rounds the current player has stayed
+    let currentMainPlayer = null; // Track the main player being compared against
+    let username = '';
 
     // DOM elements
     const setupScreen = document.getElementById('setup-screen');
@@ -202,16 +189,12 @@
     const appearancesHighScoreDisplay = document.getElementById('appearances-high-score');
     const goalsHighScoreDisplay = document.getElementById('goals-high-score');
     const messageDisplay = document.getElementById('message');
+    const modeIndicator = document.getElementById('mode-indicator');
     const restartBtn = document.getElementById('restart-btn');
     const appearancesBtn = document.getElementById('appearances-btn');
     const goalsBtn = document.getElementById('goals-btn');
-    
-    // Modal elements
-    const highScoreModal = document.getElementById('highScoreModal');
-    const modalScoreDisplay = document.getElementById('modal-score');
-    const modalModeDisplay = document.getElementById('modal-mode');
-    const playerNameInput = document.getElementById('playerName');
-    const saveScoreBtn = document.getElementById('saveScoreBtn');
+    const usernameInput = document.getElementById('username');
+    const saveBtn = document.getElementById('save-btn');
 
     // Load player data from JSON
     async function loadPlayerData() {
@@ -226,101 +209,75 @@
             };
         } catch (error) {
             console.error("Error loading player data:", error);
-            messageDisplay.textContent = "Greška pri učitavanju podataka o igračima. Pokušajte ponovo.";
-            messageDisplay.classList.add('failure');
+            messageDisplay.textContent = "Error loading player data. Please try again.";
         }
     }
 
-    // Save score data to server
-    async function saveHighScoreData(scoreData) {
-        try {
-            // For testing without a server, we'll simulate saving
-            console.log("Saving score:", scoreData);
-            
-            // In a real implementation, you would use:
-            /*
-            const response = await fetch('save-score.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(scoreData)
-            });
-            
-            if (!response.ok) throw new Error('Failed to save score');
-            return await response.json();
-            */
-            
-            // Simulate successful save
-            return { success: true };
-        } catch (error) {
-            console.error("Error saving score:", error);
-            return { success: false, error: error.message };
+    // Load high scores from localStorage
+    function loadHighScores() {
+        const savedScores = localStorage.getItem('highScores');
+        if (savedScores) {
+            highScores = JSON.parse(savedScores);
         }
+        appearancesHighScoreDisplay.textContent = highScores.appearances;
+        goalsHighScoreDisplay.textContent = highScores.goals;
     }
 
-    // Save high score with name
-    async function saveHighScore() {
-        const name = playerNameInput.value.trim();
-        if (!name) {
-            alert('Molimo unesite vaše ime');
-            return;
-        }
-
-        const scoreData = {
-            name: name,
-            score: score,
-            date: new Date().toISOString(),
-            mode: gameMode,
-            modeDisplay: gameMode === 'appearances' ? 'nastupa' : 'golova'
-        };
-
-        try {
-            const result = await saveHighScoreData(scoreData);
-            if (result.success) {
-                highScoreModal.style.display = 'none';
-                playerNameInput.value = '';
-                messageDisplay.textContent = `Igra završena! ${name} osvojio ${score} ${gameMode === 'appearances' ? 'nastupa' : 'golova'}!`;
-                messageDisplay.className = 'message success';
-                restartBtn.classList.remove('hidden');
-                
-                // Update local high score display
-                highScores[gameMode] = score;
-                localStorage.setItem('highScores', JSON.stringify(highScores));
-                currentHighScoreDisplay.textContent = score;
-            } else {
-                alert(`Greška pri čuvanju rezultata: ${result.error || 'Nepoznata greška'}`);
-            }
-        } catch (error) {
-            console.error("Save error:", error);
-            alert("Došlo je do greške pri čuvanju rezultata. Pokušajte ponovo.");
-        }
+    // Save high scores to localStorage
+    function saveHighScores() {
+        localStorage.setItem('highScores', JSON.stringify(highScores));
     }
 
     // Initialize the game
     async function initGame() {
         await loadPlayerData();
-        
-        // Load high scores from localStorage
-        const savedScores = localStorage.getItem('highScores');
-        if (savedScores) {
-            highScores = JSON.parse(savedScores);
-        }
-        appearancesHighScoreDisplay.textContent = highScores.appearances || 0;
-        goalsHighScoreDisplay.textContent = highScores.goals || 0;
+        loadHighScores();
         
         // Set up event listeners
         appearancesBtn.addEventListener('click', () => startGame('appearances'));
         goalsBtn.addEventListener('click', () => startGame('goals'));
         restartBtn.addEventListener('click', resetGame);
-        saveScoreBtn.addEventListener('click', saveHighScore);
+        saveBtn.addEventListener('click', saveScoreToJSON);
+        usernameInput.addEventListener('input', updateUsername);
         
-        // Close modal if clicked outside
-        window.addEventListener('click', (e) => {
-            if (e.target === highScoreModal) {
-                highScoreModal.style.display = 'none';
-            }
-        });
+        // Initialize save button state
+        saveBtn.disabled = true;
+    }
+
+    // Update username and save button state
+    function updateUsername() {
+        username = this.value.trim();
+        saveBtn.disabled = username.length === 0 || !gameOver;
+    }
+
+    // Save score to JSON file
+    async function saveScoreToJSON() {
+        if (!username || !gameOver) return;
+        
+        const scoreData = {
+            username: username,
+            score: score,
+            mode: gameMode,
+            date: new Date().toISOString().split('T')[0] // YYYY-MM-DD format
+        };
+        
+        try {
+            // Create and download JSON file
+            const dataStr = JSON.stringify(scoreData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportName = `highscore_${username}_${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportName);
+            linkElement.click();
+            
+            messageDisplay.textContent = `Rezultat za ${username} je sačuvan!`;
+        } catch (error) {
+            console.error("Error saving score:", error);
+            messageDisplay.textContent = "Greška pri čuvanju rezultata.";
+        }
     }
 
     // Start the game with selected mode
@@ -330,16 +287,18 @@
         gameOver = false;
         bannedPlayer = null;
         lastSelectedSide = null;
+        roundsWithCurrentPlayer = 0;
+        currentMainPlayer = null;
         
         setupScreen.classList.add('hidden');
         gameScreen.classList.remove('hidden');
         restartBtn.classList.add('hidden');
-        highScoreModal.style.display = 'none';
+        saveBtn.disabled = true;
         
         scoreDisplay.textContent = score;
         messageDisplay.textContent = '';
-        messageDisplay.className = 'message';
-        currentHighScoreDisplay.textContent = highScores[mode] || 0;
+        modeIndicator.textContent = `Pravila: Izaberite ko ima više nastupa/golova između ova dva igrača.`;
+        currentHighScoreDisplay.textContent = highScores[mode];
         
         // Select two random players to start
         currentPlayers = getTwoRandomPlayers();
@@ -352,60 +311,32 @@
         
         if (bannedPlayer) {
             availablePlayers = availablePlayers.filter(p => p.name !== bannedPlayer.name);
-            bannedPlayer = null;
+            bannedPlayer = null; // Only ban for one round
         }
         
-        // Ensure we get two different players
-        if (availablePlayers.length < 2) {
-            availablePlayers = [...players];
-        }
-        
-        const player1 = availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
-        let player2;
-        do {
-            player2 = availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
-        } while (player2.name === player1.name && availablePlayers.length > 1);
-        
-        return [player1, player2];
+        const shuffled = [...availablePlayers].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 2);
     }
 
-    // Display the current players (FIXED second player bug)
+    // Display the current players
     function displayPlayers() {
-        if (!currentPlayers[0] || !currentPlayers[1]) {
-            console.error("Invalid players array:", currentPlayers);
-            currentPlayers = getTwoRandomPlayers();
-        }
-        
         const player1 = currentPlayers[0];
         const player2 = currentPlayers[1];
         
-        // Safely update DOM elements
-        if (player1) {
-            document.getElementById('img1').src = player1.image || '';
-            document.getElementById('name1').textContent = player1.name || 'Igrač 1';
-            document.getElementById('appearances1').textContent = player1.appearances || 0;
-            document.getElementById('goals1').textContent = player1.goals || 0;
-        }
+        document.getElementById('img1').src = player1.image;
+        document.getElementById('name1').textContent = player1.name;
         
-        if (player2) {
-            document.getElementById('img2').src = player2.image || '';
-            document.getElementById('name2').textContent = player2.name || 'Igrač 2';
-            document.getElementById('appearances2').textContent = player2.appearances || 0;
-            document.getElementById('goals2').textContent = player2.goals || 0;
-        }
+        document.getElementById('img2').src = player2.image;
+        document.getElementById('name2').textContent = player2.name;
     }
 
-    // Player makes a choice (FIXED comparison logic)
+    // Player makes a choice
     function choosePlayer(choice) {
         if (gameOver) return;
         
+        lastSelectedSide = choice;
         const selectedPlayer = currentPlayers[choice - 1];
-        const otherPlayer = currentPlayers[choice === 1 ? 1 : 0]; // Fixed index selection
-        
-        if (!selectedPlayer || !otherPlayer) {
-            console.error("Invalid player selection");
-            return;
-        }
+        const otherPlayer = currentPlayers[2 - choice];
         
         let selectedValue, otherValue;
         let bosnianMode;
@@ -424,15 +355,37 @@
             // Correct choice
             score++;
             scoreDisplay.textContent = score;
+            roundsWithCurrentPlayer++;
+            
+            // Check if we've had 5 rounds with the same main player
+            if (currentMainPlayer && currentMainPlayer.name === selectedPlayer.name && roundsWithCurrentPlayer >= 5) {
+                // Reset with two new random players
+                currentPlayers = getTwoRandomPlayers();
+                roundsWithCurrentPlayer = 0;
+                currentMainPlayer = null;
+                displayPlayers();
+                return;
+            }
             
             // Check if selected player has max value
             const maxValue = gameMode === 'appearances' ? maxPlayer.appearances : maxPlayer.goals;
             if (selectedValue === maxValue) {
+                // Ban this player for next round only
                 bannedPlayer = selectedPlayer;
+                // Get two new random players for next round
                 currentPlayers = getTwoRandomPlayers();
+                roundsWithCurrentPlayer = 0;
+                currentMainPlayer = null;
             } else {
+                // Set or update the main player
+                if (!currentMainPlayer || currentMainPlayer.name !== selectedPlayer.name) {
+                    currentMainPlayer = selectedPlayer;
+                    roundsWithCurrentPlayer = 1;
+                }
+                
+                // Keep the selected player on their original side and get a new opponent
                 const newOpponent = getNewOpponent(selectedPlayer);
-                currentPlayers = choice === 1 ? 
+                currentPlayers = lastSelectedSide === 1 ? 
                     [selectedPlayer, newOpponent] : 
                     [newOpponent, selectedPlayer];
             }
@@ -441,19 +394,23 @@
         } else {
             // Wrong choice - game over
             gameOver = true;
-            const selectedName = selectedPlayer?.name || "Igrač";
-            const otherName = otherPlayer?.name || "Igrač";
             messageDisplay.textContent = 
-                `Igra završena! ${selectedName} (${selectedValue}) ima manje ${bosnianMode} nego ${otherName} (${otherValue}).`;
+                `Netačno! ${selectedPlayer.name} (${selectedValue}) ima manje ${bosnianMode} nego ${otherPlayer.name} (${otherValue}).`;
             
             // Update high score if needed
-            if (score > (highScores[gameMode] || 0)) {
-                modalScoreDisplay.textContent = score;
-                modalModeDisplay.textContent = bosnianMode;
-                highScoreModal.style.display = 'block';
-            } else {
-                restartBtn.classList.remove('hidden');
+            if (score > highScores[gameMode]) {
+                highScores[gameMode] = score;
+                currentHighScoreDisplay.textContent = highScores[gameMode];
+                if (gameMode === 'appearances') {
+                    appearancesHighScoreDisplay.textContent = highScores.appearances;
+                } else {
+                    goalsHighScoreDisplay.textContent = highScores.goals;
+                }
+                saveHighScores();
             }
+            
+            restartBtn.classList.remove('hidden');
+            saveBtn.disabled = username.length === 0;
         }
     }
 
@@ -464,34 +421,25 @@
             (!bannedPlayer || player.name !== bannedPlayer.name)
         );
         
+        // If no available players (unlikely with reasonable dataset), return a random one
         if (availablePlayers.length === 0) {
             availablePlayers = players.filter(player => player.name !== selectedPlayer.name);
         }
         
-        if (availablePlayers.length === 0) {
-            availablePlayers = [...players];
-        }
-        
-        return availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
+        const randomIndex = Math.floor(Math.random() * availablePlayers.length);
+        return availablePlayers[randomIndex];
     }
 
     // Reset the game
     function resetGame() {
         setupScreen.classList.remove('hidden');
         gameScreen.classList.add('hidden');
+        loadHighScores(); // Refresh high scores display
+        saveBtn.disabled = true;
     }
 
-    // Start the game when page loads
+    // Initialize the game when the page loads
     window.onload = initGame;
 </script>
-    <div id="highScoreModal" class="modal">
-            <div class="modal-content">
-                <h2>Novi rekord!</h2>
-                <p>Postigli ste <span id="modal-score">0</span> bodova za<span id="modal-mode">nastupe</span>!</p>
-                <input type="text" id="playerName" class="modal-input" placeholder="Upišite vaše ime" maxlength="20">
-                <button id="saveScoreBtn" class="modal-btn">Spasi</button>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
