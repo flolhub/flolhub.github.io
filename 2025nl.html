@@ -262,14 +262,14 @@
             {
                 "name": "GL/PvdA",
                 "color": "#DF111A",
-                "minSeats": 18,
+                "minSeats": 17,
                 "defaultSeats": 24, 
                 "maxSeats": 30
             },
             {
                 "name": "PvdD",
                 "color": "#006B2D",
-                "minSeats": 3,
+                "minSeats": 2,
                 "defaultSeats": 4,
                 "maxSeats": 7
             },
@@ -285,21 +285,21 @@
                 "color": "#00A7EB",
                 "minSeats": 2,
                 "defaultSeats": 3,
-                "maxSeats": 5
+                "maxSeats": 6
             },
             {
                 "name": "Volt",
                 "color": "#582C83",
                 "minSeats": 2,
                 "defaultSeats": 3,
-                "maxSeats": 6
+                "maxSeats": 5
             },
             {
                 "name": "D66",
                 "color": "#00AE41",
-                "minSeats": 8,
+                "minSeats": 7,
                 "defaultSeats": 13,
-                "maxSeats": 19
+                "maxSeats": 23
             },
             {
                 "name": "DENK",
@@ -311,37 +311,37 @@
             {
                 "name": "CDA",
                 "color": "#2CC84D",
-                "minSeats": 20,
+                "minSeats": 18,
                 "defaultSeats": 24,
-                "maxSeats": 34
+                "maxSeats": 32
             },
             {
                 "name": "VVD",
                 "color": "#0A2CCA",
-                "minSeats": 12,
+                "minSeats": 10,
                 "defaultSeats": 14,
-                "maxSeats": 21
+                "maxSeats": 22
             },
             {
                 "name": "BBB",
                 "color": "#94C11F",
                 "minSeats": 2,
                 "defaultSeats": 4,
-                "maxSeats": 10
+                "maxSeats": 9
             },
             {
                 "name": "SGP",
                 "color": "#EA5B0B",
-                "minSeats": 3,
+                "minSeats": 2,
                 "defaultSeats": 3,
                 "maxSeats": 4
             },
             {
                 "name": "PVV",
                 "color": "#012758",
-                "minSeats": 22,
+                "minSeats": 19,
                 "defaultSeats": 32,
-                "maxSeats": 35
+                "maxSeats": 36
             },
             {
                 "name": "FvD",
@@ -355,14 +355,14 @@
                 "color": "#242B57",
                 "minSeats": 7,
                 "defaultSeats": 13,
-                "maxSeats": 15
+                "maxSeats": 19
             },
             {
                 "name": "50PLUS",
                 "color": "#92107D",
                 "minSeats": 0,
                 "defaultSeats": 1,
-                "maxSeats": 3
+                "maxSeats": 2
             }
         ];
 
@@ -468,7 +468,7 @@
             const numRows = 8;
             const seatSize = Math.max(8, Math.min(20, (containerWidth * 0.8) / (totalGeneratedSeats / numRows)));
             const outerRadius = containerHeight * 0.9; 
-            const innerRadius = containerHeight * 0.2; 
+            const innerRadius = containerHeight * 0.33; 
             const radiusStep = (outerRadius - innerRadius) / (numRows - 1);
             let seatsInRows = calculateSeatsPerRow(totalGeneratedSeats, numRows, innerRadius, outerRadius);
             
