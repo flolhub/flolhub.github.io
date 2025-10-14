@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parliament Simulator</title><meta property="og:title" content="Parliament Simulator">
-	<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Dutch_House_of_Representatives%2C_December_2023%2C_English_Wiki_colours.svg/1920px-Dutch_House_of_Representatives%2C_December_2023%2C_English_Wiki_colours.svg.png">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Dutch_House_of_Representatives%2C_December_2023%2C_English_Wiki_colours.svg/1920px-Dutch_House_of_Representatives%2C_December_2023%2C_English_Wiki_colours.svg.png">
     <meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/2025nl">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             max-width: 670px;
             margin: 0 auto;
             padding: 20px;
@@ -18,58 +19,79 @@
             color: #333;
         }
         .parliament {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2px;
+            position: relative;
+            width: 100%;
+            min-height: 350px;
             margin: 30px 0;
             border: 1px solid #ddd;
             padding: 5px;
-            min-height: 100px;
+            box-sizing: border-box;
+            overflow: hidden;
         }
         .seat {
-            width: 20px;
-            height: 20px;
-            background-color: #eee;
-            display: inline-block;
+            position: absolute;
             cursor: pointer;
+            border-radius: 50%;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
         .party-info {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
         .party-card {
             border: 1px solid #ddd;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
             min-width: 134px;
             cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: white;
+        }
+        .party-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .party-card.selected {
-            background-color: #e6f7ff;
-            border-color: #1890ff;
+            box-shadow: 0 0 0 3px var(--party-color);
+            transform: translateY(-3px);
+        }
+        .party-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
         }
         .party-color {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            margin-right: 10px;
-            vertical-align: middle;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        .party-card-name { 
+            font-weight: 600; 
+        }
+        .party-card-seats { 
+            text-align: center; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
         }
         button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            transition: background-color 0.2s, transform 0.1s;
             display: block;
-            margin: 20px auto;
+            margin: 10px;
         }
         button:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
         }
         .summary {
             margin-top: 20px;
@@ -89,9 +111,21 @@
             display: flex;
             gap: 10px;
             justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        #generateBtn { 
+            background-color: #007bff; 
+            color: white; 
+        }
+        #generateBtn:hover { 
+            background-color: #0056b3; 
         }
         #adjustBtn {
-            background-color: #2196F3;
+            background-color: #6c757d; 
+            color: white; 
+        }
+        #adjustBtn:hover { 
+            background-color: #5a6268; 
         }
         .modal {
             display: none;
@@ -223,106 +257,113 @@
                 "name": "SP",
                 "color": "#F60000",
                 "minSeats": 3,
-                "defaultSeats": 6,
-                "maxSeats": 11
+                "defaultSeats": 5,
+                "maxSeats": 9
             },
             {
                 "name": "GL/PvdA",
                 "color": "#DF111A",
-                "minSeats": 16,
-                "defaultSeats": 28,
+                "minSeats": 18,
+                "defaultSeats": 24, 
                 "maxSeats": 30
             },
             {
                 "name": "PvdD",
                 "color": "#006B2D",
                 "minSeats": 3,
-                "defaultSeats": 6,
-                "maxSeats": 12
+                "defaultSeats": 4,
+                "maxSeats": 7
             },
             {
                 "name": "NSC",
                 "color": "#F0C400",
-                "minSeats": 1,
-                "defaultSeats": 2,
-                "maxSeats": 31
+                "minSeats": 0,
+                "defaultSeats": 0,
+                "maxSeats": 1
             },
             {
                 "name": "CU",
                 "color": "#00A7EB",
                 "minSeats": 2,
                 "defaultSeats": 3,
-                "maxSeats": 8
+                "maxSeats": 5
             },
             {
                 "name": "Volt",
                 "color": "#582C83",
-                "minSeats": 1,
+                "minSeats": 2,
                 "defaultSeats": 3,
-                "maxSeats": 10
+                "maxSeats": 6
             },
             {
                 "name": "D66",
                 "color": "#00AE41",
-                "minSeats": 5,
-                "defaultSeats": 12,
-                "maxSeats": 26
+                "minSeats": 8,
+                "defaultSeats": 13,
+                "maxSeats": 19
             },
             {
                 "name": "DENK",
                 "color": "#00B7B2",
                 "minSeats": 2,
-                "defaultSeats": 4,
-                "maxSeats": 5
+                "defaultSeats": 3,
+                "maxSeats": 4
             },
             {
                 "name": "CDA",
                 "color": "#2CC84D",
-                "minSeats": 4,
-                "defaultSeats": 17,
-                "maxSeats": 19
+                "minSeats": 20,
+                "defaultSeats": 24,
+                "maxSeats": 34
             },
             {
                 "name": "VVD",
                 "color": "#0A2CCA",
                 "minSeats": 12,
-                "defaultSeats": 26,
-                "maxSeats": 39
+                "defaultSeats": 14,
+                "maxSeats": 21
             },
             {
                 "name": "BBB",
                 "color": "#94C11F",
                 "minSeats": 2,
                 "defaultSeats": 4,
-                "maxSeats": 36
+                "maxSeats": 10
             },
             {
                 "name": "SGP",
                 "color": "#EA5B0B",
-                "minSeats": 2,
+                "minSeats": 3,
                 "defaultSeats": 3,
                 "maxSeats": 4
             },
             {
                 "name": "PVV",
                 "color": "#012758",
-                "minSeats": 9,
-                "defaultSeats": 29,
-                "maxSeats": 52
+                "minSeats": 22,
+                "defaultSeats": 32,
+                "maxSeats": 35
             },
             {
                 "name": "FvD",
                 "color": "#841818",
                 "minSeats": 3,
-                "defaultSeats": 5,
-                "maxSeats": 9
+                "defaultSeats": 4,
+                "maxSeats": 5
             },
             {
                 "name": "JA21",
                 "color": "#242B57",
-                "minSeats": 1,
-                "defaultSeats": 4,
+                "minSeats": 7,
+                "defaultSeats": 13,
                 "maxSeats": 15
+            },
+            {
+                "name": "50PLUS",
+                "color": "#92107D",
+                "minSeats": 0,
+                "defaultSeats": 1,
+                "maxSeats": 3
             }
         ];
 
@@ -416,41 +457,97 @@
         function renderParliament() {
             const parliamentEl = document.getElementById('parliament');
             const partyInfoEl = document.getElementById('partyInfo');
-            
             parliamentEl.innerHTML = '';
             partyInfoEl.innerHTML = '';
+            const totalGeneratedSeats = currentSeatCounts.reduce((sum, sc) => sum + sc.seats, 0);
+            if (totalGeneratedSeats === 0) return;
 
+            const containerWidth = parliamentEl.offsetWidth;
+            const containerHeight = parliamentEl.offsetHeight;
+            const centerX = containerWidth / 2;
+            const centerY = containerHeight;
+            const numRows = 8;
+            const seatSize = Math.max(8, Math.min(20, (containerWidth * 0.8) / (totalGeneratedSeats / numRows)));
+            const outerRadius = containerHeight * 0.9; 
+            const innerRadius = containerHeight * 0.2; 
+            const radiusStep = (outerRadius - innerRadius) / (numRows - 1);
+            let seatsInRows = calculateSeatsPerRow(totalGeneratedSeats, numRows, innerRadius, outerRadius);
+            
+            const allSeats = [];
             currentSeatCounts.forEach(sc => {
-                for (let i = 0; i < sc.seats; i++) {
-                    const seat = document.createElement('div');
-                    seat.className = 'seat';
-                    seat.style.backgroundColor = sc.party.color;
-                    seat.title = `${sc.party.name} (${sc.seats} seats)`;
-                    seat.dataset.party = sc.party.name;
-                    seat.addEventListener('click', () => togglePartySelection(sc.party.name));
-                    parliamentEl.appendChild(seat);
+                for (let i = 0; i < sc.seats; i++) { allSeats.push(sc.party); }
+            });
+
+            const seatPositions = [];
+            for (let row = 0; row < numRows; row++) {
+                const seatsInThisRow = seatsInRows[row];
+                const radius = outerRadius - (row * radiusStep);
+                for (let i = 0; i < seatsInThisRow; i++) {
+                    const angle = Math.PI - ((i + 0.5) / seatsInThisRow) * Math.PI;
+                    const x = centerX + radius * Math.cos(angle) - (seatSize / 2);
+                    const y = centerY - radius * Math.sin(angle) - (seatSize / 2);
+                    seatPositions.push({ x, y, angle });
                 }
+            }
+
+            seatPositions.sort((a, b) => b.angle - a.angle);
+
+            allSeats.forEach((party, index) => {
+                if (index >= seatPositions.length) return;
+                const position = seatPositions[index];
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                seat.style.backgroundColor = party.color;
+                seat.title = party.name;
+                seat.dataset.party = party.name;
+                seat.style.width = `${seatSize}px`;
+                seat.style.height = `${seatSize}px`;
+                seat.style.left = `${position.x}px`;
+                seat.style.top = `${position.y}px`;
+                seat.addEventListener('click', () => togglePartySelection(party.name));
+                parliamentEl.appendChild(seat);
             });
 
             currentSeatCounts.forEach(sc => {
+                if (sc.seats <= 0) return;
                 const card = document.createElement('div');
                 card.className = `party-card ${selectedParties.has(sc.party.name) ? 'selected' : ''}`;
-                card.innerHTML = `
-                    <div><span class="party-color" style="background-color: ${sc.party.color}"></span> <strong>${sc.party.name}</strong></div>
-                    <div>Seats: ${sc.seats}</div>
-                `;
+                card.style.setProperty('--party-color', sc.party.color);
+                card.innerHTML = `<div class="party-card-header"><span class="party-color" style="background-color: ${sc.party.color}"></span><strong class="party-card-name">${sc.party.name}</strong></div><div class="party-card-seats">${sc.seats}</div>`;
                 card.addEventListener('click', () => togglePartySelection(sc.party.name));
                 partyInfoEl.appendChild(card);
             });
         }
 
-        function togglePartySelection(partyName) {
-            if (selectedParties.has(partyName)) {
-                selectedParties.delete(partyName);
-            } else {
-                selectedParties.add(partyName);
+        function calculateSeatsPerRow(totalSeats, numRows, r_inner, r_outer) {
+            let radii = Array.from({length: numRows}, (_, i) => r_outer - i * ((r_outer - r_inner) / (numRows - 1 || 1)));
+            let proportionalSeats = radii.map(r => r * Math.PI);
+            let totalProportional = proportionalSeats.reduce((sum, val) => sum + val, 0);
+            let distributedSeats = 0;
+            let seatDistribution = [];
+            for (let i = 0; i < numRows; i++) {
+                if (totalProportional === 0) { seatDistribution.push({ seats: 0, remainder: 0 }); continue; }
+                let idealSeats = (proportionalSeats[i] / totalProportional) * totalSeats;
+                let floorSeats = Math.floor(idealSeats);
+                let remainder = idealSeats - floorSeats;
+                seatDistribution.push({ seats: floorSeats, remainder: remainder, originalIndex: i });
+                distributedSeats += floorSeats;
             }
-            renderParliament();
+            let diff = totalSeats - distributedSeats;
+            seatDistribution.sort((a, b) => b.remainder - a.remainder);
+            for (let i = 0; i < diff; i++) { if (seatDistribution[i]) seatDistribution[i].seats++; }
+            seatDistribution.sort((a, b) => a.originalIndex - b.originalIndex);
+            return seatDistribution.map(item => item.seats);
+        }
+
+        function togglePartySelection(partyName) {
+            if (selectedParties.has(partyName)) selectedParties.delete(partyName);
+            else selectedParties.add(partyName);
+            document.querySelectorAll('.party-card').forEach(card => {
+                const cardPartyName = card.querySelector('.party-card-name').textContent;
+                if (selectedParties.has(cardPartyName)) card.classList.add('selected');
+                else card.classList.remove('selected');
+            });
             updateSummary();
         }
 
