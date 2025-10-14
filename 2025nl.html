@@ -465,10 +465,10 @@
             const containerHeight = parliamentEl.offsetHeight;
             const centerX = containerWidth / 2;
             const centerY = containerHeight;
-            const numRows = 8;
+            const numRows = 6;
             const seatSize = Math.max(8, Math.min(20, (containerWidth * 0.8) / (totalGeneratedSeats / numRows)));
             const outerRadius = containerHeight * 0.9; 
-            const innerRadius = containerHeight * 0.33; 
+            const innerRadius = containerHeight * 0.5; 
             const radiusStep = (outerRadius - innerRadius) / (numRows - 1);
             let seatsInRows = calculateSeatsPerRow(totalGeneratedSeats, numRows, innerRadius, outerRadius);
             
