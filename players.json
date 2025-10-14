@@ -2,205 +2,235 @@
     {
         "name": "Enver Marić",
         "image": "../images/game1/enver%20marić.png",
-        "appearances": 441,
+        "appearances": 469,
         "goals": 0
     },
     {
         "name": "Vlado Zelenika",
         "image": "../images/game1/vlado%20zelenika.png",
-        "appearances": 165,
-        "goals": 106
+        "appearances": 184,
+        "goals": 131
     },
     {
         "name": "Dušan Bajević",
         "image": "../images/game1/dušan%20bajević.png",
-        "appearances": 320,
-        "goals": 170
+        "appearances": 348,
+        "goals": 182
     },
     {
         "name": "Vahid Halilhodžić",
         "image": "../images/game1/vahid%20halilhodžić.png",
-        "appearances": 208,
-        "goals": 103
+        "appearances": 230,
+        "goals": 119
     },
     {
         "name": "Muhamed Mujić",
         "image": "../images/game1/muhamed%20mujić.png",
-        "appearances": 252,
-        "goals": 90
+        "appearances": 291,
+        "goals": 119
     },
     {
         "name": "Franjo Vladić",
         "image": "../images/game1/franjo%20vladić.png",
-        "appearances": 360,
-        "goals": 81
+        "appearances": 390,
+        "goals": 84
     },
     {
         "name": "Adis Obad",
         "image": "../images/game1/adis%20obad.png",
-        "appearances": 241,
-        "goals": 79
+        "appearances": 275,
+        "goals": 102
     },
     {
         "name": "Salem Halilhodžić",
         "image": "../images/game1/salem%20halilhodžić.png",
-        "appearances": 196,
-        "goals": 66
+        "appearances": 211,
+        "goals": 75
     },
     {
         "name": "Admir Velagić",
         "image": "../images/game1/admir%20velagić.png",
-        "appearances": 336,
-        "goals": 62
+        "appearances": 369,
+        "goals": 74
     },
     {
         "name": "Vladimir Gudelj",
         "image": "../images/game1/vladimir%20gudelj.png",
-        "appearances": 144,
-        "goals": 56
+        "appearances": 174,
+        "goals": 63
     },
     {
         "name": "Blaž Slišković",
         "image": "../images/game1/blaž%20slišković.png",
-        "appearances": 121,
-        "goals": 25
+        "appearances": 134,
+        "goals": 26
     },
     {
         "name": "Dragan Okuka",
         "image": "../images/game1/dragan%20okuka.png",
-        "appearances": 224,
-        "goals": 34
+        "appearances": 244,
+        "goals": 37
     },
     {
         "name": "Dženan Zaimović",
         "image": "../images/game1/dženan%20zaimović.png",
-        "appearances": 353,
-        "goals": 56
+        "appearances": 398,
+        "goals": 66
     },
     {
         "name": "Semir Tuce",
         "image": "../images/game1/semir%20tuce.png",
-        "appearances": 187,
-        "goals": 54
+        "appearances": 223,
+        "goals": 72
     },
     {
         "name": "Asmir Džafić",
         "image": "../images/game1/asmir%20džafić.png",
-        "appearances": 116,
-        "goals": 53
+        "appearances": 125,
+        "goals": 57
     },
     {
         "name": "Vladimir Skočajić",
         "image": "../images/game1/vladimir%20skočajić.png",
-        "appearances": 153,
-        "goals": 48
+        "appearances": 172,
+        "goals": 53
     },
     {
         "name": "Meho Kodro",
         "image": "../images/game1/meho%20kodro.png",
-        "appearances": 135,
-        "goals": 48
+        "appearances": 147,
+        "goals": 53
     },
     {
         "name": "Adnan Međedović",
         "image": "../images/game1/adnan%20međedović.png",
-        "appearances": 177,
-        "goals": 47
+        "appearances": 156,
+        "goals": 45
     },
     {
         "name": "Brandao de Souza",
         "image": "../images/game1/brandao%20de%20souza.png",
-        "appearances": 140,
-        "goals": 45
+        "appearances": 166,
+        "goals": 52
     },
     {
         "name": "Haldun Hrvić",
         "image": "../images/game1/haldun%20hrvić.png",
-        "appearances": 124,
-        "goals": 43
+        "appearances": 162,
+        "goals": 67
     },
     {
         "name": "Sulejman Rebac",
         "image": "../images/game1/sulejman%20rebac.png",
-        "appearances": 119,
-        "goals": 43
+        "appearances": 173,
+        "goals": 91
     },
     {
         "name": "Milorad Lazović",
         "image": "../images/game1/milorad%20lazović.png",
-        "appearances": 128,
-        "goals": 43
+        "appearances": 141,
+        "goals": 48
     },
     {
         "name": "Predrag Jurić",
         "image": "../images/game1/predrag%20jurić.png",
-        "appearances": 91,
-        "goals": 42
+        "appearances": 113,
+        "goals": 48
     },
     {
         "name": "Momčilo Vukoje",
         "image": "../images/game1/momčilo%20vukoje.png",
-        "appearances": 268,
-        "goals": 40
+        "appearances": 297,
+        "goals": 49
     },
     {
         "name": "Zejnil Selimotić",
         "image": "../images/game1/zejnil%20selimotić.png",
-        "appearances": 278,
-        "goals": 37
+        "appearances": 303,
+        "goals": 40
     },
     {
         "name": "Samir Ćemalović",
         "image": "../images/game1/samir%20ćemalović.png",
-        "appearances": 182,
-        "goals": 36
+        "appearances": 213,
+        "goals": 42
     },
     {
         "name": "Ševko Okić",
         "image": "../images/game1/ševko%20okić.png",
-        "appearances": 109,
-        "goals": 34
+        "appearances": 123,
+        "goals": 36
     },
     {
         "name": "Nusmir Fajić",
         "image": "../images/game1/nusmir%20fajić.png",
-        "appearances": 47,
-        "goals": 32
+        "appearances": 49,
+        "goals": 33
     },
     {
         "name": "Nedim Jusufbegović",
         "image": "../images/game1/nedim%20jusufbegović.png",
-        "appearances": 61,
-        "goals": 31
+        "appearances": 66,
+        "goals": 32
     },
     {
         "name": "Elvis Ćorić",
         "image": "../images/game1/elvis%20ćorić.png",
-        "appearances": 118,
-        "goals": 31
+        "appearances": 111,
+        "goals": 34
     },
     {
         "name": "Nusret Čerkić",
         "image": "../images/game1/nusret%20čerkić.png",
-        "appearances": 114,
-        "goals": 29
+        "appearances": 121,
+        "goals": 32
     },
     {
         "name": "Vladimir Matijević",
         "image": "../images/game1/vladimir%20matijević.png",
-        "appearances": 267,
-        "goals": 29
+        "appearances": 302,
+        "goals": 37
     },
     {
         "name": "Kemal Šestić",
         "image": "../images/game1/kemal%20šestić.png",
-        "appearances": 238,
-        "goals": 43
+        "appearances": 255,
+        "goals": 47
     },
     {
         "name": "Anton Bolfek",
         "image": "https://krajneretve-rodjeni.com/images/players/anton%20bolfek.png",
-        "appearances": 206,
-        "goals": 12
+        "appearances": 256,
+        "goals": 22
+    },
+    {
+        "name": "Denis Zvonić",
+        "image": "https://krajneretve-rodjeni.com/images/players/denis%20zvonić.png",
+        "appearances": 329,
+        "goals": 35
+    },
+    {
+        "name": "Nermin Haskić",
+        "image": "https://krajneretve-rodjeni.com/images/players/nermin%20haskić.png",
+        "appearances": 113,
+        "goals": 39
+    },
+    {
+        "name": "Omar Pršeš",
+        "image": "https://krajneretve-rodjeni.com/images/players/omar%20pršeš.png",
+        "appearances": 169,
+        "goals": 4
+    },
+    {
+        "name": "Edo Vehabović",
+        "image": "https://krajneretve-rodjeni.com/images/players/edo%20vehabović.png",
+        "appearances": 228,
+        "goals": 17
+    },
+    {
+        "name": "Nemanja Anđušić",
+        "image": "https://krajneretve-rodjeni.com/images/players/nemanja%20anđušić.png",
+        "appearances": 102,
+        "goals": 22
     }
 ]
