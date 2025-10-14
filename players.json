@@ -205,31 +205,31 @@
     },
     {
         "name": "Denis Zvonić",
-        "image": "https://krajneretve-rodjeni.com/images/players/denis%20zvonić.png",
+        "image": "../images/game1/denis%20zvonić.png",
         "appearances": 329,
         "goals": 35
     },
     {
         "name": "Nermin Haskić",
-        "image": "https://krajneretve-rodjeni.com/images/players/nermin%20haskić.png",
+        "image": "../images/game1/nermin%20haskić.png",
         "appearances": 113,
         "goals": 39
     },
     {
         "name": "Omar Pršeš",
-        "image": "https://krajneretve-rodjeni.com/images/players/omar%20pršeš.png",
+        "image": "../images/game1/omar%20pršeš.png",
         "appearances": 169,
         "goals": 4
     },
     {
         "name": "Edo Vehabović",
-        "image": "https://krajneretve-rodjeni.com/images/players/edo%20vehabović.png",
+        "image": "../images/game1/edo%20vehabović.png",
         "appearances": 228,
         "goals": 17
     },
     {
         "name": "Nemanja Anđušić",
-        "image": "https://krajneretve-rodjeni.com/images/players/nemanja%20anđušić.png",
+        "image": "../images/game1/nemanja%20anđušić.png",
         "appearances": 102,
         "goals": 22
     }
