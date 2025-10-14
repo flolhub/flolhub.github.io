@@ -21,7 +21,6 @@
         .parliament {
             position: relative;
             width: 100%;
-            min-height: 350px;
             margin: 30px 0;
             padding: 5px;
             box-sizing: border-box;
@@ -253,116 +252,132 @@
         // Party configuration
         let parties = [
             {
-                "name": "SP",
-                "color": "#F60000",
-                "minSeats": 3,
-                "defaultSeats": 5,
-                "maxSeats": 9
-            },
-            {
-                "name": "GL/PvdA",
-                "color": "#DF111A",
-                "minSeats": 17,
-                "defaultSeats": 24, 
-                "maxSeats": 30
-            },
-            {
                 "name": "PvdD",
                 "color": "#006B2D",
                 "minSeats": 2,
                 "defaultSeats": 4,
-                "maxSeats": 7
+                "maxSeats": 7,
+                "ideologyScore": -9
             },
             {
-                "name": "NSC",
-                "color": "#F0C400",
-                "minSeats": 0,
-                "defaultSeats": 0,
-                "maxSeats": 1
-            },
-            {
-                "name": "CU",
-                "color": "#00A7EB",
-                "minSeats": 2,
-                "defaultSeats": 3,
-                "maxSeats": 6
-            },
-            {
-                "name": "Volt",
-                "color": "#582C83",
-                "minSeats": 2,
-                "defaultSeats": 3,
-                "maxSeats": 5
-            },
-            {
-                "name": "D66",
-                "color": "#00AE41",
-                "minSeats": 7,
-                "defaultSeats": 13,
-                "maxSeats": 23
+                "name": "SP",
+                "color": "#F60000",
+                "minSeats": 3,
+                "defaultSeats": 5,
+                "maxSeats": 9,
+                "ideologyScore": -8
             },
             {
                 "name": "DENK",
                 "color": "#00B7B2",
                 "minSeats": 2,
                 "defaultSeats": 3,
-                "maxSeats": 4
+                "maxSeats": 4,
+                "ideologyScore": -6
             },
             {
-                "name": "CDA",
-                "color": "#2CC84D",
-                "minSeats": 18,
+                "name": "GL/PvdA",
+                "color": "#DF111A",
+                "minSeats": 17,
                 "defaultSeats": 24,
-                "maxSeats": 32
+                "maxSeats": 30,
+                "ideologyScore": -5
             },
             {
-                "name": "VVD",
-                "color": "#0A2CCA",
-                "minSeats": 10,
-                "defaultSeats": 14,
-                "maxSeats": 22
-            },
-            {
-                "name": "BBB",
-                "color": "#94C11F",
-                "minSeats": 2,
-                "defaultSeats": 4,
-                "maxSeats": 9
-            },
-            {
-                "name": "SGP",
-                "color": "#EA5B0B",
+                "name": "Volt",
+                "color": "#582C83",
                 "minSeats": 2,
                 "defaultSeats": 3,
-                "maxSeats": 4
+                "maxSeats": 5,
+                "ideologyScore": -2
             },
             {
-                "name": "PVV",
-                "color": "#012758",
-                "minSeats": 19,
-                "defaultSeats": 32,
-                "maxSeats": 36
-            },
-            {
-                "name": "FvD",
-                "color": "#841818",
-                "minSeats": 3,
-                "defaultSeats": 4,
-                "maxSeats": 5
-            },
-            {
-                "name": "JA21",
-                "color": "#242B57",
+                "name": "D66",
+                "color": "#00AE41",
                 "minSeats": 7,
                 "defaultSeats": 13,
-                "maxSeats": 19
+                "maxSeats": 23,
+                "ideologyScore": -1
             },
             {
                 "name": "50PLUS",
                 "color": "#92107D",
                 "minSeats": 0,
                 "defaultSeats": 1,
-                "maxSeats": 2
+                "maxSeats": 2,
+                "ideologyScore": 1
+            },
+            {
+                "name": "NSC",
+                "color": "#F0C400",
+                "minSeats": 0,
+                "defaultSeats": 0,
+                "maxSeats": 1,
+                "ideologyScore": 2
+            },
+            {
+                "name": "CU",
+                "color": "#00A7EB",
+                "minSeats": 2,
+                "defaultSeats": 3,
+                "maxSeats": 6,
+                "ideologyScore": 3
+            },
+            {
+                "name": "CDA",
+                "color": "#2CC84D",
+                "minSeats": 18,
+                "defaultSeats": 24,
+                "maxSeats": 32,
+                "ideologyScore": 3.5
+            },
+            {
+                "name": "VVD",
+                "color": "#0A2CCA",
+                "minSeats": 10,
+                "defaultSeats": 14,
+                "maxSeats": 22,
+                "ideologyScore": 6
+            },
+            {
+                "name": "BBB",
+                "color": "#94C11F",
+                "minSeats": 2,
+                "defaultSeats": 4,
+                "maxSeats": 9,
+                "ideologyScore": 7
+            },
+            {
+                "name": "SGP",
+                "color": "#EA5B0B",
+                "minSeats": 2,
+                "defaultSeats": 3,
+                "maxSeats": 4,
+                "ideologyScore": 8
+            },
+            {
+                "name": "JA21",
+                "color": "#242B57",
+                "minSeats": 7,
+                "defaultSeats": 13,
+                "maxSeats": 19,
+                "ideologyScore": 8
+            },
+            {
+                "name": "PVV",
+                "color": "#012758",
+                "minSeats": 19,
+                "defaultSeats": 32,
+                "maxSeats": 36,
+                "ideologyScore": 9
+            },
+            {
+                "name": "FvD",
+                "color": "#841818",
+                "minSeats": 3,
+                "defaultSeats": 4,
+                "maxSeats": 5,
+                "ideologyScore": 10
             }
         ];
 
@@ -443,9 +458,6 @@
                 currentTotalSeats += adjustment;
             }
 
-            // Sort by seat count (descending)
-            currentSeatCounts.sort((a, b) => b.seats - a.seats);
-
             // Render parliament visualization
             renderParliament();
 
@@ -461,19 +473,28 @@
             const totalGeneratedSeats = currentSeatCounts.reduce((sum, sc) => sum + sc.seats, 0);
             if (totalGeneratedSeats === 0) return;
 
+            // Dynamically set min-height to maintain aspect ratio
             const containerWidth = parliamentEl.offsetWidth;
+            parliamentEl.style.minHeight = `${containerWidth / 2}px`;
+            
             const containerHeight = parliamentEl.offsetHeight;
             const centerX = containerWidth / 2;
             const centerY = containerHeight;
             const numRows = 6;
             const seatSize = Math.max(8, Math.min(20, (containerWidth * 0.8) / (totalGeneratedSeats / numRows)));
-            const outerRadius = containerHeight * 0.9; 
-            const innerRadius = containerHeight * 0.5; 
-            const radiusStep = (outerRadius - innerRadius) / (numRows - 1);
+            
+            // Ensure the diagram fits within the container on all screen sizes
+            const maxRadius = Math.min(containerWidth / 2, containerHeight);
+            const outerRadius = maxRadius - seatSize; // Leave padding
+            const innerRadius = outerRadius * 0.5; // Maintain a proportional inner radius
+            const radiusStep = (numRows > 1) ? (outerRadius - innerRadius) / (numRows - 1) : 0;
+            
             let seatsInRows = calculateSeatsPerRow(totalGeneratedSeats, numRows, innerRadius, outerRadius);
             
+            // Create a version sorted by ideology for the diagram
+            const seatsSortedByIdeology = [...currentSeatCounts].sort((a, b) => a.party.ideologyScore - b.party.ideologyScore);
             const allSeats = [];
-            currentSeatCounts.forEach(sc => {
+            seatsSortedByIdeology.forEach(sc => {
                 for (let i = 0; i < sc.seats; i++) { allSeats.push(sc.party); }
             });
 
@@ -507,7 +528,9 @@
                 parliamentEl.appendChild(seat);
             });
 
-            currentSeatCounts.forEach(sc => {
+            // Create a version sorted by seat count for the cards
+            const cardsSortedBySeats = [...currentSeatCounts].sort((a, b) => b.seats - a.seats);
+            cardsSortedBySeats.forEach(sc => {
                 if (sc.seats <= 0) return;
                 const card = document.createElement('div');
                 card.className = `party-card ${selectedParties.has(sc.party.name) ? 'selected' : ''}`;
@@ -552,15 +575,17 @@
 
         function updateSummary() {
             const majorityThreshold = Math.floor(totalSeats / 2) + 1;
-            let totalSelectedSeats = 0;
-            let selectedPartyList = [];
+            
+            // Filter to get only the selected parties
+            const currentlySelected = currentSeatCounts.filter(sc => selectedParties.has(sc.party.name));
 
-            currentSeatCounts.forEach(sc => {
-                if (selectedParties.has(sc.party.name)) {
-                    totalSelectedSeats += sc.seats;
-                    selectedPartyList.push(sc.party.name);
-                }
-            });
+            // Calculate total seats from the filtered list
+            const totalSelectedSeats = currentlySelected.reduce((sum, sc) => sum + sc.seats, 0);
+
+            // Sort the filtered list by seats (descending) and map to get names
+            const selectedPartyList = currentlySelected
+                .sort((a, b) => b.seats - a.seats)
+                .map(sc => sc.party.name);
 
             const summary = document.getElementById('summary');
             
@@ -595,19 +620,21 @@
             marginControls.innerHTML = '';
             totalSeatsInput.value = totalSeats;
             
-            parties.forEach((party, index) => {
+            parties.sort((a,b) => (a.ideologyScore || 0) - (b.ideologyScore || 0)).forEach((party, index) => {
+                const originalIndex = parties.indexOf(party);
                 const control = document.createElement('div');
                 control.className = 'margin-control';
                 control.innerHTML = `
-                    <button class="remove-party-btn" data-index="${index}">×</button>
+                    <button class="remove-party-btn" data-index="${originalIndex}">×</button>
                     <div style="font-weight: bold; margin-bottom: 5px;">
-                        <input type="color" class="color-picker" value="${party.color}" data-index="${index}">
-                        <input type="text" class="party-name-input" value="${party.name}" data-index="${index}">
+                        <input type="color" class="color-picker" value="${party.color}" data-index="${originalIndex}">
+                        <input type="text" class="party-name-input" value="${party.name}" data-index="${originalIndex}">
                     </div>
                     <div>
-                        Min: <input type="number" id="min-${index}" value="${party.minSeats}" min="0" max="${totalSeats - 1}">
-                        Default: <input type="number" id="default-${index}" value="${party.defaultSeats}" min="0" max="${totalSeats}">
-                        Max: <input type="number" id="max-${index}" value="${party.maxSeats}" min="1" max="${totalSeats}">
+                        Min: <input type="number" id="min-${originalIndex}" value="${party.minSeats}" min="0" max="${totalSeats - 1}">
+                        Default: <input type="number" id="default-${originalIndex}" value="${party.defaultSeats}" min="0" max="${totalSeats}">
+                        Max: <input type="number" id="max-${originalIndex}" value="${party.maxSeats}" min="1" max="${totalSeats}">
+                        Ideology: <input type="number" id="ideology-${originalIndex}" value="${party.ideologyScore === undefined ? 0 : party.ideologyScore}" step="1">
                     </div>
                 `;
                 marginControls.appendChild(control);
@@ -621,24 +648,14 @@
                         parties.splice(index, 1);
                         showMarginModal(); // Refresh the modal
                     } else {
-                        alert("You must have at least one party!");
+                        // Using a custom message box instead of alert
+                        const modalContent = document.querySelector('.modal-content');
+                        const msgBox = document.createElement('div');
+                        msgBox.textContent = "You must have at least one party!";
+                        msgBox.style.cssText = "padding: 10px; background-color: #f44336; color: white; margin-bottom: 10px; border-radius: 4px; text-align: center;";
+                        modalContent.insertBefore(msgBox, marginControls);
+                        setTimeout(() => msgBox.remove(), 3000);
                     }
-                });
-            });
-            
-            // Add event listeners for color pickers
-            document.querySelectorAll('.color-picker').forEach(picker => {
-                picker.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    parties[index].color = e.target.value;
-                });
-            });
-            
-            // Add event listeners for name inputs
-            document.querySelectorAll('.party-name-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    parties[index].name = e.target.value;
                 });
             });
             
@@ -650,7 +667,12 @@
             const color = newPartyColor.value;
             
             if (!name) {
-                alert("Please enter a party name");
+                 const modalContent = document.querySelector('.modal-content');
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "Please enter a party name.";
+                msgBox.style.cssText = "padding: 10px; background-color: #f44336; color: white; margin-bottom: 10px; border-radius: 4px; text-align: center;";
+                modalContent.insertBefore(msgBox, document.querySelector('.add-party-control'));
+                setTimeout(() => msgBox.remove(), 3000);
                 return;
             }
             
@@ -661,9 +683,10 @@
             parties.push({
                 name: name,
                 color: color,
-                minSeats: Math.max(1, Math.floor(avgSeats * 0.3)),
+                minSeats: Math.max(0, Math.floor(avgSeats * 0.3)),
                 defaultSeats: Math.max(1, Math.floor(avgSeats * 0.7)),
-                maxSeats: Math.max(2, Math.floor(avgSeats * 1.3))
+                maxSeats: Math.max(2, Math.floor(avgSeats * 1.3)),
+                ideologyScore: 0
             });
             
             // Clear the input
@@ -686,9 +709,12 @@
             }
 
             parties.forEach((party, index) => {
+                party.name = document.querySelector(`.party-name-input[data-index="${index}"]`).value;
+                party.color = document.querySelector(`.color-picker[data-index="${index}"]`).value;
                 party.minSeats = parseInt(document.getElementById(`min-${index}`).value);
                 party.defaultSeats = parseInt(document.getElementById(`default-${index}`).value);
                 party.maxSeats = parseInt(document.getElementById(`max-${index}`).value);
+                party.ideologyScore = parseInt(document.getElementById(`ideology-${index}`).value) || 0;
                 
                 // Ensure min <= default <= max
                 if (party.minSeats > party.defaultSeats) party.minSeats = party.defaultSeats;
@@ -702,6 +728,7 @@
             });
             
             closeModal();
+            generateParliament(); 
         }
 
         function randomNormal(mean, stdDev) {
