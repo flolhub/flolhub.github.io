@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Presidential Election Simulator</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <meta property="og:title" content="Presidential Election Simulator">
+	<meta property="og:description" content="Randomly generate US Presidents from 1796 to the future.">
+	<meta property="og:image" content="https://thecampaigntrail.net/static/images/banners/banner_alt.png">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/presidents">
 <style>
   :root {
     --parchment: #f5edd6;
@@ -225,7 +229,7 @@
     flex-shrink: 0;
   }
 
-  /* Manual selection card — clickable square behind the portrait */
+  /* Manual selection card · clickable square behind the portrait */
   .pick-card {
     display: inline-flex;
     flex-direction: column;
@@ -406,7 +410,7 @@ John Adams|1735-10-30|1826-07-04|Federalist
       </div>
       <div class="manual-wrap">
         <input type="checkbox" id="chk-manual">
-        <label for="chk-manual">Manual Selection — choose election winners yourself</label>
+        <label for="chk-manual">Manual Selection · choose election winners yourself</label>
       </div>
       <button class="btn btn-reset" onclick="resetSim()">✕ Reset</button>
     </div>
