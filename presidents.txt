@@ -1,0 +1,249 @@
+https://upload.wikimedia.org/wikipedia/commons/7/7b/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington_%283x4_cropped%29.jpg|George Washington|1732-02-22|1799-12-14|Independent
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/John_Adams_A18236_%28cropped%29.jpg/250px-John_Adams_A18236_%28cropped%29.jpg|John Adams|1735-10-30|1826-07-04|Federalist
+https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Official_Presidential_portrait_of_Thomas_Jefferson_%28by_Rembrandt_Peale%2C_1800%29_%283x4_cropped%29.jpg/250px-Official_Presidential_portrait_of_Thomas_Jefferson_%28by_Rembrandt_Peale%2C_1800%29_%283x4_cropped%29.jpg|Thomas Jefferson|1743-04-13|1826-07-04|Jeffersonian
+https://constitutionallawreporter.com/wp-content/uploads/2019/10/George_Clinton_by_Ezra_Ames.jpg|George Clinton|1739-07-26|1812-04-20|Jeffersonian
+https://m.media-amazon.com/images/I/81yLefENgSL._AC_UF894,1000_QL80_.jpg|Samuel Huntington|1731-07-16|1796-01-05|Federalist
+https://hips.hearstapps.com/hmg-prod/images/gettyimages-544231954.jpg|John Jay|1745-12-23|1829-05-17|Federalist
+https://hips.hearstapps.com/hmg-prod/images/aaron-burr-yale-art-gallery.jpg|Aaron Burr|1756-02-06|1836-09-14|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/c/c6/Portrait_of_Major_General_Thomas_Pinckney_by_Samuel_Morse_%28cropped-2%29.jpg|Thomas Pinckney|1750-10-23|1828-02-11|Federalist
+https://upload.wikimedia.org/wikipedia/commons/9/95/James_Earl_-_General_Charles_Cotesworth_Pinckney_-_Google_Art_Project_%283x4_cropped%29.jpg|Charles Cotesworth Pinckney|1746-02-25|1825-08-16|Federalist
+https://hips.hearstapps.com/hmg-prod/images/samuel-adams-gettyimages-517357384.jpg|Samuel Adams|1722-09-27|1803-10-02|Jeffersonian
+https://media.gettyimages.com/id/166442887/photo/engraved-portrait-of-american-politician-and-jurist-chief-justice-of-the-united-states-oliver.jpg?s=612x612&w=0&k=20&c=pLqbfRT_VehQ5w9xyPeCONMlb0b6OTUERwKhiQTPAhQ=|Oliver Ellsworth|1745-04-29|1807-11-26|Federalist
+https://upload.wikimedia.org/wikipedia/commons/7/7e/James_Madison_Portrait_1816_%283x4_cropped%29.jpg|James Madison|1751-03-16|1836-06-28|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/e/ea/James_Monroe_White_House_portrait_1819_%28cropped_3x4_close%29.jpg|James Monroe|1758-04-28|1831-07-04|Jeffersonian
+https://cdn.britannica.com/99/133099-050-66E82106/pastel-John-Langdon-paper-replica-artist-Sr-1797.jpg|John Langdon|1741-06-26|1819-09-18|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/e/ee/Elbridge-gerry-painting_%28cropped_3x4_close%29.jpg|Elbridge Gerry|1744-07-17|1814-11-23|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/6/65/PORTRAIT_OF_TIMOTHY_PICKERING%2C_3RD_SECRETARY_OF_STATE_PRESIDENT_GEORGE_WASHINGTON_AND_JOHN_ADAMS_%283x4_cropped%29.jpg|Timothy Pickering|1745-07-17|1829-01-29|Federalist
+https://upload.wikimedia.org/wikipedia/commons/c/ca/Jared_Ingersoll_portrait_colour.jpg|Jared Ingersoll|1749-10-24|1822-10-31|Federalist
+https://bioguide.congress.gov/photo/366d96aca5461a48df9fe2e80767adb0.jpg|Rufus King|1755-03-24|1827-04-29|Federalist
+https://upload.wikimedia.org/wikipedia/commons/c/cc/John_Marshall_by_Henry_Inman%2C_1832_%283x4_cropped%29.jpg|John Marshall|1755-09-24|1835-07-06|Federalist
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Alexander_Hamilton_%28cropped%29.jpg/500px-Alexander_Hamilton_%28cropped%29.jpg|Alexander Hamilton|1757-01-11|1804-07-12|Federalist
+https://www.nps.gov/common/uploads/people/images/nri/20140225/siteadmin/20DA3B09-9752-69AE-4AE5F24A4F88E7C7/20DA3B09-9752-69AE-4AE5F24A4F88E7C7.jpg|Albert Gallatin|1761-01-29|1849-08-12|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/d/df/John_Quincy_Adams_1858_%283x4_cropped%29.jpg|John Quincy Adams|1767-07-11|1848-02-23|Whig
+https://upload.wikimedia.org/wikipedia/commons/a/a5/Andrew_Jackson_Daguerrotype_%28flipped_image%29.jpg|Andrew Jackson|1767-03-15|1845-06-08|Democratic
+https://upload.wikimedia.org/wikipedia/commons/9/9b/William_Harris_Crawford_by_John_Wesley_Jarvis_%28PAFA%29_%283x4_cropped%29.jpg|William H. Crawford|1772-02-24|1834-09-15|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/b/b1/William_Henry_Harrison_Portrait_%283x4_cropped%29.jpg|William Henry Harrison|1773-02-09|1841-04-04|Whig
+https://upload.wikimedia.org/wikipedia/commons/1/16/Hugh_Lawson_White_by_Ralph_E._W._Earl_circa_1830_%28Cropped%29.jpg|Hugh L. White|1773-10-30|1840-04-10|Whig
+https://upload.wikimedia.org/wikipedia/commons/f/fa/Daniel_D_Tompkins_by_John_Wesley_Jarvis_%283x4_cropped%29.jpg|Daniel D. Tompkins|1774-06-21|1825-06-11|Jeffersonian
+https://upload.wikimedia.org/wikipedia/commons/0/00/Henry_Clay_1848_%283x4_close_cropped%29.jpg|Henry Clay|1777-04-12|1852-06-29|Whig
+https://upload.wikimedia.org/wikipedia/commons/7/78/John_Neagle%2C_Richard_Mentor_Johnson%2C_1843_%283x4_cropped%29.jpg|Richard M. Johnson|1780-10-17|1850-11-19|Democratic
+https://upload.wikimedia.org/wikipedia/commons/c/cd/John_C_Calhoun_by_Mathew_Brady%2C_1849_%283x4_cropped%29.jpg|John Calhoun|1782-03-18|1850-03-31|Democratic
+https://upload.wikimedia.org/wikipedia/commons/a/a1/Daniel_Webster_Photograph_edited.jpg|Daniel Webster|1782-01-18|1852-10-24|Whig
+https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Lewis_Cass_circa_1855.jpg/500px-Lewis_Cass_circa_1855.jpg|Lewis Cass|1782-10-09|1866-06-17|Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/fa/Martin_Van_Buren_by_Mathew_Brady_c1855-58-%284%29_%283x4_close_cropped%29.jpg|Martin Van Buren|1782-12-05|1862-07-24|Democratic
+https://upload.wikimedia.org/wikipedia/commons/c/c5/Zachary_Taylor_restored_%283x4_cropped%29.jpg|Zachary Taylor|1784-11-24|1850-07-09|Whig
+https://upload.wikimedia.org/wikipedia/commons/5/5f/Winfield_Scott_by_Fredricks%2C_1862_crop.jpg|Winfield Scott|1786-06-13|1866-05-29|Whig
+https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Davy_Crockett_Portrait_by_Chester_Harding.jpg/960px-Davy_Crockett_Portrait_by_Chester_Harding.jpg|Davy Crockett|1786-08-17|1836-03-06|Whig
+https://cdn.britannica.com/81/36381-004-31E2548E/Marcy.jpg|William L. Marcy|1786-12-12|1857-07-04|Democratic
+https://cdn.britannica.com/19/19019-004-E9A57526/Frederick-Theodore-Frelinghuysen.jpg|Theodore Frelinghuysen|1787-03-28|1862-04-12|Whig
+https://upload.wikimedia.org/wikipedia/commons/a/ab/John_Tyler_%28cropped_3x4%29.png|John Tyler|1790-03-29|1862-01-18|Independent
+https://upload.wikimedia.org/wikipedia/commons/b/b5/James_Buchanan_%28cropped_3x4%29.jpg|James Buchanan|1791-04-23|1868-06-01|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Thaddeus_Stevens_-_Brady-Handy_%282%29.jpg/960px-Thaddeus_Stevens_-_Brady-Handy_%282%29.jpg|Thaddeus Stevens|1792-04-04|1868-08-11|Republican
+https://upload.wikimedia.org/wikipedia/commons/1/10/Francis_Granger_%28cropped_3x4%29.jpg|Francis Granger|1792-12-01|1868-08-31|Whig
+https://upload.wikimedia.org/wikipedia/commons/8/86/James_K_Polk_%283x4_cropped%29.jpg|James Polk|1795-11-02|1849-06-15|Democratic
+https://upload.wikimedia.org/wikipedia/commons/3/34/Smn_Cameron-SecofWar_%283x4_cropped%29.jpg|Simon Cameron|1799-03-08|1889-06-26|Republican
+https://upload.wikimedia.org/wikipedia/commons/5/50/Fillmore_%28cropped%29.jpg|Millard Fillmore|1800-01-07|1874-03-08|Whig
+https://upload.wikimedia.org/wikipedia/commons/f/fa/Benjamin_F_Wade_-_Brady-Handy_%28cropped%29.jpg|Benjamin Wade|1800-10-27|1878-03-02|Republican
+https://shared.prolewiki.org/uploads/2/28/William_Seward.png|William H. Seward|1801-05-16|1872-10-10|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Joseph_Lane_%282%29.jpg/500px-Joseph_Lane_%282%29.jpg|Joseph Lane|1801-12-14|1881-04-19|Democratic
+https://upload.wikimedia.org/wikipedia/commons/7/74/Mathew_Brady_-_Franklin_Pierce_-_alternate_crop_%28cropped%29%282%29.jpg|Franklin Pierce|1804-11-23|1869-10-08|Democratic
+https://upload.wikimedia.org/wikipedia/commons/a/ab/Mathew_Brady%2C_Portrait_of_Secretary_of_the_Treasury_Salmon_P._Chase%2C_officer_of_the_United_States_government_%281860%E2%80%931865%2C_full_version%29_%28cropped%29.jpg|Salmon P. Chase|1808-01-13|1873-05-07|Republican
+https://upload.wikimedia.org/wikipedia/commons/b/bf/President-Jefferson-Davis_%283x4_cropped%29.jpg|Jefferson Davis|1808-06-03|1889-12-06|Democratic
+https://upload.wikimedia.org/wikipedia/commons/d/d0/Andrew_Johnson_photo_portrait_head_and_shoulders_%283x4_cropped%29.jpg|Andrew Johnson|1808-12-29|1875-07-31|Democratic
+https://upload.wikimedia.org/wikipedia/commons/5/57/Abraham_Lincoln_1863_Portrait_%283x4_cropped%29.jpg|Abraham Lincoln|1809-02-12|1865-04-15|Republican
+https://upload.wikimedia.org/wikipedia/commons/b/bc/Hannibal_Hamlin%2C_photo_portrait_seated%2C_c1860-65-retouched-crop.jpg|Hannibal Hamlin|1809-08-27|1891-07-04|Republican
+https://upload.wikimedia.org/wikipedia/commons/6/6e/Horatio_Seymour_%28cropped%2C_retouched%29.jpg|Horatio Seymour|1810-05-31|1886-02-12|Democratic
+https://cdn.britannica.com/86/26086-050-C4A78614/Charles-Sumner.jpg|Charles Sumner|1811-01-06|1874-03-11|Republican
+https://upload.wikimedia.org/wikipedia/commons/d/d9/Henry_Wilson%2C_VP_of_the_United_States_%283x4_cropped%29.jpg|Henry Wilson|1812-02-16|1875-11-22|Republican
+https://upload.wikimedia.org/wikipedia/commons/4/4c/John_Charles_Fremont_Oval_Crop_Edit.png|John C. Frémont|1813-01-21|1890-07-13|Republican
+https://www.nps.gov/common/uploads/people/images/nri/subject/civilwar/CB10D2AC-0187-989E-81DE5AB1064F341E/CB10D2AC-0187-989E-81DE5AB1064F341E.jpg|Stephen Douglas|1813-23-04|1861-06-03|Democratic
+https://upload.wikimedia.org/wikipedia/commons/e/e8/Samuel_Tilden._Portrait_of_the_American_politician%2C_who_served_as_the_25th_Governor_of_New_York%2C_Samuel_Jones_Tilden_%281814-1886%29%2C_by_Jos%C3%A9_Mar%C3%ADa_Mora%2C_c._1870.jpg|Samuel J. Tilden|1814-02-09|1886-08-04|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/DDavis.jpg/960px-DDavis.jpg|David Davis|1815-03-09|1886-06-26|Republican
+https://upload.wikimedia.org/wikipedia/commons/b/b1/Nathaniel_Prentice_Banks_-_Brady-Handy_%281%29.jpg|Nathaniel P. Banks|1816-01-30|1894-09-01|Republican
+https://upload.wikimedia.org/wikipedia/commons/8/8c/Wade_Hampton_%28cropped%29.jpg|Wade Hampton III|1818-03-28|1902-04-11|Democratic
+https://upload.wikimedia.org/wikipedia/commons/e/e4/Thomas_Andrews_Hendricks_%28cropped_3x4%29.jpg|Thomas A. Hendricks|1819-09-07|1885-11-25|Democratic
+https://upload.wikimedia.org/wikipedia/commons/0/09/Unsuccessful_1860_2.jpg|John Breckinridge|1821-01-16|1875-05-17|Democratic
+https://upload.wikimedia.org/wikipedia/commons/4/4b/Ulysses_S_Grant_by_Brady_c1870-restored_%283x4_cropped%29.jpg|Ulysses S. Grant|1822-04-27|1885-07-23|Republican
+https://upload.wikimedia.org/wikipedia/commons/b/b4/President_Rutherford_Hayes_1870_-_1880_%283x4_cropped%29.jpg|Rutherford B. Hayes|1822-10-04|1893-01-17|Republican
+https://upload.wikimedia.org/wikipedia/commons/f/fb/Schuyler_Colfax_portrait_%283x4_cropped_b%29.jpg|Schuyler Colfax|1823-03-23|1885-01-13|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/John-Sherman-2-cropped.jpg/500px-John-Sherman-2-cropped.jpg|John Sherman|1823-05-10|1900-10-22|Republican
+https://upload.wikimedia.org/wikipedia/commons/4/4f/WinfieldScottHancock2.jpg|Winfield Scott Hancock|1824-02-14|1886-02-09|Democratic
+https://upload.wikimedia.org/wikipedia/commons/b/b5/Levi_P._Morton_%28U.S._Vice_president_1889-1893%29_%28cropped%29.jpg|Levi P. Morton|1824-05-16|1920-05-16|Republican
+https://upload.wikimedia.org/wikipedia/commons/e/e9/GeorgeMcClellan2_%283x4_cropped%29.jpg|George McClellan|1826-12-03|1885-10-29|Democratic
+https://images.findagrave.com/photos/2017/109/18492849_1492697432.jpg|Horace Boies|1827-12-07|1923-04-04|Democratic
+https://static.wikitide.net/tpswiki/8/8a/TPS_randall.png|Samuel J. Randall|1828-10-10|1890-04-13|Democratic
+https://upload.wikimedia.org/wikipedia/commons/7/70/Thomas_F._Bayard%2C_Brady-Handy_photo_portrait%2C_circa_1870-1880_%28cropped%29.jpg|Thomas Bayard|1828-10-29|1898-09-28|Democratic
+https://bioguide.congress.gov/photo/96b93fdd35cd93700de0cfff2629ed42.jpg|William B. Allison|1829-03-02|1908-08-04|Republican
+https://upload.wikimedia.org/wikipedia/commons/6/6e/Chester_A._Arthur_by_Abraham_Bogardus_%28cropped%29_%282%29.jpg|Chester A. Arthur|1829-10-05|1886-11-18|Republican
+https://upload.wikimedia.org/wikipedia/commons/6/65/Roscoe_Conkling_by_John_F._Jarvis_after_Mathew_B._Brady%2C_c._1876_after_c._1868_negative%2C_albumen_silver_print%2C_from_the_National_Portrait_Gallery_-_NPG-NPG_79_213Conkling-000001_Trim_Edit_%28cropped%29.jpg|Roscoe Conkling|1829-10-30|1888-04-18|Republican
+https://upload.wikimedia.org/wikipedia/commons/2/24/James_G._Blaine_-_Brady-Handy_%28cropped%29.jpg|James Blaine|1830-01-31|1893-01-27|Republican
+https://upload.wikimedia.org/wikipedia/commons/0/04/Senator_Henry_M_Teller.jpg|Henry Teller|1830-05-23|1914-02-23|Democratic
+https://upload.wikimedia.org/wikipedia/commons/7/7d/James_Abram_Garfield%2C_photo_portrait_seated_%283x4_cropped_b%29.jpg|James A. Garfield|1831-11-19|1881-09-19|Republican
+https://upload.wikimedia.org/wikipedia/commons/1/15/Benjamin_Harrison%2C_head_and_shoulders_bw_photo%2C_1896_%284x5_cropped%29.jpg|Benjamin Harrison|1833-08-20|1901-03-13|Republican
+https://upload.wikimedia.org/wikipedia/commons/3/34/Richard_P._Bland_-_Brady-Handy_%281%29.jpg|Richard Bland|1835-08-19|1899-06-15|Democratic
+https://upload.wikimedia.org/wikipedia/commons/3/3f/23_Adlai_E._Stevenson_3x4.jpg|Adlai Stevenson I|1835-10-23|1914-06-14|Democratic
+https://upload.wikimedia.org/wikipedia/commons/3/35/JGCannon.jpg|Joseph Gurney Cannon|1836-05-07|1926-11-12|Republican
+https://upload.wikimedia.org/wikipedia/commons/3/36/StephenGroverCleveland.jpg|Grover Cleveland|1837-03-18|1908-06-24|Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/fa/Adm._George_Dewey.jpg|George Dewey|1837-12-26|1917-01-16|Democratic
+https://upload.wikimedia.org/wikipedia/commons/0/0b/William_McKinley_Portrait_%283x4_cropped%29.jpg|William McKinley|1843-01-29|1901-09-14|Republican
+https://upload.wikimedia.org/wikipedia/commons/f/fd/Elihu_Root%2C_Secretary_of_War%2C_half-length_portrait%2C_facing_slightly_left_LCCN90714305_Trim_%28cropped%29.jpg|Elihu Root|1845-02-15|1937-02-07|Republican
+https://upload.wikimedia.org/wikipedia/commons/8/89/Tillman_crop.jpg|Benjamin Tillman|1847-08-11|1918-07-02|Democratic
+https://upload.wikimedia.org/wikipedia/commons/4/4d/CLARK%2C_CHAMP_LCCN2016856460_%28cropped%29.jpg|Champ Clark|1850-03-07|1921-03-02|Democratic
+https://upload.wikimedia.org/wikipedia/commons/archive/7/79/20190926221614%21Henry_Cabot_Lodge_c1916.jpg|Henry Cabot Lodge|1850-05-12|1924-11-09|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/FAIRBANKS%2C_CHARLES_W._HONORABLE_LOC_%283x4_cropped%29.jpg/500px-FAIRBANKS%2C_CHARLES_W._HONORABLE_LOC_%283x4_cropped%29.jpg|Charles W. Fairbanks|1852-05-11|1918-06-04|Republican
+https://upload.wikimedia.org/wikipedia/commons/b/b4/Alton_Brooks_Parker_Portrait_%283x4_cropped%29.jpg|Alton B. Parker|1852-05-14|1926-05-10|Democratic
+https://upload.wikimedia.org/wikipedia/commons/6/65/Thomas_Riley_Marshall_headshot.jpg|Thomas Marshall|1854-03-14|1925-06-01|Democratic
+https://upload.wikimedia.org/wikipedia/commons/e/ea/LaFOLLETTE%2C_ROBERT._SENATOR_LOC_hec.14955_%283x4_cropped%29.jpg|Robert La Follette|1855-06-14|1925-06-18|Republican
+https://upload.wikimedia.org/wikipedia/commons/4/4b/Thomas_Woodrow_Wilson%2C_Harris_%26_Ewing_bw_photo_portrait%2C_1919_%28cropped_3x4%29.jpg|Woodrow Wilson|1856-12-28|1924-02-03|Democratic
+https://upload.wikimedia.org/wikipedia/commons/2/2c/William_Howard_Taft_by_Pach_Brothers_%283x4_ropped%29.jpg|William Howard Taft|1857-09-15|1930-03-08|Republican
+https://upload.wikimedia.org/wikipedia/commons/a/a4/Picture_of_Carter_Glass.jpg|Carter Glass|1858-01-04|1946-05-28|Democratic
+https://upload.wikimedia.org/wikipedia/commons/e/ef/Theodore_Roosevelt_by_the_Pach_Bros_%283x4_close_cropped%29.jpg|Theodore Roosevelt|1858-10-27|1919-01-06|Republican
+https://upload.wikimedia.org/wikipedia/commons/2/2a/WALSH%2C_THOMAS_J._SENATOR_LCCN2016861394_%28cropped%29.jpg|Thomas J. Walsh|1859-06-12|1933-03-02|Democratic
+https://upload.wikimedia.org/wikipedia/commons/7/75/Charles_Curtis-portrait_%28cropped_3x4%29.jpg|Charles Curtis|1860-01-25|1936-04-08|Republican
+https://upload.wikimedia.org/wikipedia/commons/9/9d/William_Jennings_Bryan%2C_1860-1925_%28closein_cropped_3x4%29.jpg|William Jennings Bryan|1860-03-19|1925-07-26|Democratic
+https://upload.wikimedia.org/wikipedia/commons/2/28/General_Leonard_Wood_Rol_BNF_Gallica.jpg|Leonard Wood|1860-10-09|1927-08-07|Republican
+https://upload.wikimedia.org/wikipedia/commons/7/7a/Frank_Lowden_Time_Magazine_cover_%28cropped%29.jpg|Frank Lowden|1861-01-26|1943-03-20|Republican
+https://static.wixstatic.com/media/35f9c1_a0e303f0343f44868932f03ccdbaa3f5~mv2.jpg/v1/fill/w_308,h_462,al_c,lg_1,q_80/35f9c1_a0e303f0343f44868932f03ccdbaa3f5~mv2.jpg|George Norris|1861-07-11|1944-09-02|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/REED%2C_JAMES_A._SENATOR_LCCN2016862571-cropped.jpg/500px-REED%2C_JAMES_A._SENATOR_LCCN2016862571-cropped.jpg|James A. Reed|1861-11-09|1944-09-08|Democratic
+https://upload.wikimedia.org/wikipedia/commons/d/d1/Governor_Charles_Evans_Hughes.jpg|Charles Evans Hughes|1862-04-11|1948-08-27|Republican
+https://upload.wikimedia.org/wikipedia/commons/9/90/Oscar_W._Underwood.jpg|Oscar Underwood|1862-05-06|1929-01-25|Democratic
+https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/1952321/4238387/apiz2iog1__17156.1626373127.jpg|William Randolph Hearst|1863-04-29|1951-08-14|Independent
+https://upload.wikimedia.org/wikipedia/commons/3/3e/McADOO%2C_WILLIAM_GIBBS._SECRETARY_OF_THE_TREASURY%2C_1913-1921._AT_DESK_LCCN2016868886_%28cropped%29.jpg|William Gibbs McAdoo|1863-10-31|1941-02-01|Democratic
+https://upload.wikimedia.org/wikipedia/commons/2/27/DuPONT%2C_COLEMAN._GENERAL_LOC_hec.13254_%28cropped%29.jpg|T. Coleman du Pont|1863-12-11|1930-11-11|Republican
+https://upload.wikimedia.org/wikipedia/commons/b/b2/William_Edgar_Borah_cph.3b19589_%28cropped%29.jpg|William Borah|1865-06-29|1940-01-19|Republican
+https://upload.wikimedia.org/wikipedia/commons/d/db/Warren_G_Harding-Harris_%26_Ewing_%283x4_cropped%29.jpg|Warren G. Harding|1865-11-02|1923-08-02|Republican
+https://static.wikia.nocookie.net/althistory/images/2/20/HiramJohnson.png|Hiram Johnson|1866-09-02|1945-08-06|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/GARNER%2C_JOHN_NANCE._HONORABLE_LOC_hec.14879_%28cropped%29%28b%29.jpg/500px-GARNER%2C_JOHN_NANCE._HONORABLE_LOC_hec.14879_%28cropped%29%28b%29.jpg|John Nance Garner|1868-11-22|1967-11-07|Democratic
+https://cdn.britannica.com/92/135592-050-06EA6274/James-M-Cox-1920.jpg|James M. Cox|1870-03-31|1957-07-15|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/SPROUL%2C_WILLIAM_C._GOVERNOR_LCCN2016860405_Crop.jpg/500px-SPROUL%2C_WILLIAM_C._GOVERNOR_LCCN2016860405_Crop.jpg|William Sproul|1870-09-16|1928-03-21|Republican
+https://upload.wikimedia.org/wikipedia/commons/3/34/HULL%2C_CORDELL._HONORABLE_LCCN2016862713_%28cropped%29.jpg|Cordell Hull|1871-10-02|1955-07-23|Democratic
+https://cdn.britannica.com/26/13226-004-412F0CA2/Newton-D-Baker-1915.jpg|Newton D. Baker|1871-12-03|1937-12-25|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/PALMER%2C_A._MITCHELL._HONORABLE_LCCN2016857358_%28cropped%29.jpg/500px-PALMER%2C_A._MITCHELL._HONORABLE_LCCN2016857358_%28cropped%29.jpg|A. Mitchell Palmer|1872-05-04|1936-05-11|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Calvin_Coolidge_cph.3g10777_%28cropped%29.jpg/960px-Calvin_Coolidge_cph.3g10777_%28cropped%29.jpg|Calvin Coolidge|1872-07-04|1933-01-05|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/John_William_Davis.jpg/500px-John_William_Davis.jpg|John W. Davis|1873-04-13|1955-03-24|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/SMITH%2C_ALFRED._HONORABLE_LCCN2016862532_Trim.jpg/500px-SMITH%2C_ALFRED._HONORABLE_LCCN2016862532_Trim.jpg|Al Smith|1873-12-30|1944-10-04|Democratic
+https://upload.wikimedia.org/wikipedia/commons/8/84/FrankKnox_c1943_g399009_%28cropped_3x4%29_%28b%29.jpg|Frank Knox|1874-01-01|1944-04-28|Republican
+https://upload.wikimedia.org/wikipedia/commons/8/84/Charles_Linza_McNary_cph.3b18950_%28cropped_3x4%29.jpg|Charles L. McNary|1874-06-12|1944-02-25|Republican
+https://upload.wikimedia.org/wikipedia/commons/c/cb/Unsuccessful_1932.jpg|Herbert Hoover|1874-08-10|1964-10-20|Republican
+https://upload.wikimedia.org/wikipedia/commons/1/12/35_Alben_Barkley_3x4.jpg|Alben Barkley|1877-11-24|1956-04-30|Democratic
+https://images.findagrave.com/photos/2021/250/14687054_c87c8f9a-bc1c-42a5-a227-9c73592e874c.jpeg|Melvin Alvah Traylor|1878-10-19|1934-02-14|Republican
+https://cdn.britannica.com/35/2235-050-EB9BD73A/Douglas-MacArthur-1945.jpg|Douglas MacArthur|1880-01-26|1964-05-04|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/FDR-1944-Campaign-Portrait_%28cropped%29.jpg/500px-FDR-1944-Campaign-Portrait_%28cropped%29.jpg|Franklin D. Roosevelt|1882-01-30|1945-04-12|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Sen._B.K._Wheeler%2C_12-8-22_LOC_npcc.07484_%28cropped%29.jpg/500px-Sen._B.K._Wheeler%2C_12-8-22_LOC_npcc.07484_%28cropped%29.jpg|Burton K. Wheeler|1882-02-27|1975-01-06|Democratic
+https://upload.wikimedia.org/wikipedia/commons/3/35/Arthur_H._Vandenberg.jpg|Arthur Vandenberg|1884-03-22|1951-04-18|Republican
+https://upload.wikimedia.org/wikipedia/commons/0/0b/TRUMAN_58-766-06_%28cropped%29.jpg|Harry Truman|1884-05-08|1972-12-26|Democratic
+https://upload.wikimedia.org/wikipedia/commons/2/26/Harry_F._Byrd_Portrait_%283x4_cropped%29.jpg|Harry F. Byrd|1887-06-10|1966-10-20|Democratic
+https://cdn.britannica.com/77/1977-004-DA0B8B33/Alf-Landon.jpg|Alf Landon|1887-09-09|1987-10-12|Republican
+https://upload.wikimedia.org/wikipedia/commons/8/8d/Henry-A.-Wallace-Townsend_%283x4_cropped%29.jpeg|Henry Wallace|1888-10-07|1956-11-18|Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/f8/RobertATaft83rdCongress_%28cropped%29.png|Robert Taft|1889-09-08|1953-07-31|Republican
+https://upload.wikimedia.org/wikipedia/commons/0/02/Dwight_D._Eisenhower%2C_official_photo_portrait%2C_May_29%2C_1959_%28cropped%29%283%29.jpg|Dwight Eisenhower|1890-10-14|1969-03-28|Republican
+https://hips.hearstapps.com/hmg-prod/images/gettyimages-515517022-copy.jpg|Earl Warren|1891-03-19|1974-07-09|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Averell_Harriman_%281%29_Edit.jpg/500px-Averell_Harriman_%281%29_Edit.jpg|W. Averell Harriman|1891-11-15|1986-07-26|Democratic
+https://upload.wikimedia.org/wikipedia/commons/b/b5/Portrait_of_Wendell_Lewis_Willkie_Sitting_by_Wall_%28cropped%29.jpg|Wendell Willkie|1892-02-18|1944-10-08|Republican
+https://www.nga.org/wp-content/uploads/2018/11/John-Bricker-2.jpg|John Bricker|1893-09-06|1986-03-22|Republican
+https://upload.wikimedia.org/wikipedia/commons/4/4d/Richard_RussellJr.jpg|Richard Russell|1897-11-02|1971-01-21|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Margaret_Chase_Smith.jpg/500px-Margaret_Chase_Smith.jpg|Margaret Chase Smith|1897-12-14|1995-05-29|Republican
+https://s3.amazonaws.com/NARAprodstorage/lz/presidential-libraries/truman/photographs/58/58-150.jpg|Styles Bridges|1898-09-09|1961-11-26|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/AdlaiEStevenson1900-1965.jpg/500px-AdlaiEStevenson1900-1965.jpg|Adlai Stevenson II|1900-02-05|1965-07-14|Democratic
+https://upload.wikimedia.org/wikipedia/commons/7/7c/Portrait_of_U.S._Senator_Claude_Pepper%2C_ca._1940.jpg|Claude Pepper|1900-09-08|1989-05-30|Democratic
+https://upload.wikimedia.org/wikipedia/commons/6/6d/Wayne_Morse_%28cropped%29.jpg|Wayne Morse|1900-10-20|1974-07-22|Democratic
+https://upload.wikimedia.org/wikipedia/commons/c/c1/Portrait_of_W._Stuart_Symington_97-1844.jpg|Stuart Symington|1901-06-26|1988-12-14|Democratic
+https://cdn.britannica.com/16/62016-050-2B3799BF/Thomas-E-Dewey.jpg|Thomas Dewey|1902-03-24|1971-03-16|Republican
+https://upload.wikimedia.org/wikipedia/commons/5/56/Henry_Cabot_Lodge_Jr_%28R-MA%29_%28cropped%29.jpg|Henry Cabot Lodge Jr.|1902-07-05|1985-02-27|Republican
+https://static.wikia.nocookie.net/americanpolitics/images/4/43/Strom_Thurmond.jpg|Strom Thurmond|1902-12-05|2003-06-26|Republican
+https://i.namu.wiki/i/FglZ5dj9_VtVsuCZRrmZJUk_hma-sl2jT8AlQqutFMk8v9LA-hzDqAy1jFkRfbMnSjdkIArkxN26pgsw279u2w.webp|Mike Mansfield|1903-03-16|2001-10-05|Democratic
+https://ids.si.edu/ids/deliveryService?id=NPG-NPG_82_178Kefauver-000001|Estes Kefauver|1903-07-26|1963-08-10|Democratic
+https://upload.wikimedia.org/wikipedia/commons/1/11/Hiram_Fong.jpg|Hiram Fong|1906-10-15|2004-08-18|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Harold_Stassen_%281%29.jpg/500px-Harold_Stassen_%281%29.jpg|Harold Stassen|1907-04-13|2001-03-04|Republican
+https://upload.wikimedia.org/wikipedia/commons/3/31/George_Wilcken_Romney_%28cropped%29.png|George Romney|1907-07-08|1995-07-26|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/William_F._Knowland_headshot.jpg/500px-William_F._Knowland_headshot.jpg|William Knowland|1908-06-26|1974-02-23|Republican
+https://upload.wikimedia.org/wikipedia/commons/7/76/Governor_Nelson_Rockefeller_%28cropped2%29.png|Nelson Rockefeller|1908-07-08|1979-01-26|Republican
+https://upload.wikimedia.org/wikipedia/commons/c/c3/37_Lyndon_Johnson_3x4.jpg|Lyndon B. Johnson|1908-08-27|1972-01-22|Democratic
+https://m.media-amazon.com/images/M/MV5BZWMwNzhiNGUtN2IyOC00OGQ5LWI5OWUtN2E0Nzg1NGU2Y2I0XkEyXkFqcGc@._V1_.jpg|Barry Goldwater|1909-01-02|1998-05-29|Republican
+https://flolhub.github.io/images/president/Sam%20Yorty.png|Sam Yorty|1909-10-01|1973-09-08|1998-06-05|Democratic/Republican
+https://upload.wikimedia.org/wikipedia/commons/2/25/Governor_James_Allen_Rhodes_-_DPLA_-_c001083ac8b9ac1d78a4012c702f22f9_%28page_1%29_%28cropped%29.jpg|Jim Rhodes|1909-09-13|2001-03-04|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Official_Portrait_of_President_Reagan_1981-cropped.jpg/500px-Official_Portrait_of_President_Reagan_1981-cropped.jpg|Ronald Reagan|1911-02-06|2004-06-05|Republican
+https://upload.wikimedia.org/wikipedia/commons/6/64/Hubert_Humphrey_Portrait_Colorized.jpg|Hubert Humphrey|1911-05-27|1978-01-13|Democratic
+https://kids.kiddle.co/images/thumb/5/5d/Scoop_Jackson_%28D-WA%29_%28cropped%29.jpg/300px-Scoop_Jackson_%28D-WA%29_%28cropped%29.jpg|Henry M. Jackson|1912-05-31|1983-09-01|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Richard_Nixon_presidential_portrait_%281%29.jpg/500px-Richard_Nixon_presidential_portrait_%281%29.jpg|Richard Nixon|1913-01-09|1994-04-22|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Gerald_Ford_presidential_portrait_%28cropped_3%29.jpg/500px-Gerald_Ford_presidential_portrait_%28cropped_3%29.jpg|Gerald Ford|1913-07-14|2006-12-26|Republican
+https://communications.uflib.ufl.edu/wordpress/files/2020/05/SmathersWEB.jpg|George Smathers|1913-11-14|2007-01-20|Democratic
+https://www.congress.gov/img/member/m001121_200.jpg|Edmund Muskie|1914-03-28|1996-03-26|Democratic
+https://images.findagrave.com/photos/2002/183/21462_1025707507.jpg|Alan Cranston|1914-06-19|2000-12-31|Democratic
+https://upload.wikimedia.org/wikipedia/commons/3/35/1964_Portrait_Eugene_McCarthy_%28cropped2%29.jpg|Eugene McCarthy|1916-03-29|2005-12-10|Democratic
+https://upload.wikimedia.org/wikipedia/commons/a/ac/John_Connally_%28cropped%29.jpg|John Connally|1917-02-27|1973-05-01|1993-06-15|Democratic/Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/John_F._Kennedy%2C_White_House_color_photo_portrait_%283x4%29_%28cropped%29.jpg/500px-John_F._Kennedy%2C_White_House_color_photo_portrait_%283x4%29_%28cropped%29.jpg|John F. Kennedy|1917-05-29|1963-11-22|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/William_Scranton_%28R-PA%29_%28cropped%29.jpg/500px-William_Scranton_%28R-PA%29_%28cropped%29.jpg|William Scranton|1917-07-19|2013-07-28|Republican
+https://upload.wikimedia.org/wikipedia/commons/8/87/Terry_Sanford.jpg|Terry Sanford|1917-08-20|1998-04-18|Democratic
+https://www.senate.gov/artandhistory/history/resources/graphic/xlarge/wv_1977_byrd.jpg|Robert Byrd|1917-11-20|2010-06-28|Democratic
+https://flolhub.github.io/images/president/Tom%20Bradley.png|Tom Bradley|1917-12-29|1998-09-28|Democratic
+https://smartpolitics.lib.umn.edu/wp-content/uploads/2025/10/patricklucey30.jpg|Pat Lucey|1918-03-21|2014-05-10|Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/f3/39_Spiro_Agnew_3x4.jpg|Spiro Agnew|1918-11-09|1996-09-17|Republican
+https://images.findagrave.com/photos/2018/1/7717298_2fa3f821-dbce-4b0a-8342-cc67967f2639.jpeg|Vance Hartke|1919-05-31|2003-07-27|Democratic
+https://upload.wikimedia.org/wikipedia/commons/e/e4/George_Wallace_%28D-AL%29_%283x4%29.jpg|George Wallace|1919-08-25|1998-09-13|Democratic
+https://m.media-amazon.com/images/M/MV5BODI0OTUxMTctYzA2ZC00M2VkLWEwYTYtNGQwYjM3OTc4OTAyXkEyXkFqcGc@._V1_.jpg|Edward Brooke|1919-10-26|2015-01-03|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Lloyd_Bentsen_%281%29.jpg/500px-Lloyd_Bentsen_%281%29.jpg|Lloyd Bentsen|1921-02-11|2006-05-23|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/John_Glenn_Low_Res.jpg/500px-John_Glenn_Low_Res.jpg|John Glenn|1921-07-18|2016-12-08|Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/f9/John_V._Lindsay_%28NY%29.png|John Lindsay|1921-11-24|1971-08-11|2000-12-19|Republican/Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/FritzHollings.jpg/500px-FritzHollings.jpg|Fritz Hollings|1922-01-01|2019-04-06|Democratic
+https://s.wsj.net/public/resources/images/BN-WK877_OBITAN_FR_20171204160341.jpg|John Anderson|1922-02-15|2017-12-03|Republican
+https://kids.kiddle.co/images/thumb/d/d5/Mo_Udall.jpg/300px-Mo_Udall.jpg|Mo Udall|1922-06-15|1998-12-12|Democratic
+https://upload.wikimedia.org/wikipedia/commons/a/a3/George_McGovern_%28D-SD%29_%283x4-1%29.jpg|George McGovern|1922-07-19|2012-10-21|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Paul_Laxalt_2000.jpg/500px-Paul_Laxalt_2000.jpg|Paul Laxalt|1922-08-02|2018-08-06|Republican
+https://upload.wikimedia.org/wikipedia/commons/4/4f/Bob_Dole%2C_PCCWW_photo_portrait.JPG|Bob Dole|1923-07-23|2021-12-05|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/George_H._W._Bush_presidential_portrait_%28cropped_2%29.jpg/500px-George_H._W._Bush_presidential_portrait_%28cropped_2%29.jpg|George H. W. Bush|1924-06-12|2018-11-30|Republican
+https://scontent.fsjj2-1.fna.fbcdn.net/v/t39.30808-6/445450489_1252282272843859_8833654257477207495_n.jpg?stp=dst-jpg_tt6&cstp=mx440x587&ctp=s440x587&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=cqsJ4gURalwQ7kNvwEg6KVn&_nc_oc=AdrVWBFKVgkYPjRNSeFzbU4anC9w78F7GVpPD0lTyDJ_gqZK_ct8LEtUF82tlsGkp5v6I9ALrbK5h668BH1P7m42&_nc_zt=23&_nc_ht=scontent.fsjj2-1.fna&_nc_gid=cwtFAWGLD2rKaJffWU3nWA&_nc_ss=7b289&oh=00_Af80f67pwBcxOIRNN0zBMr2H1rcqYiy2gKbqHA0c3dJpeQ&oe=6A2A79B8|Frank Church|1924-07-25|1984-04-07|Democratic
+https://upload.wikimedia.org/wikipedia/commons/3/38/Jimmy_Carter_portrait_%283x4_cropped%29.jpg|Jimmy Carter|1924-10-01|2024-12-29|Democratic
+https://www.harvardsquarelibrary.org/wp-content/uploads/2014/04/chisholm.jpg|Shirley Chisholm|1924-11-30|2005-01-01|Democratic
+https://upload.wikimedia.org/wikipedia/commons/d/da/Alexander_Haig_Official_Portrait_%28cropped%29.jpg|Alexander Haig|1924-12-02|2010-02-20|Republican
+https://www.fineartstorehouse.com/p/629/portrait-howard-baker-38989493.jpg|Howard Baker|1925-11-15|2014-06-26|Republican
+https://www.nydailynews.com/wp-content/uploads/migration/2023/06/04/4UFULHIMDJECLCA63CT42II7UY.jpg|Robert F. Kennedy|1925-11-20|1968-06-06|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Patsy_Mink_1994_portrait_%28cropped%29.tif/lossy-page1-500px-Patsy_Mink_1994_portrait_%28cropped%29.tif.jpg|Patsy Mink|1927-12-06|2002-09-28|Democratic
+https://upload.wikimedia.org/wikipedia/commons/a/a1/Walter_Mondale_1977_vice_presidential_portrait_%28cropped3%29.jpg|Walter Mondale|1928-01-05|2021-04-19|Democratic
+https://www.iphalloffame.com/wp-content/uploads/2016/05/Birch-Bayh.jpg|Birch Bayh|1928-01-22|2019-03-14|Democratic
+https://upload.wikimedia.org/wikipedia/commons/d/d1/State_Sen_Reubin_Askew.jpg|Reubin Askew|1928-09-11|2014-03-13|Democratic
+https://m.media-amazon.com/images/M/MV5BYTIwZTg5ZTMtNjY1Yi00Yzk5LWE2MWEtOTk2ZDFjNDhkNTc4XkEyXkFqcGc@._V1_.jpg|Paul Simon|1928-11-29|2003-12-09|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Arlen_Specter_official_portrait_%28cropped2%29.jpg/500px-Arlen_Specter_official_portrait_%28cropped2%29.jpg|Arlen Specter|1930-02-12|2012-10-14|Republican
+https://cbn.com/sites/default/files/images/pat-robertson-headshot-web_0.jpg|Pat Robertson|1930-03-22|2023-06-08|Republican
+https://upload.wikimedia.org/wikipedia/commons/8/80/Ross_Perot.jpg|Ross Perot|1930-06-27|2019-07-09|Independent
+https://upload.wikimedia.org/wikipedia/commons/3/34/Adlai_III_%283x4%29.jpg|Adlai Stevenson III|1930-10-10|2021-09-06|Democratic
+https://hillsdale.edu/wp-content/uploads/2016/02/Phillip-Crane.jpg|Phil Crane|1930-11-03|2014-11-08|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Fred_Harris_Color.jpg/500px-Fred_Harris_Color.jpg|Fred Harris|1930-11-13|2024-11-23|Democratic
+https://upload.wikimedia.org/wikipedia/commons/2/20/Ted_Kennedy_1992.webp|Ted Kennedy|1932-02-22|2009-08-25|Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/fe/Dick_Lugar_official_photo_2010_%28tight_crop%29.JPG|Richard Lugar|1932-04-04|2019-04-28|Republican
+https://sabr.org/sites/default/files/CuomoMario.jpg|Mario Cuomo|1932-06-15|2015-01-01|Democratic
+https://upload.wikimedia.org/wikipedia/commons/2/22/Pete_Wilson_official_portrait%2C_1991_%28cropped%29.jpg|Pete Wilson|1933-08-23||Republican
+https://upload.wikimedia.org/wikipedia/commons/0/0c/Michael_Dukakis_%283x4_cropped%29.jpg|Michael Dukakis|1933-11-03||Democratic
+https://cdn.britannica.com/44/130944-050-BCE0FAB1/Orrin-G-Hatch.jpg|Orrin Hatch|1934-03-22|2022-04-23|Republican
+https://archives.delaware.gov/wp-content/uploads/sites/156/2018/09/GovDupont300.jpg|Pete du Pont|1935-01-22|2021-05-08|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jack_Kemp_official_portrait.jpg/500px-Jack_Kemp_official_portrait.jpg|Jack Kemp|1935-07-13|2009-05-02|Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Elizabeth_Dole_official_photo.jpg/500px-Elizabeth_Dole_official_photo.jpg|Elizabeth Dole|1936-07-||Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/John_McCain_official_portrait_2009_%283x4_cropped%29.jpg/500px-John_McCain_official_portrait_2009_%283x4_cropped%29.jpg|John McCain|1936-08-29|2018-08-25|Republican
+https://upload.wikimedia.org/wikipedia/commons/d/d6/Bob_Graham%2C_official_Senate_photo_portrait%2C_color_%283x4_cropped%29.jpg|Bob Graham|||Democratic
+https://upload.wikimedia.org/wikipedia/commons/b/b6/Gary_Hart_1995_%283x4%29.jpg|Gary Hart|1936-11-28||Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Colin_Powell_official_Secretary_of_State_photo.jpg/500px-Colin_Powell_official_Secretary_of_State_photo.jpg|Colin Powell|1937-04-05|2021-10-18|Republican
+https://media.gettyimages.com/id/491500445/photo/los-angeles-former-and-future-governor-of-california-jerry-brown-poses-for-a-portrait-session.jpg?s=612x612&w=0&k=20&c=Wn23nIbJ6P6PJRNsuI-S39mpRPO5D7gTzSvpflioJfU=|Jerry Brown|1938-04-07||Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Bruce_Babbitt_by_Gage_Skidmore.jpg/500px-Bruce_Babbitt_by_Gage_Skidmore.jpg|Bruce Babbitt|1938-06-27||Democratic
+https://bloximages.newyork1.vip.townnews.com/nvdaily.com/content/tncms/assets/v3/editorial/1/e7/1e7f1b5c-fb13-59c4-b940-bc89eb92906b/5f7ca6c9ad94e.image.jpg|Pat Buchanan|1938-11-02||Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Tom_Harkin_official_portrait.jpg/500px-Tom_Harkin_official_portrait.jpg|Tom Harkin|1939-11-19||Democratic
+https://cdn.britannica.com/69/132769-050-B28DA82A/Lamar-Alexander-2005.jpg|Lamar Alexander|1940-07-03||Republican
+https://upload.wikimedia.org/wikipedia/commons/c/cc/PatSchroeder.jpg|Pat Schroeder|1940-07-30|2023-03-13|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/46_Dick_Cheney_3x4.jpg/500px-46_Dick_Cheney_3x4.jpg|Dick Cheney|1941-01-30|2025-11-03|Republican
+https://upload.wikimedia.org/wikipedia/commons/3/3a/Dick_Gephardt_portrait_%283x4_crop%29.jpg|Dick Gephardt|1941-01-31||Democratic
+https://www.lowellcemetery.com/wp-content/uploads/2020/12/tsongas.jpg|Paul Tsongas|1941-02-14|1997-01-18|Democratic
+https://d3n8a8pro7vhmx.cloudfront.net/rainbowpush/pages/77/attachments/original/1603098830/Jesse_Jackson.jpg|Jesse Jackson|1941-10-08|2026-02-17|Democratic
+https://www.yu.edu/sites/default/files/styles/medium_large_250x250/public/2024-12/kasowitz_lieberman_joseph_300_1.jpg|Joe Lieberman|1942-02-24|2024-03-27|Democratic
+https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/PhilGramm_%281%29.jpg/500px-PhilGramm_%281%29.jpg|Phil Gramm|1942-07-08||Republican
+https://upload.wikimedia.org/wikipedia/commons/3/3e/Joe_Biden%2C_official_photo_portrait%2C_111th_Congress.jpg|Joe Biden|1942-11-20||Democratic
+https://futurecaucus.org/wp-content/uploads/2023/10/PHOTO-BBTNAS.jpg|Bill Bradley|1943-07-28||Democratic
+https://www.nga.org/wp-content/uploads/2018/11/Bob_Kerrey_portrait.gif|Bob Kerrey|1943-08-27||Democratic
+https://upload.wikimedia.org/wikipedia/commons/archive/c/c8/20200322064807%21General_Wesley_Clark_official_photograph_%28cropped%29.jpg|Wesley Clark|1944-12-23||Democratic
+https://www.drjamesdobson.org/wp-content/uploads/2025/05/gary.webp|Gary Bauer|1946-05-04||Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpeg/500px-George-W-Bush.jpeg|George W. Bush|1946-07-06||Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bill_Clinton.jpg/500px-Bill_Clinton.jpg|Bill Clinton|1946-08-19||Democratic
+https://upload.wikimedia.org/wikipedia/commons/a/a8/Dan_Quayle-crop.jpg|Dan Quayle|1947-02-04||Republican
+https://secure.gravatar.com/avatar/2a285856910828b7dcef07cfaeefe22d?s=800&d=mm&r=g|Steve Forbes|1947-07-18||Republican
+https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Al_Gore%2C_Vice_President_of_the_United_States%2C_official_portrait_1994.jpg/500px-Al_Gore%2C_Vice_President_of_the_United_States%2C_official_portrait_1994.jpg|Al Gore|1948-03-31||Democratic
+https://static.wikia.nocookie.net/althistory/images/3/3d/Howard_Dean_Alternate_Photo.png|Howard Dean|1948-11-17||Democratic
+https://upload.wikimedia.org/wikipedia/commons/f/f7/John_Edwards%2C_official_Senate_photo_portrait_%28cropped_3x4%29.jpg|John Edwards|1953-06-10||Democratic
+https://media-cldnry.s-nbcnews.com/image/upload/MSNBC/Sections/TVNews/MSNBC%20TV/UGC%20doc/TV%20Bios%20and%20Info/MSNBCBios/Done/Current/alsharpton_vertical.jpg|Al Sharpton|1954-10-03||Democratic
