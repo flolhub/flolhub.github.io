@@ -390,10 +390,10 @@
     <div>
       <h2>Politician Roster (CSV)</h2>
       <textarea id="csv-input" spellcheck="false" placeholder="Name|Birth|Death|Party  or  ImgURL|Name|Birth|Death|Party
-George Washington|1732-02-22|1799-12-14|Unaffiliated
+George Washington|1732-02-22|1799-12-14|Independent
 John Adams|1735-10-30|1826-07-04|Federalist
 …"></textarea>
-      <p class="hint">Format: Name|YYYY-MM-DD|YYYY-MM-DD|Party · Prefix with image URL if available · Use <em>alive</em> if living.</p>
+      <p class="hint">Format: Name|YYYY-MM-DD|YYYY-MM-DD|Party · Prefix with image URL if available</p>
     </div>
 
     <div class="controls">
@@ -424,7 +424,7 @@ John Adams|1735-10-30|1826-07-04|Federalist
     </div>
   </div>
 
-  <footer>Simulated for historical amusement · Results are randomised · No endorsement implied</footer>
+  <footer>Results are randomised · No endorsement implied</footer>
 </div>
 
 <script>
@@ -441,7 +441,7 @@ let bannedParties = new Set(); // parties no longer allowed to field candidates
 const PARTY_BANS = {
   'Whig':       'Federalist',
   'Republican': 'Whig',
-  'Democratic': 'Democratic-Republican',
+  'Democratic': 'Jeffersonian',
 };
 
 function applyPartyBan(party) {
@@ -490,12 +490,12 @@ function canRunAsIncumbent(name, year) {
 
 // ── Party → CSS color ──────────────────────────────────────────────────────
 const PARTY_COLORS = {
-  'Unaffiliated':           { bg: '#6b6b6b', fg: '#fff' },
-  'Federalist':             { bg: '#1a2f6b', fg: '#d0dcff' },
-  'Democratic-Republican':  { bg: '#1a5c1a', fg: '#d0ffd0' },
-  'Democratic':             { bg: '#003399', fg: '#cce0ff' },
-  'Republican':             { bg: '#990000', fg: '#ffd0d0' },
-  'Whig':                   { bg: '#6b3300', fg: '#ffe8cc' },
+  'Independent':            { bg: '#6b6b6b', fg: '#fff' },
+  'Federalist':             { bg: '#1a2f6b', fg: '#fff' },
+  'Jeffersonian':           { bg: '#1a5c1a', fg: '#fff' },
+  'Democratic':             { bg: '#003399', fg: '#fff' },
+  'Republican':             { bg: '#990000', fg: '#fff' },
+  'Whig':                   { bg: '#6b3300', fg: '#000' },
 };
 function partyStyle(p) {
   const c = PARTY_COLORS[p] || { bg: '#555', fg: '#fff' };
