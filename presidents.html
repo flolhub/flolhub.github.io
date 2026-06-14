@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Presidential Election Simulator</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <meta property="og:title" content="Presidential Election Simulator">
+	<link rel="shortcut icon" href="https://www.whitehouse.gov/wp-content/images/favicon-196x196.png" type="image/png">
+	<meta property="og:title" content="Presidential Election Simulator">
 	<meta property="og:description" content="Randomly generate US Presidents from 1796 to the future.">
 	<meta property="og:image" content="https://thecampaigntrail.net/static/images/banners/banner_alt.png">
-  <meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/presidents">
+  	<meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/presidents">
 <style>
   :root {
     --parchment: #f5edd6;
@@ -229,7 +230,7 @@
     flex-shrink: 0;
   }
 
-  /* Manual selection card · clickable square behind the portrait */
+  /* Manual selection card — clickable square behind the portrait */
   .pick-card {
     display: inline-flex;
     flex-direction: column;
@@ -394,10 +395,10 @@
     <div>
       <h2>Politician Roster (CSV)</h2>
       <textarea id="csv-input" spellcheck="false" placeholder="Name|Birth|Death|Party  or  ImgURL|Name|Birth|Death|Party
-George Washington|1732-02-22|1799-12-14|Independent
+George Washington|1732-02-22|1799-12-14|Unaffiliated
 John Adams|1735-10-30|1826-07-04|Federalist
 …"></textarea>
-      <p class="hint">Format: Name|YYYY-MM-DD|YYYY-MM-DD|Party · Prefix with image URL if available</p>
+      <p class="hint">Format: Name|YYYY-MM-DD|YYYY-MM-DD|Party · Prefix with image URL if available · Use <em>alive</em> if living.</p>
     </div>
 
     <div class="controls">
@@ -406,11 +407,11 @@ John Adams|1735-10-30|1826-07-04|Federalist
       <button class="btn btn-step" id="btn-auto" onclick="toggleAuto()" disabled>⏩ Auto-Run</button>
       <div class="speed-wrap">
         <label for="speed">Speed:</label>
-        <input type="range" id="speed" min="3000" max="200" value="1200" step="100">
+        <input type="range" id="speed" min="200" max="3000" value="1200" step="100">
       </div>
       <div class="manual-wrap">
         <input type="checkbox" id="chk-manual">
-        <label for="chk-manual">Manual Selection · choose election winners yourself</label>
+        <label for="chk-manual">Manual Selection — choose election winners yourself</label>
       </div>
       <button class="btn btn-reset" onclick="resetSim()">✕ Reset</button>
     </div>
@@ -428,7 +429,7 @@ John Adams|1735-10-30|1826-07-04|Federalist
     </div>
   </div>
 
-  <footer>Results are randomised · No endorsement implied</footer>
+  <footer>Simulated for historical amusement · Results are randomised · No endorsement implied</footer>
 </div>
 
 <script>
@@ -494,9 +495,9 @@ function canRunAsIncumbent(name, year) {
 
 // ── Party → CSS color ──────────────────────────────────────────────────────
 const PARTY_COLORS = {
-  'Independent':            { bg: '#6b6b6b', fg: '#fff' },
+  'Independent':           	{ bg: '#6b6b6b', fg: '#fff' },
   'Federalist':             { bg: '#ea9978', fg: '#fff' },
-  'Jeffersonian':           { bg: '#1a5c1a', fg: '#fff' },
+  'Jeffersonian':  			{ bg: '#1a5c1a', fg: '#fff' },
   'Democratic':             { bg: '#003399', fg: '#fff' },
   'Republican':             { bg: '#990000', fg: '#fff' },
   'Whig':                   { bg: '#f0c862', fg: '#000' },
@@ -587,7 +588,7 @@ async function startSim() {
   // If textarea is blank, try to load the default CSV
   if (!raw) {
     try {
-      const res = await fetch('presidents.csv');
+      const res = await fetch('placeholder.csv');
       if (res.ok) {
         raw = await res.text();
         document.getElementById('csv-input').value = raw;
@@ -597,7 +598,7 @@ async function startSim() {
 
   politicians = parseCSV(raw);
   if (politicians.length === 0) {
-    alert('No valid politicians found. Add entries to the roster or ensure presidents.csv is present.');
+    alert('No valid politicians found. Add entries to the roster or ensure placeholder.csv is present.');
     return;
   }
   presRows = [];
@@ -617,12 +618,12 @@ async function startSim() {
   updateInfo();
 }
 
-// On page load: pre-fill textarea from presidents.csv if it is empty
+// On page load: pre-fill textarea from placeholder.csv if it is empty
 window.addEventListener('DOMContentLoaded', async () => {
   const ta = document.getElementById('csv-input');
   if (!ta.value.trim()) {
     try {
-      const res = await fetch('presidents.csv');
+      const res = await fetch('placeholder.csv');
       if (res.ok) ta.value = await res.text();
     } catch (e) { /* silent — user can type manually */ }
   }
@@ -704,9 +705,11 @@ function runElection(year, washingtonSpecial = false) {
   }
 
   // ── Normal election ───────────────────────────────────────────────────
-  const incumbentEligible = incumbent && incumbent.termsServed < 2 && canRunAsIncumbent(incumbent.name, year);
+  const incPol = incumbent ? politicians.find(p => p.name === incumbent.name) : null;
+  const incAlive = incPol && isAliveAndOldEnough(incPol, year);
+  const incumbentEligible = incAlive && incumbent.termsServed < 2 && canRunAsIncumbent(incumbent.name, year);
   const incumbentRunning  = incumbentEligible && Math.random() < 0.80;
-  const incObj = incumbentRunning ? politicians.find(p => p.name === incumbent.name) : null;
+  const incObj = incumbentRunning ? incPol : null;
   const incParty = incObj ? getParty(incObj, year) : null;
 
   // All eligible challengers: alive, run-eligible, not the incumbent,
@@ -883,7 +886,8 @@ function toggleAuto() {
 function runNext() {
   if (!autoRunning) return;
   stepSim();
-  const delay = parseInt(document.getElementById('speed').value);
+  const sliderVal = parseInt(document.getElementById('speed').value);
+  const delay = 3200 - sliderVal; // invert: slider right = faster
   autoTimer = setTimeout(runNext, delay);
 }
 
@@ -910,14 +914,15 @@ function updateInfo() {
   const last = presRows[presRows.length - 1];
   const lastElec = last.elections[last.elections.length - 1];
   const nextYear = last.endYear;
-  const incEligible = incumbent && incumbent.termsServed < 2 && canRunAsIncumbent(incumbent.name, nextYear);
+  const incPol2 = incumbent ? politicians.find(x => x.name === incumbent.name) : null;
+  const incAlive2 = incPol2 && isAliveAndOldEnough(incPol2, nextYear);
+  const incEligible = incAlive2 && incumbent.termsServed < 2 && canRunAsIncumbent(incumbent.name, nextYear);
   const challengers = politicians.filter(p => {
     if (!isAliveAndOldEnough(p, nextYear)) return false;
     if (!canRunAsChallenger(p.name, nextYear)) return false;
     if (p.name === incumbent?.name) return false;
     if (incEligible) {
-      const incPol = politicians.find(x => x.name === incumbent.name);
-      if (incPol && getParty(p, nextYear) === getParty(incPol, nextYear)) return false;
+      if (incPol2 && getParty(p, nextYear) === getParty(incPol2, nextYear)) return false;
     }
     return true;
   });
@@ -972,8 +977,8 @@ function renderTable() {
       return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}</span>`;
     }).join('<br>');
 
-    // Term span display: start year, em-dash, end year on separate lines
-    const termSpan = `${row.startYear}<br>–<br>${row.endYear}`;
+    // Term span display: +1 to match inauguration year convention
+    const termSpan = `${row.startYear + 1}<br>–<br>${row.endYear + 1}`;
 
     rows += `
       <tr class="${isNew ? 'new-row' : ''}" id="row-${i}">
