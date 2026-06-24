@@ -611,7 +611,7 @@ async function startSim() {
   // If textarea is blank, try to load the default CSV
   if (!raw) {
     try {
-      const res = await fetch('president.csv');
+      const res = await fetch('presidents.csv');
       if (res.ok) {
         raw = await res.text();
         document.getElementById('csv-input').value = raw;
@@ -621,7 +621,7 @@ async function startSim() {
 
   politicians = parseCSV(raw);
   if (politicians.length === 0) {
-    alert('No valid politicians found. Add entries to the roster or ensure president.csv is present.');
+    alert('No valid politicians found. Add entries to the roster or ensure presidents.csv is present.');
     return;
   }
   presRows = [];
@@ -642,12 +642,12 @@ async function startSim() {
   updateInfo();
 }
 
-// On page load: pre-fill textarea from president.csv if it is empty
+// On page load: pre-fill textarea from presidents.csv if it is empty
 window.addEventListener('DOMContentLoaded', async () => {
   const ta = document.getElementById('csv-input');
   if (!ta.value.trim()) {
     try {
-      const res = await fetch('president.csv');
+      const res = await fetch('presidents.csv');
       if (res.ok) ta.value = await res.text();
     } catch (e) { /* silent — user can type manually */ }
   }
