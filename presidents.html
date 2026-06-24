@@ -5,11 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Presidential Election Simulator</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="https://www.whitehouse.gov/wp-content/images/favicon-196x196.png" type="image/png">
-	<meta property="og:title" content="Presidential Election Simulator">
-	<meta property="og:description" content="Randomly generate US Presidents from 1796 to the future.">
-	<meta property="og:image" content="https://thecampaigntrail.net/static/images/banners/banner_alt.png">
-  	<meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/presidents">
 <style>
   :root {
     --parchment: #f5edd6;
@@ -440,6 +435,7 @@ let currentYear = 1788;
 let incumbent = null;   // { name, party, termsServed }
 let autoTimer = null;
 let bannedParties = new Set(); // parties no longer allowed to field candidates
+let usedThirdPartyCandidates = new Set(); // third-party candidates who have already appeared
 
 // Party-succession rules: when a party first appears on a ballot, the
 // listed predecessor party is permanently banned from future candidacies.
@@ -476,10 +472,30 @@ function runsCount(name)  { return getRec(name).history.length; }
 // Can run as a CHALLENGER (volunteer candidate)?
 function canRunAsChallenger(name, year) {
   const p = politicians.find(x => x.name === name);
-  if (p && bannedParties.has(getParty(p, year))) return false;
+  if (!p) return false;
+  const party = getParty(p, year);
+  if (bannedParties.has(party)) return false;
   if (winsCount(name) >= 2) return false;
   if (runsCount(name) >= 3) return false;
+  if (isThirdParty(party) && usedThirdPartyCandidates.has(name)) return false;
   return true;
+}
+
+// Separate pool for third-party candidates — alive, eligible, not already used
+function getThirdPartyCandidate(excludeNames, year) {
+  if (Math.random() >= 0.05) return null; // 5% chance any third party appears
+  const pool = politicians.filter(p => {
+    if (!isAliveAndOldEnough(p, year)) return false;
+    const party = getParty(p, year);
+    if (!isThirdParty(party)) return false;
+    if (bannedParties.has(party)) return false;
+    if (usedThirdPartyCandidates.has(p.name)) return false;
+    if (excludeNames.has(p.name)) return false;
+    if (winsCount(p.name) >= 2) return false;
+    if (runsCount(p.name) >= 3) return false;
+    return true;
+  });
+  return pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
 }
 
 // Can run as INCUMBENT?
@@ -495,16 +511,23 @@ function canRunAsIncumbent(name, year) {
 
 // ── Party → CSS color ──────────────────────────────────────────────────────
 const PARTY_COLORS = {
-  'Independent':           	{ bg: '#6b6b6b', fg: '#fff' },
+  'Independent':           	{ bg: '#6b6b6b', fg: '#ffe' },
   'Federalist':             { bg: '#ea9978', fg: '#fff' },
   'Jeffersonian':  			{ bg: '#1a5c1a', fg: '#fff' },
   'Democratic':             { bg: '#003399', fg: '#fff' },
-  'Republican':             { bg: '#990000', fg: '#fff' },
+  'Republican':             { bg: '#d80000', fg: '#fff' },
   'Whig':                   { bg: '#f0c862', fg: '#000' },
+  'Socialist':              { bg: '#990000', fg: '#ffe' },
 };
 function partyStyle(p) {
   const c = PARTY_COLORS[p] || { bg: '#555', fg: '#fff' };
   return `background:${c.bg};color:${c.fg};`;
+}
+
+// A party is "third party" if its fg colour starts with '#ffe'
+function isThirdParty(party) {
+  const c = PARTY_COLORS[party];
+  return c ? c.fg.toLowerCase().startsWith('#ffe') : false;
 }
 
 // Returns a portrait element (img or initial letter) for a politician by name
@@ -588,7 +611,7 @@ async function startSim() {
   // If textarea is blank, try to load the default CSV
   if (!raw) {
     try {
-      const res = await fetch('presidents.csv');
+      const res = await fetch('placeholder.csv');
       if (res.ok) {
         raw = await res.text();
         document.getElementById('csv-input').value = raw;
@@ -598,12 +621,13 @@ async function startSim() {
 
   politicians = parseCSV(raw);
   if (politicians.length === 0) {
-    alert('No valid politicians found. Add entries to the roster or ensure presidents.csv is present.');
+    alert('No valid politicians found. Add entries to the roster or ensure placeholder.csv is present.');
     return;
   }
   presRows = [];
   runRecord = {};
   bannedParties = new Set();
+  usedThirdPartyCandidates = new Set();
   currentYear = 1788;
   incumbent = null;
   const washington = politicians.find(p => p.name.toLowerCase().includes('washington'));
@@ -618,12 +642,12 @@ async function startSim() {
   updateInfo();
 }
 
-// On page load: pre-fill textarea from presidents.csv if it is empty
+// On page load: pre-fill textarea from placeholder.csv if it is empty
 window.addEventListener('DOMContentLoaded', async () => {
   const ta = document.getElementById('csv-input');
   if (!ta.value.trim()) {
     try {
-      const res = await fetch('presidents.csv');
+      const res = await fetch('placeholder.csv');
       if (res.ok) ta.value = await res.text();
     } catch (e) { /* silent — user can type manually */ }
   }
@@ -633,7 +657,11 @@ function recordResult(name, outcome, year) {
   if (!name || name === '—') return;
   getRec(name).history.push(outcome);
   const p = politicians.find(x => x.name === name);
-  if (p) applyPartyBan(getParty(p, year));
+  if (p) {
+    const party = getParty(p, year);
+    applyPartyBan(party);
+    if (isThirdParty(party)) usedThirdPartyCandidates.add(name);
+  }
 }
 
 // Pick a runner-up: different party from winner, alive+old enough, can still run as challenger
@@ -656,14 +684,18 @@ function isManual() {
 
 function resolveManualChoice(winnerName) {
   if (!pendingElection) return;
-  const { year, candidateA, candidateB, incObj } = pendingElection;
-  const winner = winnerName === candidateA.name ? candidateA : candidateB;
-  const loser  = winnerName === candidateA.name ? candidateB : candidateA;
+  const { year, candidateA, candidateB, incObj, thirdParty } = pendingElection;
+  // Determine winner from all three possible candidates
+  const allThree = [candidateA, candidateB, thirdParty].filter(Boolean);
+  const winner = allThree.find(c => c.name === winnerName) || candidateA;
+  // Loser is the main-party candidate who isn't the winner
+  const loser = winner.name === candidateA.name ? candidateB : candidateA;
+  // If third party won, pass null so _finaliseElection doesn't double-record them
+  const tp = (thirdParty && thirdParty.name !== winner.name) ? thirdParty : null;
   pendingElection = null;
-  _finaliseElection(year, winner, loser, incObj);
+  _finaliseElection(year, winner, loser, incObj, tp);
   renderTable();
   updateInfo();
-  // Re-enable step/auto buttons
   document.getElementById('btn-step').disabled = false;
   document.getElementById('btn-auto').disabled = false;
 }
@@ -712,20 +744,19 @@ function runElection(year, washingtonSpecial = false) {
   const incObj = incumbentRunning ? incPol : null;
   const incParty = incObj ? getParty(incObj, year) : null;
 
-  // All eligible challengers: alive, run-eligible, not the incumbent,
-  // different party from incumbent, and not in a succession conflict with incumbent.
+  // Main challengers: alive, run-eligible, not the incumbent,
+  // different party and no succession conflict with incumbent.
+  // Excludes third-party politicians (they're handled separately).
   const challengers = politicians.filter(p => {
     if (!isAliveAndOldEnough(p, year)) return false;
     if (!canRunAsChallenger(p.name, year)) return false;
+    if (isThirdParty(getParty(p, year))) return false;
     if (p.name === incumbent?.name) return false;
     if (incParty && getParty(p, year) === incParty) return false;
     if (incParty && arePartiesConflicted(getParty(p, year), incParty)) return false;
     return true;
   });
 
-  // Pick candidateA (the "first" candidate)
-  // candidateB must always be from a DIFFERENT party than candidateA,
-  // and must not be in a succession conflict with candidateA.
   const allCandidates = incObj ? [incObj, ...challengers] : [...challengers];
   if (allCandidates.length === 0) return;
 
@@ -743,15 +774,19 @@ function runElection(year, washingtonSpecial = false) {
       ? eligibleB[Math.floor(Math.random() * eligibleB.length)]
       : null;
 
+    // Third-party candidate picked independently
+    const excludeNames = new Set([candidateA.name, candidateB?.name].filter(Boolean));
+    const thirdParty = getThirdPartyCandidate(excludeNames, year);
+
     if (!candidateB) {
-      _finaliseElection(year, candidateA, null, incObj);
+      _finaliseElection(year, candidateA, null, incObj, thirdParty);
       return;
     }
-    pendingElection = { year, candidateA, candidateB, incObj };
+    pendingElection = { year, candidateA, candidateB, incObj, thirdParty };
     document.getElementById('btn-step').disabled = true;
     document.getElementById('btn-auto').disabled = true;
     renderTable();
-    showManualPicker(year, candidateA, candidateB);
+    showManualPicker(year, candidateA, candidateB, thirdParty);
     return;
   }
 
@@ -767,7 +802,7 @@ function runElection(year, washingtonSpecial = false) {
 
   const winnerParty = getParty(winner, year);
 
-  // Loser must be from a different party and not in a succession conflict
+  // Runner-up: different party, no succession conflict
   const loserPool = allCandidates.filter(p => {
     const pParty = getParty(p, year);
     return p.name !== winner.name
@@ -778,10 +813,14 @@ function runElection(year, washingtonSpecial = false) {
     ? loserPool[Math.floor(Math.random() * loserPool.length)]
     : null;
 
-  _finaliseElection(year, winner, loser, incObj);
+  // Third-party candidate picked independently
+  const excludeNames = new Set([winner.name, loser?.name].filter(Boolean));
+  const thirdParty = getThirdPartyCandidate(excludeNames, year);
+
+  _finaliseElection(year, winner, loser, incObj, thirdParty);
 }
 
-function _finaliseElection(year, winner, loser, incObj) {
+function _finaliseElection(year, winner, loser, incObj, thirdParty = null) {
   const winnerParty = getParty(winner, year);
   const incumbentLost = incObj && winner.name !== incObj.name;
 
@@ -797,16 +836,19 @@ function _finaliseElection(year, winner, loser, incObj) {
   recordResult(winner.name, 'W', year);
   if (runnerUp && runnerUp.name !== winner.name) recordResult(runnerUp.name, 'L', year);
   if (incumbentLost && (!runnerUp || runnerUp.name !== incObj.name)) recordResult(incObj.name, 'L', year);
+  if (thirdParty) recordResult(thirdParty.name, 'L', year);
 
   const isReelection = incumbent && winner.name === incumbent.name;
   const runnerUpParty = runnerUp ? getParty(runnerUp, year) : '';
+  const thirdPartyName  = thirdParty ? thirdParty.name : null;
+  const thirdPartyParty = thirdParty ? getParty(thirdParty, year) : null;
 
   if (isReelection) {
     const row = presRows[presRows.length - 1];
     row.endYear = year + 4;
     row.termCount = 2;
     row.isNew = true;
-    row.elections.push({ year, runnerUpName: runnerUp?.name || '—', runnerUpParty });
+    row.elections.push({ year, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty });
     incumbent.termsServed = 2;
   } else {
     if (presRows.length > 0) presRows[presRows.length - 1].isNew = false;
@@ -818,18 +860,35 @@ function _finaliseElection(year, winner, loser, incObj) {
       startYear: year,
       endYear: year + 4,
       termCount: 1,
-      elections: [{ year, runnerUpName: runnerUp?.name || '—', runnerUpParty }],
+      elections: [{ year, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty }],
       isNew: true,
     });
     incumbent = { name: winner.name, party: winnerParty, termsServed: 1 };
   }
 }
 
-function showManualPicker(year, candidateA, candidateB) {
+function showManualPicker(year, candidateA, candidateB, thirdParty = null) {
   const partyA = getParty(candidateA, year);
   const partyB = getParty(candidateB, year);
   const nameA = candidateA.name.replace(/'/g, "\\'");
   const nameB = candidateB.name.replace(/'/g, "\\'");
+
+  const thirdCard = thirdParty ? (() => {
+    const partyC = getParty(thirdParty, year);
+    const nameC = thirdParty.name.replace(/'/g, "\\'");
+    return `
+      <div class="matchup-vs">vs</div>
+      <div class="matchup-candidate">
+        <div class="pick-card" tabindex="0" role="button" aria-label="Choose ${thirdParty.name}"
+             onclick="resolveManualChoice('${nameC}')"
+             onkeydown="if(event.key==='Enter'||event.key===' ')resolveManualChoice('${nameC}')">
+          ${portrait(thirdParty.name, true)}
+          <div style="font-size:0.75rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--blue);">${thirdParty.name}</div>
+          <span class="party-badge" style="${partyStyle(partyC)}">${partyC}</span>
+        </div>
+      </div>`;
+  })() : '';
+
   document.getElementById('current-info').innerHTML = `
     <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;text-align:center;margin-bottom:10px;color:var(--sepia);letter-spacing:0.05em;">
       Election of ${year} — Tap to Choose
@@ -854,6 +913,7 @@ function showManualPicker(year, candidateA, candidateB) {
           <span class="party-badge" style="${partyStyle(partyB)}">${partyB}</span>
         </div>
       </div>
+      ${thirdCard}
     </div>`;
 }
 
@@ -897,6 +957,7 @@ function resetSim() {
   presRows = [];
   runRecord = {};
   bannedParties = new Set();
+  usedThirdPartyCandidates = new Set();
   pendingElection = null;
   incumbent = null;
   currentYear = 1788;
@@ -930,10 +991,22 @@ function updateInfo() {
   const winnerName = last.presidentName;
   const ruName    = lastElec?.runnerUpName || '—';
   const ruParty   = lastElec?.runnerUpParty || '';
+  const tpName    = lastElec?.thirdPartyName || null;
+  const tpParty   = lastElec?.thirdPartyParty || '';
   const elecYear  = lastElec?.year || last.startYear;
 
   const winBadge = `<span class="party-badge" style="${partyStyle(last.party)}">${last.party}</span>`;
   const ruBadge  = ruParty ? `<span class="party-badge" style="${partyStyle(ruParty)}">${ruParty}</span>` : '';
+  const tpBadge  = tpParty ? `<span class="party-badge" style="${partyStyle(tpParty)}">${tpParty}</span>` : '';
+
+  const thirdCard = tpName ? `
+      <div class="matchup-vs">vs</div>
+      <div class="matchup-candidate">
+        <div style="margin:0 auto 4px;">${portrait(tpName, true)}</div>
+        <div style="font-size:0.75rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--blue);">${tpName}</div>
+        <div style="margin-top:2px;">${tpBadge}</div>
+        <div style="font-size:0.65rem;color:#888;margin-top:2px;">3rd Party</div>
+      </div>` : '';
 
   document.getElementById('current-info').innerHTML = `
     <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;text-align:center;margin-bottom:8px;color:var(--sepia);letter-spacing:0.05em;">
@@ -953,6 +1026,7 @@ function updateInfo() {
         <div style="margin-top:2px;">${ruBadge}</div>
         <div style="font-size:0.65rem;color:#888;margin-top:2px;">Runner-up</div>
       </div>
+      ${thirdCard}
     </div>
     <div style="border-top:1px solid rgba(200,146,42,0.3);padding-top:8px;font-size:0.78rem;line-height:1.6;">
       <strong>Next Election:</strong> ${nextYear}<br>
@@ -974,7 +1048,10 @@ function renderTable() {
       const ruBadge = el.runnerUpParty
         ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
         : '';
-      return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}</span>`;
+      const tpLine = el.thirdPartyName
+        ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
+        : '';
+      return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
     }).join('<br>');
 
     // Term span display: +1 to match inauguration year convention
