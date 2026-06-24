@@ -910,7 +910,7 @@ async function startSim() {
   // If no roster loaded yet, try fetching placeholder.csv
   if (rosterData.length === 0) {
     try {
-      const res = await fetch('placeholder.csv');
+      const res = await fetch('presidents.csv');
       if (res.ok) {
         const raw = await res.text();
         rosterData = parseCSV(raw);
@@ -945,7 +945,7 @@ async function startSim() {
 // On page load: fetch placeholder.csv and populate rosterData
 window.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch('placeholder.csv');
+    const res = await fetch('presidents.csv');
     if (res.ok) {
       const raw = await res.text();
       rosterData = parseCSV(raw);
