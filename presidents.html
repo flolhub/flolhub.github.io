@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Presidential Election Simulator</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="https://www.whitehouse.gov/wp-content/images/favicon-196x196.png" type="image/png">
+	<meta property="og:title" content="Presidential Election Simulator">
+	<meta property="og:description" content="Randomly generate US Presidents from 1796 to the future.">
+	<meta property="og:image" content="https://thecampaigntrail.net/static/images/banners/banner_alt.png">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/presidents">
 <style>
   :root {
     --parchment: #f5edd6;
@@ -361,6 +366,189 @@
     font-size: 0.9rem;
   }
 
+  /* ── ROSTER MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 100;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px;
+    overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--parchment);
+    border: 3px double var(--gold);
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .modal-header {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--gold);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .modal-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+  }
+
+  .modal-body {
+    padding: 0;
+    flex: 1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Table-style roster */
+  .roster-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+  }
+
+  .roster-table thead th {
+    background: #eee8d5;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 6px 8px;
+    border: 1px solid #bba96a;
+    color: var(--sepia);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .roster-table tbody tr {
+    border-bottom: 1px solid #d6c992;
+  }
+  .roster-table tbody tr:nth-child(even) { background: rgba(200,180,120,0.08); }
+
+  .roster-table td {
+    padding: 6px 6px;
+    border: 1px solid #d6c992;
+    vertical-align: middle;
+  }
+
+  .roster-table td.td-portrait {
+    width: 64px;
+    min-width: 64px;
+    text-align: center;
+    padding: 4px;
+  }
+
+  .roster-preview {
+    width: 52px;
+    height: 64px;
+    background: linear-gradient(135deg, #d4c48a 0%, #b8a870 100%);
+    border: 1px solid #9a8860;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: var(--sepia);
+    font-family: 'Playfair Display', serif;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .roster-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .roster-input {
+    background: var(--parchment);
+    border: 1px solid rgba(92,74,30,0.3);
+    padding: 4px 6px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.8rem;
+    color: var(--ink);
+    width: 100%;
+    border-radius: 2px;
+    -webkit-appearance: none;
+    min-width: 0;
+  }
+  .roster-input:focus { outline: 1px solid var(--gold); }
+
+  .roster-del {
+    background: none;
+    border: 1px solid var(--red);
+    color: var(--red);
+    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .roster-del:active { background: rgba(139,26,26,0.1); }
+
+  .modal-footer {
+    padding: 10px 12px;
+    border-top: 1px solid rgba(200,146,42,0.3);
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    background: var(--aged);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .btn-roster-open {
+    background: var(--aged);
+    color: var(--sepia);
+    border-color: rgba(92,74,30,0.5);
+    font-size: 0.8rem;
+  }
+  .btn-roster-open:active { background: #ddd0a0; }
+
+  .roster-count {
+    font-size: 0.72rem;
+    color: var(--sepia);
+    font-style: italic;
+    align-self: center;
+  }
+
   footer {
     text-align: center;
     padding: 10px;
@@ -374,10 +562,43 @@
   @media (max-width: 400px) {
     body { padding: 6px; }
     .page::before { display: none; }
+    .roster-row-fields { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
+
+<!-- ── ROSTER MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🦅 Politician Roster</h3>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <table class="roster-table">
+        <thead>
+          <tr>
+            <th>Portrait</th>
+            <th>Name</th>
+            <th>Born</th>
+            <th>Died</th>
+            <th>Party Switch</th>
+            <th>Party</th>
+            <th>Image URL</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="roster-list"></tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-step" style="flex:1;font-size:0.78rem;" onclick="addRosterRow()">+ Add Politician</button>
+      <button class="btn btn-start" style="flex:1;font-size:0.78rem;" onclick="saveAndClose()">✓ Save &amp; Close</button>
+    </div>
+  </div>
+</div>
+
 <div class="page">
   <header>
     <span class="eagle">🦅</span>
@@ -387,13 +608,9 @@
 
   <!-- TOP: Controls panel -->
   <div class="panel">
-    <div>
-      <h2>Politician Roster (CSV)</h2>
-      <textarea id="csv-input" spellcheck="false" placeholder="Name|Birth|Death|Party  or  ImgURL|Name|Birth|Death|Party
-George Washington|1732-02-22|1799-12-14|Unaffiliated
-John Adams|1735-10-30|1826-07-04|Federalist
-…"></textarea>
-      <p class="hint">Format: Name|YYYY-MM-DD|YYYY-MM-DD|Party · Prefix with image URL if available · Use <em>alive</em> if living.</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <button class="btn btn-roster-open btn" onclick="openModal()" style="flex:1;">📋 Edit Roster</button>
+      <span class="roster-count" id="roster-count">No roster loaded</span>
     </div>
 
     <div class="controls">
@@ -412,7 +629,7 @@ John Adams|1735-10-30|1826-07-04|Federalist
     </div>
 
     <div class="current-info" id="current-info">
-      <strong>Status:</strong><br>Enter your roster and click Start.
+      <strong>Status:</strong><br>Open the roster, load politicians, then click Start.
     </div>
   </div>
 
@@ -513,7 +730,7 @@ function canRunAsIncumbent(name, year) {
 const PARTY_COLORS = {
   'Independent':           	{ bg: '#6b6b6b', fg: '#ffe' },
   'Federalist':             { bg: '#ea9978', fg: '#fff' },
-  'Jeffersonian':  			{ bg: '#1a5c1a', fg: '#fff' },
+  'Jeffersonian':  			    { bg: '#1a5c1a', fg: '#fff' },
   'Democratic':             { bg: '#003399', fg: '#fff' },
   'Republican':             { bg: '#d80000', fg: '#fff' },
   'Whig':                   { bg: '#f0c862', fg: '#000' },
@@ -541,50 +758,139 @@ function portrait(name, large = false) {
   return `<div class="${cls}">${initial}</div>`;
 }
 
-// ── PARSE CSV ──────────────────────────────────────────────────────────────
-function parseCSV(raw) {
-  const lines = raw.trim().split('\n').filter(l => l.trim() && !l.startsWith('//'));
-  return lines.map(line => {
-    const parts = line.split('|').map(s => s.trim());
+// ── ROSTER DATA ────────────────────────────────────────────────────────────
+// rosterData: array of raw objects { img, name, birth, partySwitch, death, parties }
+// "parties" is the raw string e.g. "Democratic/Republican"
+let rosterData = [];
 
-    // Detect optional leading image URL
-    let offset = 0;
-    let img = null;
-    if (parts[0].startsWith('http://') || parts[0].startsWith('https://')) {
-      img = parts[0];
-      offset = 1;
-    }
+function parseCSVLine(line) {
+  if (!line.trim() || line.trim().startsWith('//')) return null;
+  const parts = line.split('|').map(s => s.trim());
+  let offset = 0, img = null;
+  if (parts[0].startsWith('http://') || parts[0].startsWith('https://')) { img = parts[0]; offset = 1; }
+  const rem = parts.slice(offset);
+  let name, birthStr, deathStr, partyStr, partySwitchStr = null;
+  if (rem.length >= 5) { [name, birthStr, partySwitchStr, deathStr, partyStr] = rem; }
+  else if (rem.length >= 4) { [name, birthStr, deathStr, partyStr] = rem; }
+  else return null;
+  return { img: img || '', name, birth: birthStr, partySwitch: partySwitchStr || '', death: deathStr, parties: partyStr };
+}
 
-    // After optional image: Name | Birth | [PartySwitch] | Death | Party[/Party2]
-    // 4-field base (no img):  Name | Birth | Death | Party
-    // 5-field base (no img):  Name | Birth | PartySwitch | Death | Party1/Party2
-    const remaining = parts.slice(offset);
+function parseDate(str) {
+  if (!str) return null;
+  // Parse YYYY-MM-DD as local midnight to avoid UTC timezone shifting
+  const [y, m, d] = str.split('-').map(Number);
+  if (!y || isNaN(y)) return null;
+  return new Date(y, (m || 1) - 1, d || 1);
+}
 
-    let name, birthStr, deathStr, partyStr, partySwitchStr = null;
-
-    if (remaining.length >= 5) {
-      // Has party-switch date
-      [name, birthStr, partySwitchStr, deathStr, partyStr] = remaining;
-    } else if (remaining.length >= 4) {
-      [name, birthStr, deathStr, partyStr] = remaining;
-    } else {
-      return null;
-    }
-
-    const birth = new Date(birthStr);
-    if (isNaN(birth)) return null;
-    const death = deathStr.toLowerCase() === 'alive' ? null : new Date(deathStr);
-    const partySwitch = partySwitchStr ? new Date(partySwitchStr) : null;
-
-    // Parse parties: "Democratic/Republican" → [party1, party2]
-    const parties = partyStr.split('/').map(p => p.trim());
-    const party1 = parties[0];
-    const party2 = parties[1] || null;
-
-    return { name, birth, death, img, party1, party2, partySwitch,
-             // convenience: current party (may be updated per year by getParty())
-             get party() { return this.party1; } };
+function rosterToPoliticians(data) {
+  return data.map(r => {
+    const birth = parseDate(r.birth);
+    if (!birth || isNaN(birth)) return null;
+    const isAlive = r.death.trim().toLowerCase() === 'alive';
+    const death = isAlive ? null : parseDate(r.death);
+    const partySwitch = r.partySwitch ? parseDate(r.partySwitch) : null;
+    const partySplit = r.parties.split('/').map(p => p.trim());
+    return {
+      name: r.name, birth, death, img: r.img || null,
+      party1: partySplit[0], party2: partySplit[1] || null, partySwitch,
+      get party() { return this.party1; }
+    };
   }).filter(Boolean);
+}
+
+function updateRosterCount() {
+  const el = document.getElementById('roster-count');
+  if (el) el.textContent = rosterData.length
+    ? `${rosterData.length} politician${rosterData.length !== 1 ? 's' : ''} loaded`
+    : 'No roster loaded';
+}
+
+// ── MODAL ──────────────────────────────────────────────────────────────────
+function openModal() {
+  renderRosterList();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function saveAndClose() {
+  const rows = document.querySelectorAll('#roster-list tr.roster-row');
+  rosterData = [];
+  rows.forEach(row => {
+    const get = field => row.querySelector(`[data-field="${field}"]`)?.value.trim() || '';
+    const entry = {
+      img:         get('img'),
+      name:        get('name'),
+      birth:       get('birth'),
+      partySwitch: get('partySwitch'),
+      death:       get('death'),
+      parties:     get('parties'),
+    };
+    if (entry.name && entry.birth && entry.parties) rosterData.push(entry);
+  });
+  updateRosterCount();
+  closeModal();
+}
+
+function updatePortraitPreview(input) {
+  const tr = input.closest('tr');
+  const preview = tr.querySelector('.roster-preview');
+  const url = input.value.trim();
+  const nameInput = tr.querySelector('[data-field="name"]');
+  const initial = nameInput?.value?.trim().charAt(0) || '?';
+  if (url) {
+    preview.innerHTML = `<img src="${esc(url)}" alt="portrait" onerror="this.parentElement.innerHTML='${initial}'">`;
+  } else {
+    preview.textContent = initial;
+  }
+}
+
+function addRosterRow(entry = {}) {
+  const tbody = document.getElementById('roster-list');
+  const tr = document.createElement('tr');
+  tr.className = 'roster-row';
+
+  const imgUrl = esc(entry.img || '');
+  const nameVal = esc(entry.name || '');
+  const initial = (entry.name || '').trim().charAt(0) || '?';
+  const previewInner = entry.img
+    ? `<img src="${imgUrl}" alt="portrait" onerror="this.parentElement.textContent='${initial}'">`
+    : initial;
+
+  tr.innerHTML = `
+    <td class="td-portrait">
+      <div class="roster-preview">${previewInner}</div>
+    </td>
+    <td><input class="roster-input" data-field="name"        value="${nameVal}"                      placeholder="George Washington"
+               oninput="const p=this.closest('tr').querySelector('.roster-preview');if(!this.closest('tr').querySelector('[data-field=\\'img\\']').value.trim())p.textContent=this.value.trim().charAt(0)||'?'"></td>
+    <td><input class="roster-input" data-field="birth"       value="${esc(entry.birth||'')}"         placeholder="1732-02-22"></td>
+    <td><input class="roster-input" data-field="death"       value="${esc(entry.death||'')}"         placeholder="1799-12-14 or alive"></td>
+    <td><input class="roster-input" data-field="partySwitch" value="${esc(entry.partySwitch||'')}"   placeholder="1973-05-01"></td>
+    <td><input class="roster-input" data-field="parties"     value="${esc(entry.parties||'')}"       placeholder="Federalist"></td>
+    <td><input class="roster-input" data-field="img"         value="${imgUrl}"                       placeholder="https://..."
+               oninput="updatePortraitPreview(this)"></td>
+    <td><button class="roster-del" onclick="this.closest('tr').remove()" aria-label="Remove">✕</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function renderRosterList() {
+  const tbody = document.getElementById('roster-list');
+  tbody.innerHTML = '';
+  rosterData.forEach(entry => addRosterRow(entry));
+  if (rosterData.length === 0) addRosterRow();
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── PARSE CSV (for loading from file) ─────────────────────────────────────
+function parseCSV(raw) {
+  return raw.split('\n').map(parseCSVLine).filter(Boolean);
 }
 
 // Return the party a politician belongs to at a given election year
@@ -606,22 +912,21 @@ function isAliveAndOldEnough(p, year) {
 
 // ── SIMULATION ─────────────────────────────────────────────────────────────
 async function startSim() {
-  let raw = document.getElementById('csv-input').value.trim();
-
-  // If textarea is blank, try to load the default CSV
-  if (!raw) {
+  // If no roster loaded yet, try fetching placeholder.csv
+  if (rosterData.length === 0) {
     try {
       const res = await fetch('presidents.csv');
       if (res.ok) {
-        raw = await res.text();
-        document.getElementById('csv-input').value = raw;
+        const raw = await res.text();
+        rosterData = parseCSV(raw);
+        updateRosterCount();
       }
-    } catch (e) { /* file not found or offline — continue with empty */ }
+    } catch (e) {}
   }
 
-  politicians = parseCSV(raw);
+  politicians = rosterToPoliticians(rosterData);
   if (politicians.length === 0) {
-    alert('No valid politicians found. Add entries to the roster or ensure presidents.csv is present.');
+    alert('No valid politicians found. Open the roster and add some politicians first.');
     return;
   }
   presRows = [];
@@ -642,15 +947,16 @@ async function startSim() {
   updateInfo();
 }
 
-// On page load: pre-fill textarea from presidents.csv if it is empty
+// On page load: fetch placeholder.csv and populate rosterData
 window.addEventListener('DOMContentLoaded', async () => {
-  const ta = document.getElementById('csv-input');
-  if (!ta.value.trim()) {
-    try {
-      const res = await fetch('presidents.csv');
-      if (res.ok) ta.value = await res.text();
-    } catch (e) { /* silent — user can type manually */ }
-  }
+  try {
+    const res = await fetch('presidents.csv');
+    if (res.ok) {
+      const raw = await res.text();
+      rosterData = parseCSV(raw);
+      updateRosterCount();
+    }
+  } catch (e) { /* silent */ }
 });
 
 function recordResult(name, outcome, year) {
@@ -660,7 +966,9 @@ function recordResult(name, outcome, year) {
   if (p) {
     const party = getParty(p, year);
     applyPartyBan(party);
-    if (isThirdParty(party)) usedThirdPartyCandidates.add(name);
+    // Third-party candidates who LOSE are spent — they can never appear again.
+    // Third-party candidates who WIN get one more run (as incumbent or challenger).
+    if (isThirdParty(party) && outcome === 'L') usedThirdPartyCandidates.add(name);
   }
 }
 
@@ -716,7 +1024,7 @@ function runElection(year, washingtonSpecial = false) {
       const row = presRows[presRows.length - 1];
       row.endYear = year + 4;
       row.termCount = 2;
-      row.elections.push({ year, runnerUpName: runnerUp?.name || '—', runnerUpParty: runnerUp ? getParty(runnerUp, year) : '' });
+      row.elections.push({ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty: runnerUp ? getParty(runnerUp, year) : '' });
       row.isNew = true;
       incumbent.termsServed = 2;
     } else {
@@ -728,7 +1036,7 @@ function runElection(year, washingtonSpecial = false) {
         startYear: year,
         endYear: year + 4,
         termCount: 1,
-        elections: [{ year, runnerUpName: runnerUp?.name || '—', runnerUpParty: runnerUp ? getParty(runnerUp, year) : '' }],
+        elections: [{ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty: runnerUp ? getParty(runnerUp, year) : '' }],
         isNew: true,
       });
       incumbent = { name: w.name, party: winnerParty, termsServed: 1 };
@@ -848,7 +1156,7 @@ function _finaliseElection(year, winner, loser, incObj, thirdParty = null) {
     row.endYear = year + 4;
     row.termCount = 2;
     row.isNew = true;
-    row.elections.push({ year, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty });
+    row.elections.push({ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty });
     incumbent.termsServed = 2;
   } else {
     if (presRows.length > 0) presRows[presRows.length - 1].isNew = false;
@@ -860,7 +1168,7 @@ function _finaliseElection(year, winner, loser, incObj, thirdParty = null) {
       startYear: year,
       endYear: year + 4,
       termCount: 1,
-      elections: [{ year, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty }],
+      elections: [{ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty }],
       isNew: true,
     });
     incumbent = { name: winner.name, party: winnerParty, termsServed: 1 };
@@ -994,8 +1302,9 @@ function updateInfo() {
   const tpName    = lastElec?.thirdPartyName || null;
   const tpParty   = lastElec?.thirdPartyParty || '';
   const elecYear  = lastElec?.year || last.startYear;
+  const currentParty = lastElec?.winnerParty || last.party;
 
-  const winBadge = `<span class="party-badge" style="${partyStyle(last.party)}">${last.party}</span>`;
+  const winBadge = `<span class="party-badge" style="${partyStyle(currentParty)}">${currentParty}</span>`;
   const ruBadge  = ruParty ? `<span class="party-badge" style="${partyStyle(ruParty)}">${ruParty}</span>` : '';
   const tpBadge  = tpParty ? `<span class="party-badge" style="${partyStyle(tpParty)}">${tpParty}</span>` : '';
 
@@ -1005,7 +1314,7 @@ function updateInfo() {
         <div style="margin:0 auto 4px;">${portrait(tpName, true)}</div>
         <div style="font-size:0.75rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--blue);">${tpName}</div>
         <div style="margin-top:2px;">${tpBadge}</div>
-        <div style="font-size:0.65rem;color:#888;margin-top:2px;">3rd Party</div>
+        <div style="font-size:0.65rem;color:#888;margin-top:2px;">Third</div>
       </div>` : '';
 
   document.getElementById('current-info').innerHTML = `
@@ -1040,8 +1349,22 @@ function renderTable() {
 
   let rows = '';
   presRows.forEach((row, i) => {
-    const badge = `<span class="party-badge" style="${partyStyle(row.party)}">${row.party}</span>`;
+    // Collect all distinct parties this president ran under across their elections
+    const allParties = [...new Set(row.elections.map(el => el.winnerParty || row.party))];
+    const badge = allParties.map(p =>
+      `<span class="party-badge" style="${partyStyle(p)}">${p}</span>`
+    ).join('<br>');
+
     const isNew = row.isNew;
+
+    // Name cell: birth–death for deceased, b. YYYY for living
+    // Use UTC year to avoid timezone shifting YYYY-MM-DD dates
+    const pol = politicians.find(x => x.name === row.presidentName);
+    const birthYear = row.presidentBirth ? row.presidentBirth.getUTCFullYear() : '?';
+    const dateLabel = (pol && pol.death !== null && pol.death !== undefined && !isNaN(pol.death))
+      ? `${birthYear}–${pol.death.getUTCFullYear()}`
+      : `b. ${birthYear}`;
+    const nameSub = `<span style="font-size:0.72rem;font-weight:400;color:#555;">(${dateLabel})</span>`;
 
     // Build runner-up cell: list all elections for this row
     const ruLines = row.elections.map(el => {
@@ -1049,7 +1372,7 @@ function renderTable() {
         ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
         : '';
       const tpLine = el.thirdPartyName
-        ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
+        ? `<br><span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span>`
         : '';
       return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
     }).join('<br>');
@@ -1061,7 +1384,7 @@ function renderTable() {
       <tr class="${isNew ? 'new-row' : ''}" id="row-${i}">
         <td class="td-no">${row.no}</td>
         <td class="portrait-cell">${portrait(row.presidentName)}</td>
-        <td class="td-name">${row.presidentName}<br><span style="font-size:0.75rem;font-weight:400;color:#555;">(b. ${row.presidentBirth ? row.presidentBirth.getFullYear() : '?'})</span></td>
+        <td class="td-name">${row.presidentName}<br>${nameSub}</td>
         <td class="td-year">${termSpan}</td>
         <td class="td-party">${badge}</td>
         <td class="td-terms" style="text-align:center;">${row.termCount}</td>
