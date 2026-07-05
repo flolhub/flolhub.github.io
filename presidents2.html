@@ -1407,22 +1407,24 @@ function renderTable() {
       : `b. ${birthYear}`;
     const nameSub = `<span style="font-size:0.72rem;font-weight:400;color:#555;">(${dateLabel})</span>`;
 
-    // Build runner-up cell: midterm rows show "Assumed office", others list elections
+    // Build runner-up cell: midterm rows prefix "Assumed office", then show any subsequent elections
+    const electionLines = row.elections.map(el => {
+      const ruBadge = el.runnerUpParty
+        ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
+        : '';
+      const tpLine = el.thirdPartyName
+        ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
+        : '';
+      return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
+    }).join('<br>');
     const ruLines = row.midterm
-      ? `<span style="font-size:0.75rem;font-style:italic;color:#888;">Assumed office</span>`
-      : row.elections.map(el => {
-          const ruBadge = el.runnerUpParty
-            ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
-            : '';
-          const tpLine = el.thirdPartyName
-            ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
-            : '';
-          return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
-        }).join('<br>');
+      ? `<span style="font-size:0.75rem;font-style:italic;color:#888;">Assumed office</span>${electionLines ? '<br>' + electionLines : ''}`
+      : electionLines;
 
-    // Term span: midterm rows use exact start year; diedInOffice rows show exact death year
+    // Term span: midterm start is exact death year, end gets +1 like elected rows
+    // diedInOffice end is the exact death year (no +1)
     const startDisplay = row.midterm ? row.startYear : row.startYear + 1;
-    const endDisplay   = (row.midterm || row.diedInOffice) ? row.endYear : row.endYear + 1;
+    const endDisplay   = row.diedInOffice ? row.endYear : row.endYear + 1;
     const termSpan = `${startDisplay}<br>–<br>${endDisplay}`;
 
     rows += `
