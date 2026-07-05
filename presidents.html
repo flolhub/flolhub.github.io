@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Presidential Election Simulator</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="https://www.whitehouse.gov/wp-content/images/favicon-196x196.png" type="image/png">
 	<meta property="og:title" content="Presidential Election Simulator">
 	<meta property="og:description" content="Randomly generate US Presidents from 1796 to the future.">
@@ -57,7 +56,7 @@
     background: var(--ink);
     color: var(--parchment);
     text-align: center;
-    padding: 18px 16px 14px;
+    padding: 0px;
     border-bottom: 4px solid var(--gold);
   }
 
@@ -564,6 +563,16 @@
     .page::before { display: none; }
     .roster-row-fields { grid-template-columns: 1fr; }
   }
+    .container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+    .bottom-left {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
 </style>
 </head>
 <body>
@@ -600,37 +609,38 @@
 </div>
 
 <div class="page">
-  <header>
-    <span class="eagle">🦅</span>
-    <h1>Presidential Election Simulator</h1>
-    <p>United States of America — From 1788 onward</p>
+  <header><div class="container"><img src="https://thecampaigntrail.net/static/images/banners/banner_alt.png" style="width: 100%;"><div class="bottom-left"><h1 style="background-color: #1a1208; padding: 5px;">Presidential Election Simulator</h1></div></div>
+    
+    
+    
+    
   </header>
 
   <!-- TOP: Controls panel -->
   <div class="panel">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
       <button class="btn btn-roster-open btn" onclick="openModal()" style="flex:1;">📋 Edit Roster</button>
-      <span class="roster-count" id="roster-count">No roster loaded</span>
+      <span class="roster-count" id="roster-count">276 politicians loaded</span>
     </div>
 
     <div class="controls">
       <button class="btn btn-start" onclick="startSim()">▶ Start Simulation</button>
-      <button class="btn btn-step" id="btn-step" onclick="stepSim()" disabled>⏭ Next Election</button>
-      <button class="btn btn-step" id="btn-auto" onclick="toggleAuto()" disabled>⏩ Auto-Run</button>
+      <button class="btn btn-step" id="btn-step" onclick="stepSim()" disabled="">⏭ Next Election</button>
+      <button class="btn btn-step" id="btn-auto" onclick="toggleAuto()" disabled="">⏩ Auto-Run</button>
       <div class="speed-wrap">
         <label for="speed">Speed:</label>
         <input type="range" id="speed" min="200" max="3000" value="1200" step="100">
       </div>
       <div class="manual-wrap">
         <input type="checkbox" id="chk-manual">
-        <label for="chk-manual">Manual Selection — choose election winners yourself</label>
+        <label for="chk-manual">Manual Selection: choose election winners yourself</label>
       </div>
       <button class="btn btn-reset" onclick="resetSim()">✕ Reset</button>
     </div>
 
     <div class="current-info" id="current-info">
-      <strong>Status:</strong><br>Open the roster, load politicians, then click Start.
-    </div>
+      <strong>Rules:</strong><br>Open the roster, load politicians, then click Start.<br>George Washington needs to be loaded in to progress.
+</div>
   </div>
 
   <!-- BOTTOM: Results table -->
@@ -730,11 +740,13 @@ function canRunAsIncumbent(name, year) {
 const PARTY_COLORS = {
   'Independent':           	{ bg: '#6b6b6b', fg: '#ffe' },
   'Federalist':             { bg: '#ea9978', fg: '#fff' },
-  'Jeffersonian':  			    { bg: '#1a5c1a', fg: '#fff' },
+  'Jeffersonian':  			{ bg: '#1a5c1a', fg: '#fff' },
   'Democratic':             { bg: '#003399', fg: '#fff' },
   'Republican':             { bg: '#d80000', fg: '#fff' },
   'Whig':                   { bg: '#f0c862', fg: '#000' },
   'Socialist':              { bg: '#990000', fg: '#ffe' },
+  'Green':              	{ bg: '#42a942', fg: '#ffe' },
+  'Reform':              	{ bg: '#57007f', fg: '#ffe' },
 };
 function partyStyle(p) {
   const c = PARTY_COLORS[p] || { bg: '#555', fg: '#fff' };
@@ -1039,17 +1051,61 @@ function runElection(year, washingtonSpecial = false) {
         elections: [{ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty: runnerUp ? getParty(runnerUp, year) : '' }],
         isNew: true,
       });
-      incumbent = { name: w.name, party: winnerParty, termsServed: 1 };
+      incumbent = { name: w.name, party: winnerParty, termsServed: 1, startYear: year };
     }
     return;
   }
 
   // ── Normal election ───────────────────────────────────────────────────
   const incPol = incumbent ? politicians.find(p => p.name === incumbent.name) : null;
-  const incAlive = incPol && isAliveAndOldEnough(incPol, year);
+  let successionHappened = false;
+
+  // ── Mid-term death check ──────────────────────────────────────────────
+  if (incPol && incPol.death) {
+    const termStart = new Date(incumbent.startYear || (year - 4), 0, 20);
+    const electionDay = new Date(year, 10, 1);
+    if (incPol.death > termStart && incPol.death < electionDay) {
+      const succParty = getParty(incPol, year);
+      const successorPool = politicians.filter(p =>
+        p.name !== incPol.name &&
+        isAliveAndOldEnough(p, year) &&
+        getParty(p, year) === succParty &&
+        canRunAsChallenger(p.name, year)
+      );
+      if (successorPool.length > 0) {
+        const successor = successorPool[Math.floor(Math.random() * successorPool.length)];
+        // Store the actual death year; mark row so renderTable shows it without +1 offset
+        const deathYear = incPol.death.getFullYear();
+        if (presRows.length > 0) {
+          const lastRow = presRows[presRows.length - 1];
+          lastRow.endYear = deathYear;       // exact death year
+          lastRow.diedInOffice = true;       // skip +1 in term span
+          lastRow.isNew = false;
+        }
+        presRows.push({
+          no: presRows.length + 1,
+          presidentName: successor.name,
+          presidentBirth: successor.birth,
+          party: getParty(successor, year),
+          startYear: deathYear,
+          endYear: year,
+          termCount: 1,
+          elections: [],
+          isNew: true,
+          midterm: true,
+        });
+        incumbent = { name: successor.name, party: getParty(successor, year), termsServed: 1, startYear: deathYear };
+        successionHappened = true;
+      }
+    }
+  }
+
+  // After succession the successor is always their party's candidate (100% forced)
+  const incPolNow = incumbent ? politicians.find(p => p.name === incumbent.name) : null;
+  const incAlive = incPolNow && isAliveAndOldEnough(incPolNow, year);
   const incumbentEligible = incAlive && incumbent.termsServed < 2 && canRunAsIncumbent(incumbent.name, year);
-  const incumbentRunning  = incumbentEligible && Math.random() < 0.80;
-  const incObj = incumbentRunning ? incPol : null;
+  const incumbentRunning  = incumbentEligible && (successionHappened || Math.random() < 0.80);
+  const incObj = incumbentRunning ? incPolNow : null;
   const incParty = incObj ? getParty(incObj, year) : null;
 
   // Main challengers: alive, run-eligible, not the incumbent,
@@ -1171,7 +1227,7 @@ function _finaliseElection(year, winner, loser, incObj, thirdParty = null) {
       elections: [{ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty }],
       isNew: true,
     });
-    incumbent = { name: winner.name, party: winnerParty, termsServed: 1 };
+    incumbent = { name: winner.name, party: winnerParty, termsServed: 1, startYear: year };
   }
 }
 
@@ -1349,8 +1405,10 @@ function renderTable() {
 
   let rows = '';
   presRows.forEach((row, i) => {
-    // Collect all distinct parties this president ran under across their elections
-    const allParties = [...new Set(row.elections.map(el => el.winnerParty || row.party))];
+    // Collect all distinct parties this president ran under
+    const allParties = row.midterm
+      ? [row.party]
+      : [...new Set(row.elections.map(el => el.winnerParty || row.party))];
     const badge = allParties.map(p =>
       `<span class="party-badge" style="${partyStyle(p)}">${p}</span>`
     ).join('<br>');
@@ -1366,19 +1424,25 @@ function renderTable() {
       : `b. ${birthYear}`;
     const nameSub = `<span style="font-size:0.72rem;font-weight:400;color:#555;">(${dateLabel})</span>`;
 
-    // Build runner-up cell: list all elections for this row
-    const ruLines = row.elections.map(el => {
+    // Build runner-up cell: midterm rows prefix "Assumed office", then show any subsequent elections
+    const electionLines = row.elections.map(el => {
       const ruBadge = el.runnerUpParty
         ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
         : '';
       const tpLine = el.thirdPartyName
-        ? `<br>${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span>`
+        ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
         : '';
       return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
     }).join('<br>');
+    const ruLines = row.midterm
+      ? `<span style="font-size:0.75rem;font-style:italic;color:#888;">Assumed office</span>${electionLines ? '<br>' + electionLines : ''}`
+      : electionLines;
 
-    // Term span display: +1 to match inauguration year convention
-    const termSpan = `${row.startYear + 1}<br>–<br>${row.endYear + 1}`;
+    // Term span: midterm start is exact death year, end gets +1 like elected rows
+    // diedInOffice end is the exact death year (no +1)
+    const startDisplay = row.midterm ? row.startYear : row.startYear + 1;
+    const endDisplay   = row.diedInOffice ? row.endYear : row.endYear + 1;
+    const termSpan = `${startDisplay}<br>–<br>${endDisplay}`;
 
     rows += `
       <tr class="${isNew ? 'new-row' : ''}" id="row-${i}">
@@ -1402,12 +1466,12 @@ function renderTable() {
           <th>Term(s)</th>
           <th>Party</th>
           <th>Terms</th>
-          <th>Runner-up(s)</th>
+          <th>Opponents</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>`;
 }
 </script>
-</body>
-</html>
+
+</body></html>
