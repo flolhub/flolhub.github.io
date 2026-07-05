@@ -654,7 +654,7 @@ let usedThirdPartyCandidates = new Set(); // third-party candidates who have alr
 const PARTY_BANS = {
   'Whig':       'Federalist',
   'Republican': 'Whig',
-  'Democratic': 'Jeffersonian',
+  'Democratic': 'Democratic-Republican',
 };
 
 function applyPartyBan(party) {
@@ -723,13 +723,12 @@ function canRunAsIncumbent(name, year) {
 
 // ── Party → CSS color ──────────────────────────────────────────────────────
 const PARTY_COLORS = {
-  'Independent':           	{ bg: '#6b6b6b', fg: '#ffe' },
-  'Federalist':             { bg: '#ea9978', fg: '#fff' },
-  'Jeffersonian':  			    { bg: '#1a5c1a', fg: '#fff' },
-  'Democratic':             { bg: '#003399', fg: '#fff' },
-  'Republican':             { bg: '#d80000', fg: '#fff' },
-  'Whig':                   { bg: '#f0c862', fg: '#000' },
-  'Socialist':              { bg: '#990000', fg: '#ffe' },
+  'Unaffiliated':           { bg: '#6b6b6b', fg: '#fff' },
+  'Federalist':             { bg: '#1a2f6b', fg: '#d0dcff' },
+  'Democratic-Republican':  { bg: '#1a5c1a', fg: '#d0ffd0' },
+  'Democratic':             { bg: '#003399', fg: '#cce0ff' },
+  'Republican':             { bg: '#990000', fg: '#ffd0d0' },
+  'Whig':                   { bg: '#6b3300', fg: '#ffe8cc' },
 };
 function partyStyle(p) {
   const c = PARTY_COLORS[p] || { bg: '#555', fg: '#fff' };
@@ -1034,17 +1033,61 @@ function runElection(year, washingtonSpecial = false) {
         elections: [{ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty: runnerUp ? getParty(runnerUp, year) : '' }],
         isNew: true,
       });
-      incumbent = { name: w.name, party: winnerParty, termsServed: 1 };
+      incumbent = { name: w.name, party: winnerParty, termsServed: 1, startYear: year };
     }
     return;
   }
 
   // ── Normal election ───────────────────────────────────────────────────
   const incPol = incumbent ? politicians.find(p => p.name === incumbent.name) : null;
+
+  // ── Mid-term death check ──────────────────────────────────────────────
+  // If the incumbent died during their term, a same-party successor
+  // steps in for the remainder, then faces the next election as incumbent.
+  if (incPol && incPol.death) {
+    const termStart = new Date(incumbent.startYear || (year - 4), 0, 20); // Jan 20 of start year
+    const electionDay = new Date(year, 10, 1);
+    if (incPol.death > termStart && incPol.death < electionDay) {
+      // President died in office — find a same-party successor
+      const succParty = getParty(incPol, year);
+      const successorPool = politicians.filter(p =>
+        p.name !== incPol.name &&
+        isAliveAndOldEnough(p, year) &&
+        getParty(p, year) === succParty &&
+        canRunAsChallenger(p.name, year)
+      );
+      if (successorPool.length > 0) {
+        const successor = successorPool[Math.floor(Math.random() * successorPool.length)];
+        // Close the incumbent's row at death year
+        const deathYear = incPol.death.getFullYear();
+        if (presRows.length > 0) {
+          const lastRow = presRows[presRows.length - 1];
+          lastRow.endYear = deathYear;
+          lastRow.isNew = false;
+        }
+        // Insert successor row spanning death year to election year
+        presRows.push({
+          no: presRows.length + 1,
+          presidentName: successor.name,
+          presidentBirth: successor.birth,
+          party: getParty(successor, year),
+          startYear: deathYear,
+          endYear: year,          // will be extended if they win re-election
+          termCount: 1,
+          elections: [],          // no election — assumed office mid-term
+          isNew: true,
+          midterm: true,          // flag for display
+        });
+        // Successor becomes incumbent going into this election
+        incumbent = { name: successor.name, party: getParty(successor, year), termsServed: 1, startYear: deathYear };
+      }
+    }
+  }
+
   const incAlive = incPol && isAliveAndOldEnough(incPol, year);
   const incumbentEligible = incAlive && incumbent.termsServed < 2 && canRunAsIncumbent(incumbent.name, year);
   const incumbentRunning  = incumbentEligible && Math.random() < 0.80;
-  const incObj = incumbentRunning ? incPol : null;
+  const incObj = incumbentRunning ? politicians.find(p => p.name === incumbent.name) : null;
   const incParty = incObj ? getParty(incObj, year) : null;
 
   // Main challengers: alive, run-eligible, not the incumbent,
@@ -1166,7 +1209,7 @@ function _finaliseElection(year, winner, loser, incObj, thirdParty = null) {
       elections: [{ year, winnerParty, runnerUpName: runnerUp?.name || '—', runnerUpParty, thirdPartyName, thirdPartyParty }],
       isNew: true,
     });
-    incumbent = { name: winner.name, party: winnerParty, termsServed: 1 };
+    incumbent = { name: winner.name, party: winnerParty, termsServed: 1, startYear: year };
   }
 }
 
@@ -1344,8 +1387,10 @@ function renderTable() {
 
   let rows = '';
   presRows.forEach((row, i) => {
-    // Collect all distinct parties this president ran under across their elections
-    const allParties = [...new Set(row.elections.map(el => el.winnerParty || row.party))];
+    // Collect all distinct parties this president ran under
+    const allParties = row.midterm
+      ? [row.party]
+      : [...new Set(row.elections.map(el => el.winnerParty || row.party))];
     const badge = allParties.map(p =>
       `<span class="party-badge" style="${partyStyle(p)}">${p}</span>`
     ).join('<br>');
@@ -1361,19 +1406,23 @@ function renderTable() {
       : `b. ${birthYear}`;
     const nameSub = `<span style="font-size:0.72rem;font-weight:400;color:#555;">(${dateLabel})</span>`;
 
-    // Build runner-up cell: list all elections for this row
-    const ruLines = row.elections.map(el => {
-      const ruBadge = el.runnerUpParty
-        ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
-        : '';
-      const tpLine = el.thirdPartyName
-        ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
-        : '';
-      return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
-    }).join('<br>');
+    // Build runner-up cell: midterm rows show "Assumed office", others list elections
+    const ruLines = row.midterm
+      ? `<span style="font-size:0.75rem;font-style:italic;color:#888;">Assumed office</span>`
+      : row.elections.map(el => {
+          const ruBadge = el.runnerUpParty
+            ? `<span class="party-badge" style="${partyStyle(el.runnerUpParty)};font-size:0.68rem;">${el.runnerUpParty}</span>`
+            : '';
+          const tpLine = el.thirdPartyName
+            ? `<br><span style="font-size:0.72rem;color:#555;">${el.thirdPartyName} <span class="party-badge" style="${partyStyle(el.thirdPartyParty)};font-size:0.64rem;">${el.thirdPartyParty}</span></span>`
+            : '';
+          return `<span style="font-size:0.78rem;">${el.year}: ${el.runnerUpName} ${ruBadge}${tpLine}</span>`;
+        }).join('<br>');
 
-    // Term span display: +1 to match inauguration year convention
-    const termSpan = `${row.startYear + 1}<br>–<br>${row.endYear + 1}`;
+    // Term span: midterm rows use exact years; elected rows +1 for inauguration
+    const termSpan = row.midterm
+      ? `${row.startYear}<br>–<br>${row.endYear + 1}`
+      : `${row.startYear + 1}<br>–<br>${row.endYear + 1}`;
 
     rows += `
       <tr class="${isNew ? 'new-row' : ''}" id="row-${i}">
