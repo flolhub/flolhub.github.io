@@ -654,7 +654,7 @@ let usedThirdPartyCandidates = new Set(); // third-party candidates who have alr
 const PARTY_BANS = {
   'Whig':       'Federalist',
   'Republican': 'Whig',
-  'Democratic': 'Democratic-Republican',
+  'Democratic': 'Jeffersonian',
 };
 
 function applyPartyBan(party) {
@@ -723,12 +723,13 @@ function canRunAsIncumbent(name, year) {
 
 // ── Party → CSS color ──────────────────────────────────────────────────────
 const PARTY_COLORS = {
-  'Unaffiliated':           { bg: '#6b6b6b', fg: '#fff' },
-  'Federalist':             { bg: '#1a2f6b', fg: '#d0dcff' },
-  'Democratic-Republican':  { bg: '#1a5c1a', fg: '#d0ffd0' },
-  'Democratic':             { bg: '#003399', fg: '#cce0ff' },
-  'Republican':             { bg: '#990000', fg: '#ffd0d0' },
-  'Whig':                   { bg: '#6b3300', fg: '#ffe8cc' },
+  'Independent':           	{ bg: '#6b6b6b', fg: '#ffe' },
+  'Federalist':             { bg: '#ea9978', fg: '#fff' },
+  'Jeffersonian':  			    { bg: '#1a5c1a', fg: '#fff' },
+  'Democratic':             { bg: '#003399', fg: '#fff' },
+  'Republican':             { bg: '#d80000', fg: '#fff' },
+  'Whig':                   { bg: '#f0c862', fg: '#000' },
+  'Socialist':              { bg: '#990000', fg: '#ffe' },
 };
 function partyStyle(p) {
   const c = PARTY_COLORS[p] || { bg: '#555', fg: '#fff' };
