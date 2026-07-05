@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Presidential Election Simulator</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="https://www.whitehouse.gov/wp-content/images/favicon-196x196.png" type="image/png">
+	<meta property="og:title" content="Presidential Election Simulator">
+	<meta property="og:description" content="Randomly generate US Presidents from 1796 to the future.">
+	<meta property="og:image" content="https://thecampaigntrail.net/static/images/banners/banner_alt.png">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://flolhub.github.io/presidents">
 <style>
   :root {
     --parchment: #f5edd6;
@@ -559,6 +563,16 @@
     .page::before { display: none; }
     .roster-row-fields { grid-template-columns: 1fr; }
   }
+    .container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+    .bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
 </style>
 </head>
 <body>
@@ -595,37 +609,38 @@
 </div>
 
 <div class="page">
-  <header>
-    <span class="eagle">🦅</span>
-    <h1>Presidential Election Simulator</h1>
-    <p>United States of America — From 1788 onward</p>
+  <header><div class="container"><img src="https://thecampaigntrail.net/static/images/banners/banner_alt.png" style="width: 100%;"><div class="bottom-left"><h1 style="background-color: #1a1208; padding: 5px;">Presidential Election Simulator</h1></div></div>
+    
+    
+    
+    
   </header>
 
   <!-- TOP: Controls panel -->
   <div class="panel">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
       <button class="btn btn-roster-open btn" onclick="openModal()" style="flex:1;">📋 Edit Roster</button>
-      <span class="roster-count" id="roster-count">No roster loaded</span>
+      <span class="roster-count" id="roster-count">276 politicians loaded</span>
     </div>
 
     <div class="controls">
       <button class="btn btn-start" onclick="startSim()">▶ Start Simulation</button>
-      <button class="btn btn-step" id="btn-step" onclick="stepSim()" disabled>⏭ Next Election</button>
-      <button class="btn btn-step" id="btn-auto" onclick="toggleAuto()" disabled>⏩ Auto-Run</button>
+      <button class="btn btn-step" id="btn-step" onclick="stepSim()" disabled="">⏭ Next Election</button>
+      <button class="btn btn-step" id="btn-auto" onclick="toggleAuto()" disabled="">⏩ Auto-Run</button>
       <div class="speed-wrap">
         <label for="speed">Speed:</label>
         <input type="range" id="speed" min="200" max="3000" value="1200" step="100">
       </div>
       <div class="manual-wrap">
         <input type="checkbox" id="chk-manual">
-        <label for="chk-manual">Manual Selection — choose election winners yourself</label>
+        <label for="chk-manual">Manual Selection: choose election winners yourself</label>
       </div>
       <button class="btn btn-reset" onclick="resetSim()">✕ Reset</button>
     </div>
 
     <div class="current-info" id="current-info">
-      <strong>Status:</strong><br>Open the roster, load politicians, then click Start.
-    </div>
+      <strong>Rules:</strong><br>Open the roster, load politicians, then click Start.<br>George Washington needs to be loaded in to progress.
+</div>
   </div>
 
   <!-- BOTTOM: Results table -->
@@ -1456,5 +1471,5 @@ function renderTable() {
     </table>`;
 }
 </script>
-</body>
-</html>
+
+</body></html>
