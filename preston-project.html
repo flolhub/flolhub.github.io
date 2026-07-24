@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Challenge Ledger — Reigning Champions Tracker</title>
+<style>
+  :root{
+    --paper:#f3f0e6;
+    --ink:#233326;
+    --ink-soft:#5b6b5d;
+    --green:#b7d19a;
+    --green-2:#c9dcb3;
+    --blue:#aac9e8;
+    --blue-2:#c1d9ee;
+    --gold:#c99a3a;
+    --gold-deep:#8a6620;
+    --line:#233326;
+    --card:#fbfaf4;
+    --danger:#a5473a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(35,51,38,0.035) 0px, rgba(35,51,38,0.035) 1px, transparent 1px, transparent 34px);
+    color:var(--ink);
+    font-family: 'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
+
+  /* ---- Masthead ---- */
+  .masthead{
+    border-top:4px solid var(--ink);
+    border-bottom:2px solid var(--ink);
+    padding:18px 0 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .masthead h1{
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-weight:700;
+    letter-spacing:0.5px;
+    font-size:clamp(28px,4vw,44px);
+    margin:0;
+    line-height:1;
+  }
+  .masthead .sub{
+    font-family: 'Courier New', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:2.5px;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  .masthead .date{
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    text-align:right;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+  }
+
+  /* ---- Champion Banner (the signature element) ---- */
+  .belt{
+    margin-top:22px;
+    position:relative;
+    border:2px solid var(--ink);
+    background:linear-gradient(180deg, var(--card), #f3efdf);
+    padding:22px 26px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    align-items:center;
+  }
+  .belt::before{
+    content:"";
+    position:absolute;
+    left:0;right:0;top:0;
+    height:6px;
+    background:repeating-linear-gradient(90deg, var(--gold) 0 18px, var(--gold-deep) 18px 20px);
+  }
+  .belt-label{
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .belt-name{
+    font-size:clamp(30px,5vw,56px);
+    font-weight:700;
+    margin:2px 0 6px;
+    color:var(--ink);
+  }
+  .belt-meta{
+    font-family:'Courier New',monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .belt-stats{
+    text-align:right;
+    display:flex;
+    gap:26px;
+  }
+  .belt-stat{text-align:center;}
+  .belt-stat .n{font-size:30px;font-weight:700;display:block;line-height:1;}
+  .belt-stat .l{font-family:'Courier New',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
+  .empty-belt{color:var(--ink-soft);font-style:italic;}
+
+  /* ---- Layout columns ---- */
+  .layout{
+    display:grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap:24px;
+    margin-top:26px;
+  }
+  @media (max-width:880px){ .layout{grid-template-columns:1fr;} }
+
+  .panel{
+    border:1.5px solid var(--ink);
+    background:var(--card);
+  }
+  .panel h2{
+    margin:0;
+    font-size:13px;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    font-family:'Courier New',monospace;
+    padding:10px 16px;
+    border-bottom:1.5px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .panel .inner{padding:16px;}
+
+  /* ---- Match entry form ---- */
+  .form-row{display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px;}
+  .field{display:flex; flex-direction:column; gap:4px; flex:1; min-width:110px;}
+  .field.small{flex:0 0 80px; min-width:70px;}
+  .field label{font-family:'Courier New',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--ink-soft);}
+  .field input{
+    border:1px solid var(--ink);
+    background:#fff;
+    padding:7px 8px;
+    font-family:'Courier New',monospace;
+    font-size:13px;
+    color:var(--ink);
+    border-radius:0;
+  }
+  .field input:focus{outline:2px solid var(--gold-deep); outline-offset:1px;}
+  .btn{
+    border:1.5px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Courier New',monospace;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    font-size:12px;
+    padding:9px 18px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .btn:hover{background:var(--gold-deep); border-color:var(--gold-deep); color:#fff;}
+  .btn.secondary{background:transparent; color:var(--ink);}
+  .btn.secondary:hover{background:var(--ink); color:var(--paper);}
+  .btn.danger{border-color:var(--danger); color:var(--danger); background:transparent;}
+  .btn.danger:hover{background:var(--danger); color:#fff;}
+  .form-msg{font-family:'Courier New',monospace; font-size:12px; color:var(--danger); min-height:16px; margin-top:-6px; margin-bottom:8px;}
+
+  .form-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:4px;}
+
+  .csv-hint{font-family:'Courier New',monospace; font-size:11.5px; color:var(--ink-soft); line-height:1.6; margin-bottom:10px;}
+  .csv-hint code{background:rgba(35,51,38,0.08); padding:1px 4px;}
+  textarea#csvInput{
+    width:100%;
+    min-height:140px;
+    border:1px solid var(--ink);
+    background:#fff;
+    padding:10px;
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    color:var(--ink);
+    resize:vertical;
+    margin-bottom:10px;
+  }
+  textarea#csvInput:focus{outline:2px solid var(--gold-deep); outline-offset:1px;}
+  .file-name{font-family:'Courier New',monospace; font-size:12px; color:var(--ink-soft); margin-left:10px;}
+
+  /* ---- Ledger table (styled after the reference spreadsheet) ---- */
+  table.ledger{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+  }
+  table.ledger thead th{
+    text-align:left;
+    font-family:'Courier New',monospace;
+    font-size:10.5px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:8px 10px;
+    border-bottom:2px solid var(--ink);
+    color:var(--ink-soft);
+    background:var(--card);
+    position:sticky;
+    top:0;
+  }
+  table.ledger td{
+    padding:7px 10px;
+    border-bottom:1px solid rgba(35,51,38,0.15);
+    vertical-align:middle;
+  }
+  table.ledger tr.champ-green td{background:var(--green);}
+  table.ledger tr.champ-blue td{background:var(--blue);}
+  table.ledger tbody tr.match-row{cursor:pointer;}
+  table.ledger tbody tr.match-row:hover td{filter:brightness(0.94);}
+  table.ledger tr.report-row td{
+    background:var(--card) !important;
+    padding:0;
+    border-bottom:1px solid rgba(35,51,38,0.15);
+  }
+  table.ledger tr.report-row .report-inner{
+    padding:12px 16px;
+    font-size:13px;
+    line-height:1.55;
+  }
+  table.ledger tr.report-row .report-inner .report-title{
+    font-family:'Courier New',monospace;
+    font-size:10.5px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  table.ledger tr.report-row .report-inner .none{color:var(--ink-soft); font-style:italic;}
+  table.ledger tr.report-row .report-inner .report-body .r-heading{
+    font-family:'Iowan Old Style', Georgia, serif;
+    font-weight:700;
+    font-size:15.5px;
+    margin:10px 0 6px;
+    border-bottom:1px solid rgba(35,51,38,0.25);
+    padding-bottom:4px;
+  }
+  table.ledger tr.report-row .report-inner .report-body .r-heading:first-child{margin-top:0;}
+  table.ledger tr.report-row .report-inner .report-body .r-para{margin:0 0 8px; white-space:pre-wrap;}
+  table.ledger tr.report-row .report-inner .report-body .r-signature{
+    margin-top:10px;
+    padding-top:8px;
+    border-top:1px dashed rgba(35,51,38,0.3);
+    font-style:italic;
+    text-align:right;
+    color:var(--ink-soft);
+    font-size:12.5px;
+  }
+  table.ledger td.score{font-family:'Courier New',monospace; font-weight:700; text-align:center;}
+  table.ledger td.ha{font-family:'Courier New',monospace; text-align:center; width:26px;}
+  table.ledger th.no-col, table.ledger td.no-col{
+    background:#fff !important;
+    text-align:center;
+    font-family:'Courier New',monospace;
+    color:var(--ink-soft);
+    width:36px;
+  }
+  .ledger-wrap{max-height:520px; overflow-y:auto;}
+  .no-matches{padding:30px 16px; text-align:center; color:var(--ink-soft); font-style:italic;}
+
+  /* ---- Stats panel ---- */
+  .stat-block{margin-bottom:18px;}
+  .stat-block:last-child{margin-bottom:0;}
+  .stat-block h3{
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-family:'Courier New',monospace;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+    border-bottom:1px dashed var(--ink-soft);
+    padding-bottom:6px;
+  }
+  .kv{display:flex; justify-content:space-between; padding:4px 0; font-size:13.5px; border-bottom:1px dotted rgba(35,51,38,0.2);}
+  .kv:last-child{border-bottom:none;}
+  .kv .k{color:var(--ink-soft);}
+  .kv .v{font-family:'Courier New',monospace; font-weight:700;}
+
+  table.mini{width:100%; border-collapse:collapse; font-size:13px;}
+  table.mini th{
+    text-align:left; font-family:'Courier New',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--ink-soft); padding:4px 6px; border-bottom:1.5px solid var(--ink);
+  }
+  table.mini td{padding:5px 6px; border-bottom:1px dotted rgba(35,51,38,0.2);}
+  table.mini tr:last-child td{border-bottom:none;}
+  .rank{font-family:'Courier New',monospace; color:var(--ink-soft); width:20px;}
+
+  .reign-item{
+    display:flex; justify-content:space-between; align-items:baseline; padding:6px 0; border-bottom:1px dotted rgba(35,51,38,0.2); font-size:13px;
+  }
+  .reign-item:last-child{border-bottom:none;}
+  .reign-item .team{font-weight:700;}
+  .reign-item .len{font-family:'Courier New',monospace; color:var(--ink-soft); font-size:12px;}
+  .current-tag{
+    font-family:'Courier New',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:var(--gold); color:var(--ink); padding:1px 6px; margin-left:6px; border:1px solid var(--gold-deep);
+  }
+
+  .team-link{cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:3px;}
+  .team-link:hover{color:var(--gold-deep);}
+  tr.row-hidden{display:none;}
+
+  .team-stats-name{font-size:20px; font-weight:700; margin-bottom:2px;}
+  .team-stats-tag{font-family:'Courier New',monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px;}
+  .stat-cell{border:1px solid rgba(35,51,38,0.25); padding:8px; text-align:center;}
+  .stat-cell .n{font-size:20px; font-weight:700; display:block;}
+  .stat-cell .l{font-family:'Courier New',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--ink-soft);}
+
+  .milestone{padding:8px 0; border-bottom:1px dotted rgba(35,51,38,0.2);}
+  .milestone:last-child{border-bottom:none;}
+  .milestone .k{font-family:'Courier New',monospace; font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--ink-soft); margin-bottom:3px;}
+  .milestone .v{font-size:13.5px;}
+  .milestone .v .num{font-family:'Courier New',monospace; font-size:11.5px; color:var(--ink-soft); margin-right:6px;}
+  .milestone .v .none{color:var(--ink-soft); font-style:italic;}
+  .milestone .v .sub-label{font-family:'Courier New',monospace; font-size:11px; color:var(--ink-soft); margin-right:4px;}
+
+  footer{margin-top:30px; text-align:center; font-family:'Courier New',monospace; font-size:10.5px; color:var(--ink-soft); letter-spacing:1px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <h1>The Challenge Ledger</h1>
+      <div class="sub">A running record of the reigning champion &mdash; title changes hands only in defeat</div>
+    </div>
+    <div class="date" id="today"></div>
+  </div>
+
+  <div class="belt" id="belt">
+    <!-- filled by JS -->
+  </div>
+
+  <div class="layout" style="grid-template-columns:1fr;">
+    <div class="panel">
+      <h2>Match Ledger</h2>
+      <div class="ledger-wrap">
+        <table class="ledger" id="ledgerTable">
+          <thead>
+            <tr><th class="no-col">No.</th><th>Champion</th><th>Date</th><th>Score</th><th>Challenger</th><th class="ha">H/A</th></tr>
+          </thead>
+          <tbody id="ledgerBody">
+          </tbody>
+        </table>
+        <div class="no-matches" id="noMatches">No matches yet. Add the first result to crown an inaugural champion.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout" style="margin-top:24px;">
+    <div class="panel">
+      <h2>Search Ledger</h2>
+      <div class="inner">
+        <div class="csv-hint">Search by team name, date, or match number. Results filter the Match Ledger below.</div>
+        <div class="form-row" style="align-items:center; margin-bottom:8px;">
+          <input type="text" id="searchInput" placeholder="e.g. Everton, 1889, or #12" style="flex:1; border:1px solid var(--ink); background:#fff; padding:9px 10px; font-family:'Courier New',monospace; font-size:13px; color:var(--ink);">
+          <button class="btn secondary" id="clearSearchBtn" type="button">Clear</button>
+        </div>
+        <div class="kv"><span class="k">Matches found</span><span class="v" id="searchCount">0</span></div>
+        <div class="form-msg" id="loadStatus" style="color:var(--ink-soft); margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Team Stats</h2>
+      <div class="inner" id="teamStatsPanel" style="max-height:520px; overflow-y:auto;">
+        <div style="color:var(--ink-soft); font-style:italic;">Click a team name in the Match Ledger to see their record.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>ROW SHADING KEY &mdash; green &amp; blue mark alternating title-holding champions</footer>
+</div>
+
+<script>
+(function(){
+  // ---- state ----
+  let matches = []; // {teamA, scoreA, scoreB, teamB, date, venue, champColor}
+
+  const els = {
+    belt: document.getElementById('belt'),
+    ledgerBody: document.getElementById('ledgerBody'),
+    noMatches: document.getElementById('noMatches'),
+    teamStatsPanel: document.getElementById('teamStatsPanel'),
+    searchInput: document.getElementById('searchInput'),
+    clearSearchBtn: document.getElementById('clearSearchBtn'),
+    searchCount: document.getElementById('searchCount'),
+    loadStatus: document.getElementById('loadStatus'),
+    today: document.getElementById('today')
+  };
+
+  let selectedTeam = null;
+  let reportsByMatchNo = {}; // { "1": "report text", "2": "..." }
+  let expandedMatchIdx = null; // currently open report row (0-based match index), or null
+
+  els.today.textContent = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+
+  function norm(name){ return (name || '').trim(); }
+
+  // Parses a single CSV line respecting simple quoted fields.
+  function parseCsvLine(line){
+    const out = [];
+    let cur = '';
+    let inQuotes = false;
+    for(let i=0;i<line.length;i++){
+      const c = line[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(line[i+1] === '"'){ cur += '"'; i++; }
+          else inQuotes = false;
+        } else cur += c;
+      } else {
+        if(c === '"') inQuotes = true;
+        else if(c === ','){ out.push(cur); cur=''; }
+        else cur += c;
+      }
+    }
+    out.push(cur);
+    return out.map(s=>s.trim());
+  }
+
+  function parseCsv(text){
+    const lines = text.split(/\r\n|\r|\n/).filter(l => l.trim() !== '');
+    if(lines.length === 0) return {rows: [], error: 'The CSV is empty.'};
+
+    let startIdx = 0;
+    const header = parseCsvLine(lines[0]).map(h=>h.toLowerCase());
+    const looksLikeHeader = header.includes('team') && header.includes('date') && header.includes('score') && header.includes('vs');
+    if(looksLikeHeader) startIdx = 1;
+
+    const rows = [];
+    let lastTeam = '';
+    for(let i=startIdx;i<lines.length;i++){
+      const cols = parseCsvLine(lines[i]);
+      if(cols.length < 4) continue;
+      let [team, date, score, vs, ha] = cols;
+      team = norm(team);
+      date = norm(date);
+      score = norm(score);
+      vs = norm(vs);
+      ha = norm(ha).toUpperCase();
+
+      if(!team) team = lastTeam;
+      if(!team){
+        return {rows: [], error: `Row ${i+1}: no team name given, and no prior team to carry forward.`};
+      }
+      lastTeam = team;
+
+      const scoreMatch = score.match(/^(\d+)\s*-\s*(\d+)$/);
+      if(!scoreMatch){
+        return {rows: [], error: `Row ${i+1}: score "${score}" isn't in the form "N-N".`};
+      }
+      if(!vs){
+        return {rows: [], error: `Row ${i+1}: missing opponent ("vs") value.`};
+      }
+      if(ha && ha !== 'H' && ha !== 'A'){
+        return {rows: [], error: `Row ${i+1}: H/A value "${ha}" should be H or A.`};
+      }
+
+      rows.push({
+        teamA: team,
+        teamB: vs,
+        scoreA: parseInt(scoreMatch[1],10),
+        scoreB: parseInt(scoreMatch[2],10),
+        date: date || '—',
+        venue: ha || ''
+      });
+    }
+    return {rows, error: null};
+  }
+
+  // ---- Load match results from placeholder1.csv ----
+  // TEMPLATE: place a CSV file named "placeholder1.csv" next to this HTML file.
+  // Expected columns: Team,Date,Score,vs,H/A (same format used previously).
+  function loadResultsCsv(){
+    return fetch('placeholder1.csv')
+      .then(res=>{
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.text();
+      })
+      .then(text=>{
+        const {rows, error} = parseCsv(text);
+        if(error){
+          setLoadStatus(`placeholder1.csv: ${error}`, true);
+          return;
+        }
+        matches = rows;
+        return rows.length;
+      })
+      .catch(err=>{
+        setLoadStatus(`Could not load placeholder1.csv (${err.message}). Make sure it sits alongside this HTML file and is served over http(s), not opened directly as file://.`, true);
+        return null;
+      });
+  }
+
+  function setLoadStatus(msg, isError){
+    els.loadStatus.textContent = msg;
+    els.loadStatus.style.color = isError ? 'var(--danger)' : 'var(--ink-soft)';
+  }
+
+  els.searchInput.addEventListener('input', render);
+  els.clearSearchBtn.addEventListener('click', ()=>{ els.searchInput.value=''; render(); });
+
+  // ---- Match Reports CSV import ----
+  // TEMPLATE: this whole block is intentionally simple so it's easy to adapt.
+  // Expected CSV columns: MatchNo,Report
+  //   MatchNo  -> integer matching the "No." column in the Match Ledger (1-based)
+  //   Report   -> free text, quote-wrap if it contains commas
+  function parseReportCsv(text){
+    const lines = text.split(/\r\n|\r|\n/).filter(l => l.trim() !== '');
+    if(lines.length === 0) return {map: {}, error: 'The CSV is empty.'};
+
+    let startIdx = 0;
+    const header = parseCsvLine(lines[0]).map(h=>h.toLowerCase());
+    const looksLikeHeader = header.includes('matchno') && header.includes('report');
+    if(looksLikeHeader) startIdx = 1;
+
+    const map = {};
+    for(let i=startIdx;i<lines.length;i++){
+      const cols = parseCsvLine(lines[i]);
+      if(cols.length < 2) continue;
+      const matchNo = norm(cols[0]);
+      // Rejoin remaining columns in case the report text itself contained
+      // unquoted commas that split into extra columns.
+      const report = norm(cols.slice(1).join(','));
+
+      if(!/^\d+$/.test(matchNo)){
+        return {map: {}, error: `Row ${i+1}: MatchNo "${matchNo}" must be a whole number.`};
+      }
+      if(!report){
+        return {map: {}, error: `Row ${i+1}: report text is empty.`};
+      }
+      map[matchNo] = report;
+    }
+    return {map, error: null};
+  }
+
+  // ---- Load match reports from placeholder2.csv ----
+  // TEMPLATE: place a CSV file named "placeholder2.csv" next to this HTML file.
+  // Expected columns: MatchNo,Report (see the mini markup syntax notes on
+  // renderReportBody() further down: "# " headings, "\n" line breaks, "-- " signatures).
+  function loadReportsCsv(){
+    return fetch('placeholder2.csv')
+      .then(res=>{
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.text();
+      })
+      .then(text=>{
+        const {map, error} = parseReportCsv(text);
+        if(error){
+          setLoadStatus(`placeholder2.csv: ${error}`, true);
+          return;
+        }
+        reportsByMatchNo = map;
+        return Object.keys(map).length;
+      })
+      .catch(err=>{
+        setLoadStatus(`Could not load placeholder2.csv (${err.message}). Match reports will be unavailable until it's found.`, true);
+        return null;
+      });
+  }
+
+  function computeReigns(){
+    // Walk through matches in order, tracking who holds the title.
+    // First match: winner (or teamA on a draw) becomes inaugural champion.
+    let champion = null;
+    let reigns = []; // {team, startIndex, startDate, endIndex, endDate, defenses}
+    let colorToggle = 0; // alternate color per new reign
+    let rowMeta = []; // per-match: {champColor, isDraw, winner}
+
+    matches.forEach((m, idx)=>{
+      const {teamA, teamB, scoreA, scoreB} = m;
+      let winner = null;
+      if(scoreA > scoreB) winner = teamA;
+      else if(scoreB > scoreA) winner = teamB;
+      // else draw -> winner stays null
+
+      if(champion === null){
+        // inaugural: if draw, nominal champion is teamA (first named); else winner
+        champion = winner || teamA;
+        colorToggle = 0;
+        reigns.push({team: champion, startIdx: idx, startDate: m.date, endIdx: idx, endDate: m.date, defenses: 0, colorIdx: colorToggle});
+      } else {
+        const opponent = (teamA === champion) ? teamB : (teamB === champion ? teamA : null);
+        if(winner === null){
+          // draw -> champion retains, count as defense if champion was involved
+          if(opponent !== null){
+            reigns[reigns.length-1].defenses += 1;
+          }
+          reigns[reigns.length-1].endIdx = idx;
+          reigns[reigns.length-1].endDate = m.date;
+        } else if(winner === champion){
+          // successful defense
+          reigns[reigns.length-1].defenses += 1;
+          reigns[reigns.length-1].endIdx = idx;
+          reigns[reigns.length-1].endDate = m.date;
+        } else {
+          // title changes hands (winner could be a team not even facing prior champion —
+          // but logically challenger must be facing champion; if match doesn't involve champion,
+          // champion remains untouched and this new match is just an outside result)
+          if(opponent !== null){
+            champion = winner;
+            colorToggle = 1 - colorToggle;
+            reigns.push({team: champion, startIdx: idx, startDate: m.date, endIdx: idx, endDate: m.date, defenses: 0, colorIdx: colorToggle});
+          } else {
+            // match doesn't involve current champion at all; doesn't affect title
+            // still record it neutrally, attach to no reign change; keep last reign's end untouched
+          }
+        }
+      }
+
+      const involved = (teamA === champion || teamB === champion);
+      rowMeta.push({
+        champColor: reigns.length ? (reigns[reigns.length-1].colorIdx === 0 ? 'champ-green' : 'champ-blue') : '',
+        isDraw: winner === null,
+        winner: winner,
+        currentChampionAtRow: champion,
+        involvedTitleMatch: involved
+      });
+    });
+
+    return {reigns, rowMeta, champion};
+  }
+
+  function render(){
+    const {reigns, rowMeta, champion} = computeReigns();
+
+    // ---- Belt ----
+    if(matches.length === 0){
+      els.belt.innerHTML = '<div class="empty-belt">No champion yet — add the first result below to begin the ledger.</div>';
+    } else {
+      const currentReign = reigns[reigns.length - 1];
+      const reignLength = currentReign.defenses + 1; // matches held including the title-winning one
+      els.belt.innerHTML = `
+        <div>
+          <div class="belt-label">Reigning Champion</div>
+          <div class="belt-name">${escapeHtml(champion)}</div>
+          <div class="belt-meta">Champion since ${escapeHtml(currentReign.startDate)} &middot; ${reigns.length} title reign${reigns.length===1?'':'s'} recorded overall</div>
+        </div>
+        <div class="belt-stats">
+          <div class="belt-stat"><span class="n">${currentReign.defenses}</span><span class="l">Defenses</span></div>
+          <div class="belt-stat"><span class="n">${reignLength}</span><span class="l">Matches Held</span></div>
+        </div>
+      `;
+    }
+
+    // ---- Search filter ----
+    const query = norm(els.searchInput.value).toLowerCase();
+
+    // ---- Ledger table ----
+    els.ledgerBody.innerHTML = '';
+    let visibleCount = 0;
+    if(matches.length === 0){
+      els.noMatches.style.display = 'block';
+      els.noMatches.textContent = 'No matches yet. Import a CSV to begin the ledger.';
+    } else {
+      let anyVisible = false;
+      matches.forEach((m, idx)=>{
+        const meta = rowMeta[idx];
+        const isNumberSearch = query.startsWith('#');
+        const matchesQuery = !query ||
+          (isNumberSearch
+            ? String(idx + 1) === query.slice(1)
+            : (m.teamA.toLowerCase().includes(query) ||
+               m.teamB.toLowerCase().includes(query) ||
+               m.date.toLowerCase().includes(query)));
+        if(!matchesQuery) return;
+        anyVisible = true;
+        visibleCount++;
+
+        const tr = document.createElement('tr');
+        tr.className = `match-row ${meta.champColor}`;
+        tr.setAttribute('data-idx', idx);
+
+        tr.innerHTML = `
+          <td class="no-col">${idx + 1}</td>
+          <td><span class="team-link" data-team="${escapeHtml(m.teamA)}">${escapeHtml(m.teamA)}</span></td>
+          <td>${escapeHtml(m.date)}</td>
+          <td class="score">${m.scoreA}-${m.scoreB}</td>
+          <td><span class="team-link" data-team="${escapeHtml(m.teamB)}">${escapeHtml(m.teamB)}</span></td>
+          <td class="ha">${escapeHtml(m.venue)}</td>
+        `;
+        els.ledgerBody.appendChild(tr);
+
+        // If this match's report row is currently expanded, render it right after.
+        if(expandedMatchIdx === idx){
+          els.ledgerBody.appendChild(buildReportRow(idx, m));
+        }
+      });
+      els.noMatches.style.display = anyVisible ? 'none' : 'block';
+      els.noMatches.textContent = 'No matches found for that search.';
+    }
+    els.searchCount.textContent = query ? visibleCount : matches.length;
+
+    // Team name clicks -> show Team Stats (and don't also toggle the report row)
+    els.ledgerBody.querySelectorAll('.team-link').forEach(el=>{
+      el.addEventListener('click', (evt)=>{
+        evt.stopPropagation();
+        selectedTeam = el.getAttribute('data-team');
+        renderTeamStats(reigns, rowMeta);
+      });
+    });
+
+    // Row clicks -> toggle the match report dropdown
+    els.ledgerBody.querySelectorAll('tr.match-row').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const idx = parseInt(el.getAttribute('data-idx'), 10);
+        expandedMatchIdx = (expandedMatchIdx === idx) ? null : idx;
+        render();
+      });
+    });
+
+    // ---- Team Stats panel ----
+    renderTeamStats(reigns, rowMeta);
+  }
+
+  // TEMPLATE: builds the expandable <tr> shown directly beneath a clicked match row.
+  // Looks up the report text by match number (1-based) in reportsByMatchNo.
+  // Fill in / restyle report-inner's contents here if you want a richer layout
+  // (e.g. separate fields for attendance, scorers, referee, etc. — just extend
+  // the CSV columns in parseReportCsv() and reference them here).
+  // TEMPLATE: turns a single Report CSV cell into titled/line-broken/signed HTML,
+  // without needing extra CSV columns. Mini markup supported inside the cell:
+  //   "# some text"   -> heading line   (r-heading)
+  //   "-- some text"  -> signature line (r-signature), right-aligned italic
+  //   "\n"            -> literal two-character escape typed in the cell -> line break
+  //   anything else   -> plain paragraph line (r-para)
+  // Extend this function if you want more markup (e.g. "> quote", "* bullet").
+  function renderReportBody(rawText){
+    if(!rawText) return '';
+    // Turn the literal `\n` escape sequence into real line breaks, then split.
+    const lines = rawText.replace(/\\n/g, '\n').split('\n');
+    return lines.map(line=>{
+      const trimmed = line.trim();
+      if(trimmed === '') return '';
+      if(trimmed.startsWith('# ')){
+        return `<div class="r-heading">${escapeHtml(trimmed.slice(2).trim())}</div>`;
+      }
+      if(trimmed.startsWith('-- ')){
+        return `<div class="r-signature">${escapeHtml(trimmed.slice(3).trim())}</div>`;
+      }
+      return `<p class="r-para">${escapeHtml(trimmed)}</p>`;
+    }).join('');
+  }
+
+  function buildReportRow(idx, m){
+    const matchNo = String(idx + 1);
+    const report = reportsByMatchNo[matchNo];
+    const tr = document.createElement('tr');
+    tr.className = 'report-row';
+    tr.innerHTML = `
+      <td colspan="6">
+        <div class="report-inner">
+          <div class="report-title">Match #${matchNo} Report &mdash; ${escapeHtml(m.teamA)} ${m.scoreA}-${m.scoreB} ${escapeHtml(m.teamB)} (${escapeHtml(m.date)})</div>
+          <div class="report-body">${report ? renderReportBody(report) : '<span class="none">No report imported for this match yet. Add one via the "Import Match Reports (CSV)" panel above.</span>'}</div>
+        </div>
+      </td>
+    `;
+    return tr;
+  }
+
+  function renderTeamStats(reigns, rowMeta){
+    if(!selectedTeam){
+      els.teamStatsPanel.innerHTML = '<div style="color:var(--ink-soft); font-style:italic;">Click a team name in the Match Ledger to see their record.</div>';
+      return;
+    }
+    const team = selectedTeam;
+    let played=0, wins=0, draws=0, losses=0, gf=0, ga=0;
+    let firstGameIdx = null, firstWinIdx = null;
+    matches.forEach((m, idx)=>{
+      if(m.teamA !== team && m.teamB !== team) return;
+      played++;
+      const isA = m.teamA === team;
+      const forGoals = isA ? m.scoreA : m.scoreB;
+      const againstGoals = isA ? m.scoreB : m.scoreA;
+      gf += forGoals; ga += againstGoals;
+      if(firstGameIdx === null) firstGameIdx = idx;
+      if(forGoals > againstGoals){
+        wins++;
+        if(firstWinIdx === null) firstWinIdx = idx;
+      }
+      else if(forGoals === againstGoals) draws++;
+      else losses++;
+    });
+
+    const teamReigns = reigns
+      .map((r, i) => ({...r, globalIdx: i}))
+      .filter(r => r.team === team);
+    const totalDefenses = teamReigns.reduce((s,r)=>s+r.defenses,0);
+    const timesBecameChampion = teamReigns.length;
+    const isCurrentChampion = reigns.length > 0 && reigns[reigns.length-1].team === team;
+    let longestReign = 0, longestReignObj = null;
+    teamReigns.forEach(r=>{
+      const len = r.defenses + 1;
+      if(len > longestReign){ longestReign = len; longestReignObj = r; }
+    });
+    const latestReignObj = teamReigns.length ? teamReigns[teamReigns.length - 1] : null;
+
+    function losingGameIdx(reignObj){
+      if(!reignObj) return null;
+      const next = reigns[reignObj.globalIdx + 1];
+      return next ? next.startIdx : null; // null = title never lost (still ongoing)
+    }
+
+    function matchLabel(idx){
+      if(idx === null || idx === undefined) return '<span class="none">No data</span>';
+      const m = matches[idx];
+      return `<span class="num">#${idx+1}</span>${escapeHtml(m.date)} — ${escapeHtml(m.teamA)} ${m.scoreA}-${m.scoreB} ${escapeHtml(m.teamB)}`;
+    }
+
+    if(played === 0){
+      els.teamStatsPanel.innerHTML = `<div style="color:var(--ink-soft); font-style:italic;">No recorded matches for "${escapeHtml(team)}".</div>`;
+      return;
+    }
+
+    els.teamStatsPanel.innerHTML = `
+      <div class="team-stats-name">${escapeHtml(team)}</div>
+      <div class="team-stats-tag">${isCurrentChampion ? 'Reigning Champion' : (timesBecameChampion > 0 ? 'Former Champion' : 'Never Held the Title')}</div>
+      <div class="stat-grid">
+        <div class="stat-cell"><span class="n">${played}</span><span class="l">Played</span></div>
+        <div class="stat-cell"><span class="n">${wins}</span><span class="l">Wins</span></div>
+        <div class="stat-cell"><span class="n">${draws}</span><span class="l">Draws</span></div>
+        <div class="stat-cell"><span class="n">${losses}</span><span class="l">Losses</span></div>
+        <div class="stat-cell"><span class="n">${gf}-${ga}</span><span class="l">Goals F-A</span></div>
+        <div class="stat-cell"><span class="n">${timesBecameChampion}</span><span class="l">Title Wins</span></div>
+      </div>
+      <div class="stat-block">
+        <h3>Milestones</h3>
+        <div class="milestone"><div class="k">First Game</div><div class="v">${matchLabel(firstGameIdx)}</div></div>
+        <div class="milestone"><div class="k">First Victory</div><div class="v">${firstWinIdx !== null ? matchLabel(firstWinIdx) : '<span class="none">No wins recorded</span>'}</div></div>
+        <div class="milestone">
+          <div class="k">Longest Title Streak${longestReignObj ? ` (${longestReign} match${longestReign===1?'':'es'})` : ''}</div>
+          ${longestReignObj ? `
+            <div class="v"><span class="sub-label">Starts:</span> ${matchLabel(longestReignObj.startIdx)}</div>
+            <div class="v" style="margin-top:4px;"><span class="sub-label">Ends:</span> ${losingGameIdx(longestReignObj) !== null ? matchLabel(losingGameIdx(longestReignObj)) : '<span class="none">Still ongoing</span>'}</div>
+          ` : `<div class="v"><span class="none">Never held the title</span></div>`}
+        </div>
+        <div class="milestone">
+          <div class="k">Latest Title Streak${latestReignObj ? ` (${latestReignObj.defenses+1} match${(latestReignObj.defenses+1)===1?'':'es'})` : ''}</div>
+          ${latestReignObj ? `
+            <div class="v"><span class="sub-label">Starts:</span> ${matchLabel(latestReignObj.startIdx)}</div>
+            <div class="v" style="margin-top:4px;"><span class="sub-label">Ends:</span> ${losingGameIdx(latestReignObj) !== null ? matchLabel(losingGameIdx(latestReignObj)) : '<span class="none">Still ongoing</span>'}</div>
+          ` : `<div class="v"><span class="none">Never held the title</span></div>`}
+        </div>
+      </div>
+    `;
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s=>({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[s]));
+  }
+
+  // ---- Init: load both CSVs, then render ----
+  setLoadStatus('Loading placeholder1.csv and placeholder2.csv…', false);
+  Promise.all([loadResultsCsv(), loadReportsCsv()]).then(([resultCount, reportCount])=>{
+    if(resultCount != null){
+      const parts = [`Loaded ${resultCount} match${resultCount===1?'':'es'} from placeholder1.csv`];
+      parts.push(reportCount != null
+        ? `${reportCount} report${reportCount===1?'':'s'} from placeholder2.csv`
+        : 'no reports loaded');
+      setLoadStatus(parts.join(' · '), false);
+    }
+    render();
+  });
+})();
+</script>
+</body>
+</html>
