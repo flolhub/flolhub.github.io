@@ -407,7 +407,7 @@
 
   els.today.textContent = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
 
-  function norm(name){ return (name || '').trim(); }
+  function norm(name){ return (name || '').replace(/\u00A0/g, ' ').replace(/\s+/g, ' ').trim(); }
 
   // Parses a single CSV line respecting simple quoted fields.
   function parseCsvLine(line){
@@ -432,6 +432,7 @@
   }
 
   function parseCsv(text){
+    text = text.replace(/^\uFEFF/, ''); // strip a stray UTF-8 BOM some editors add
     const lines = text.split(/\r\n|\r|\n/).filter(l => l.trim() !== '');
     if(lines.length === 0) return {rows: [], error: 'The CSV is empty.'};
 
@@ -519,6 +520,7 @@
   //   MatchNo  -> integer matching the "No." column in the Match Ledger (1-based)
   //   Report   -> free text, quote-wrap if it contains commas
   function parseReportCsv(text){
+    text = text.replace(/^\uFEFF/, ''); // strip a stray UTF-8 BOM some editors add
     const lines = text.split(/\r\n|\r|\n/).filter(l => l.trim() !== '');
     if(lines.length === 0) return {map: {}, error: 'The CSV is empty.'};
 
