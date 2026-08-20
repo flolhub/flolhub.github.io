@@ -3701,7 +3701,7 @@ West Bromwich Albion,27-11-1993,4-1,Portsmouth,H
 ,07-12-1993,1-1,Bolton Wanderers,A
 ,11-12-1993,3-0,Southend United,A
 ,19-12-1993,1-1,Barnsley,H
-Bristol City,27-12-1993,1-0,West Ham United,A
+Bristol City,27-12-1993,1-0,West Bromwich Albion,A
 Nottingham Forest,28-12-1993,4-1,Bristol City,A
 ,01-01-1994,1-1,Charlton Athletic,H
 ,03-01-1994,2-1,Watford,A
@@ -4114,7 +4114,7 @@ Liverpool,26-12-2003,3-1,Bolton Wanderers,H
 ,07-01-2004,1-0,Chelsea,A
 ,10-01-2004,1-0,Aston Villa,H
 Tottenham Hotspur,17-01-2004,2-1,Liverpool,H
-Fulham,31-01-2004,1-1,Tottenham Hotspur,H
+Fulham,31-01-2004,2-1,Tottenham Hotspur,H
 ,07-02-2004,0-0,Southampton,A
 Aston Villa,11-02-2004,2-1,Fulham,A
 ,22-02-2004,2-2,Birmingham City,H
@@ -4982,3 +4982,7 @@ Arsenal,01-03-2026,2-1,Chelsea,H
 AFC Bournemouth,11-04-2026,2-1,Arsenal,A
 ,18-04-2026,2-1,Newcastle United,A
 ,22-04-2026,2-2,Leeds United,H
+,03-05-2026,3-0, Crystal Palace,H
+,09-05-2026,1-0,Fulham,A
+,19-05-2026,1-1,Manchester City,H
+,24-05-2026,1-1,Nottingham Forest,A
