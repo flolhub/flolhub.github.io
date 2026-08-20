@@ -218,8 +218,8 @@
   }
   table.ledger tr.champ-green td{background:var(--green);}
   table.ledger tr.champ-blue td{background:var(--blue);}
-  table.ledger tbody tr.match-row{cursor:pointer;}
-  table.ledger tbody tr.match-row:hover td{filter:brightness(0.94);}
+  table.ledger tbody tr.match-row.has-report{cursor:pointer;}
+  table.ledger tbody tr.match-row.has-report:hover td{filter:brightness(0.94);}
   table.ledger tr.report-row td{
     background:var(--card) !important;
     padding:0;
@@ -597,12 +597,12 @@
       } else {
         const opponent = (teamA === champion) ? teamB : (teamB === champion ? teamA : null);
         if(winner === null){
-          // draw -> champion retains, count as defense if champion was involved
+          // draw -> champion retains, count as defense only if champion was involved
           if(opponent !== null){
             reigns[reigns.length-1].defenses += 1;
+            reigns[reigns.length-1].endIdx = idx;
+            reigns[reigns.length-1].endDate = m.date;
           }
-          reigns[reigns.length-1].endIdx = idx;
-          reigns[reigns.length-1].endDate = m.date;
         } else if(winner === champion){
           // successful defense
           reigns[reigns.length-1].defenses += 1;
@@ -683,7 +683,8 @@
         visibleCount++;
 
         const tr = document.createElement('tr');
-        tr.className = `match-row ${meta.champColor}`;
+        const hasReport = Object.prototype.hasOwnProperty.call(reportsByMatchNo, String(idx + 1));
+        tr.className = `match-row ${meta.champColor} ${hasReport ? 'has-report' : 'no-report'}`;
         tr.setAttribute('data-idx', idx);
 
         tr.innerHTML = `
@@ -697,7 +698,7 @@
         els.ledgerBody.appendChild(tr);
 
         // If this match's report row is currently expanded, render it right after.
-        if(expandedMatchIdx === idx){
+        if(hasReport && expandedMatchIdx === idx){
           els.ledgerBody.appendChild(buildReportRow(idx, m));
         }
       });
@@ -715,8 +716,8 @@
       });
     });
 
-    // Row clicks -> toggle the match report dropdown
-    els.ledgerBody.querySelectorAll('tr.match-row').forEach(el=>{
+    // Row clicks -> toggle the match report dropdown (only for matches with a report)
+    els.ledgerBody.querySelectorAll('tr.match-row.has-report').forEach(el=>{
       el.addEventListener('click', ()=>{
         const idx = parseInt(el.getAttribute('data-idx'), 10);
         expandedMatchIdx = (expandedMatchIdx === idx) ? null : idx;
